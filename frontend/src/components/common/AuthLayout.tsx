@@ -2,15 +2,17 @@ import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { Disc } from 'lucide-react';
 import { VinylTurntablePlayer } from '../music/VinylTurntablePlayer';
+import { Pattern } from './Pattern';
+import lofiArtImg from '../../imgs/lofi-music-art.png';
 
 export const AuthLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-canvas grid grid-cols-1 lg:grid-cols-12 overflow-hidden font-sans">
       
       {/* LEFT SIDE: Persistent Vinyl Deck Showcase (lg:col-span-7) */}
-      <div className="lg:col-span-7 bg-[#f3f0e6] border-b lg:border-b-0 lg:border-r border-hairline/80 relative flex flex-col justify-between p-6 lg:p-10 overflow-hidden shadow-inner">
-        {/* Subtle Ambient Radial Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-peach/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="lg:col-span-7 border-b lg:border-b-0 lg:border-r border-hairline/80 relative flex flex-col justify-between p-6 lg:p-10 overflow-hidden shadow-inner">
+        {/* Animated Rotating Pastel Pattern Background */}
+        <Pattern className="pointer-events-none z-0" />
 
         {/* Top Header Branding */}
         <div className="relative z-10 flex items-center justify-between">
@@ -43,15 +45,29 @@ export const AuthLayout: React.FC = () => {
         </div>
       </div>
 
-      {/* RIGHT SIDE: Dynamic Auth Route Form ({children} via Outlet) */}
-      <div className="lg:col-span-5 bg-canvas flex flex-col justify-between p-6 lg:p-12 relative overflow-y-auto">
-        <Outlet />
-        
-        {/* Footer */}
-        <div className="pt-6 text-center text-xs text-muted border-t border-hairline/40 mt-6">
-          © 2026 Clay Audio Catalog Platform. All rights reserved.
+      {/* RIGHT SIDE: Dynamic Auth Route Form with Lo-Fi Background Image ({children} via Outlet) */}
+      <div className="lg:col-span-5 relative flex flex-col justify-between p-6 lg:p-10 overflow-y-auto bg-canvas">
+        {/* Full Background Image Layer */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src={lofiArtImg}
+            alt="Lo-fi Music Studio Background"
+            className="w-full h-full object-cover object-center opacity-35 filter brightness-105 contrast-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-canvas/80 via-canvas/60 to-canvas/90 backdrop-blur-[2px]" />
+        </div>
+
+        {/* Form Container with high z-index */}
+        <div className="relative z-10 flex flex-col justify-between min-h-full">
+          <Outlet />
+          
+          {/* Footer */}
+          <div className="pt-6 text-center text-xs text-muted border-t border-hairline/40 mt-6 font-medium">
+            © 2026 Clay Audio Catalog Platform. All rights reserved.
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
