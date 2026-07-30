@@ -6,8 +6,6 @@ import songSrc from '../../music/Three Voices One Fire.mp3';
 
 // Import real record player PNG element images from /imgs
 import vinylRecordImg from '../../imgs/vinyl-record.png';
-import tonearmImg from '../../imgs/tonearm.png';
-import counterweightImg from '../../imgs/counterweight.png';
 import antiSkateImg from '../../imgs/anti-skate-control.png';
 import pivotAssemblyImg from '../../imgs/Tonearm pivot and counterweight assembly.png';
 import tonearmAssemblyImg from '../../imgs/torarm asseembly.png';
@@ -145,30 +143,34 @@ export const VinylTurntablePlayer: React.FC = () => {
 
       {/* Main Turntable Deck Base */}
       <div className="relative bg-[#f6f3eb] border-2 border-hairline rounded-2xl p-6 shadow-2xl overflow-hidden select-none">
-        {/* Metal Screws & Top Branding */}
-        <div className="flex justify-between items-center mb-4 text-hairline px-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#d0c9b8] shadow-inner" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#d0c9b8] shadow-inner" />
-            {/* Anti-Skate Control Element (Green Screen Stripped) */}
-            <ChromaKeyImage
-              src={antiSkateImg}
-              alt="Anti Skate Control"
-              className="w-6 h-6 object-contain opacity-80 hover:opacity-100 transition-opacity ml-2"
-              title="Anti-Skate Control"
-            />
+        {/* Top Branding & Screws Bar */}
+        <div className="flex justify-between items-center mb-3 text-hairline px-2">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#d0c9b8] shadow-inner" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#d0c9b8] shadow-inner" />
+            </div>
+            <span className="text-[10px] font-mono tracking-widest text-muted uppercase font-semibold">
+              CLAY-AUDIO • VINYL-DECK-2026
+            </span>
           </div>
-          <div className="text-[10px] font-mono tracking-widest text-muted uppercase font-semibold">
-            CLAY-AUDIO • VINYL-DECK-2026
-          </div>
+
+          {/* Anti-Skate Control Element */}
+          <ChromaKeyImage
+            src={antiSkateImg}
+            alt="Anti Skate Control"
+            className="w-5 h-5 object-contain opacity-80 hover:opacity-100 transition-opacity"
+            title="Anti-Skate Control"
+          />
         </div>
 
         {/* Turntable Platter & Vinyl Disc Deck */}
         <div className="relative aspect-square w-full max-w-[320px] mx-auto flex items-center justify-center bg-[#e8e2d4] rounded-full p-2 shadow-inner border border-black/5">
-          {/* Rotating Real Vinyl Record PNG (Green Screen Stripped) */}
+          {/* Rotating Real Vinyl Record PNG */}
           <div
-            className={`relative w-full h-full rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${isPlaying ? 'animate-spin' : ''
-              }`}
+            className={`relative w-full h-full rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${
+              isPlaying ? 'animate-spin' : ''
+            }`}
             style={{
               animationDuration: isPlaying ? (rpm === '45' ? '1.8s' : '2.5s') : '0s',
             }}
@@ -190,41 +192,30 @@ export const VinylTurntablePlayer: React.FC = () => {
             </div>
           </div>
 
-          {/* Tonearm Assembly Overlay with Green Screen Stripped from all PNG Assets */}
-          <div
-            className={`absolute -top-3 right-0 w-36 h-48 pointer-events-none transition-transform duration-700 origin-top-right z-20 ${isPlaying ? 'rotate-[25deg]' : 'rotate-0'
+          {/* Connected Tonearm Assembly (Connecting Red Mark #1 to Red Mark #2) */}
+          <div className="absolute top-1 right-2 w-36 h-48 pointer-events-none z-20">
+            {/* Swiveling Unified Container */}
+            <div
+              className={`w-full h-full relative transition-transform duration-700 origin-[82%_12%] z-20 ${
+                isPlaying ? 'rotate-[25deg]' : 'rotate-0'
               }`}
-          >
-            {/* Pivot and Counterweight Assembly (Green Screen Stripped) */}
-            <ChromaKeyImage
-              src={pivotAssemblyImg}
-              alt="Pivot Assembly"
-              className="absolute top-0 right-2 w-14 h-14 object-contain drop-shadow-md z-30"
-              title="Tonearm Pivot Assembly"
-            />
+            >
+              {/* Silver Pivot Base (Red Mark #2) */}
+              <ChromaKeyImage
+                src={pivotAssemblyImg}
+                alt="Pivot Base"
+                className="absolute top-0 right-3 w-14 h-14 object-contain drop-shadow-md z-10"
+                title="Pivot Base"
+              />
 
-            {/* Real Counterweight PNG (Green Screen Stripped) */}
-            <ChromaKeyImage
-              src={counterweightImg}
-              alt="Counterweight"
-              className="absolute top-1 right-4 w-9 h-9 object-contain drop-shadow-md z-20"
-              title="Counterweight"
-            />
-
-            {/* Tonearm Assembly Overlay Asset (Green Screen Stripped) */}
-            <ChromaKeyImage
-              src={tonearmAssemblyImg}
-              alt="Torarm Assembly"
-              className="absolute top-2 right-0 w-36 h-44 object-contain drop-shadow-xl z-10"
-              title="Tonearm Assembly"
-            />
-
-            {/* Real Tonearm PNG (Green Screen Stripped) */}
-            <ChromaKeyImage
-              src={tonearmImg}
-              alt="Tonearm"
-              className="w-full h-full object-contain drop-shadow-2xl"
-            />
+              {/* Black Tonearm Shaft attached directly to Silver Pivot Base (Red Mark #1 -> Red Mark #2) */}
+              <ChromaKeyImage
+                src={tonearmAssemblyImg}
+                alt="Tonearm Assembly"
+                className="absolute top-[32px] right-[20px] w-28 h-40 object-contain drop-shadow-2xl z-20"
+                title="Tonearm Assembly"
+              />
+            </div>
           </div>
         </div>
 
@@ -274,15 +265,17 @@ export const VinylTurntablePlayer: React.FC = () => {
           <div className="flex items-center gap-1.5 bg-surface-soft p-1 rounded-lg border border-hairline">
             <button
               onClick={() => toggleRpm('33')}
-              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${rpm === '33' ? 'bg-primary text-white shadow-sm' : 'text-body hover:text-ink'
-                }`}
+              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${
+                rpm === '33' ? 'bg-primary text-white shadow-sm' : 'text-body hover:text-ink'
+              }`}
             >
               33 RPM
             </button>
             <button
               onClick={() => toggleRpm('45')}
-              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${rpm === '45' ? 'bg-brand-pink text-white shadow-sm' : 'text-body hover:text-ink'
-                }`}
+              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${
+                rpm === '45' ? 'bg-brand-pink text-white shadow-sm' : 'text-body hover:text-ink'
+              }`}
             >
               45 RPM
             </button>
