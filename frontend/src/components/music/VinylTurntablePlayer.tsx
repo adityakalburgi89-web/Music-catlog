@@ -56,13 +56,119 @@ const ChromaKeyImage: React.FC<{ src: string; alt: string; className?: string; t
 
 export const VinylTurntablePlayer: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const fadeRef = useRef<number | null>(null);
+  const playTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const [isArmEngaged, setIsArmEngaged] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);
   const [isMuted, setIsMuted] = useState(false);
   const [rpm, setRpm] = useState<'33' | '45'>('33');
+
+  const FADE_DURATION = 600; // Smooth 600ms fade transition
+
+  const cancelFade = () => {
+    if (fadeRef.current !== null) {
+      cancelAnimationFrame(fadeRef.current);
+      fadeRef.current = null;
+    }
+  };
+
+  const clearPlayTimeout = () => {
+    if (playTimeoutRef.current !== null) {
+      clearTimeout(playTimeoutRef.current);
+      playTimeoutRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      cancelFade();
+      clearPlayTimeout();
+    };
+  }, []);
+
+  // Fade In Playback
+  const fadeIn = () => {
+    cancelFade();
+    if (!audioRef.current) return;
+
+    const audio = audioRef.current;
+    const targetVol = isMuted ? 0 : volume;
+    const startVol = audio.volume;
+
+    if (audio.paused) {
+      audio.volume = 0;
+    }
+
+    const effectiveStartVol = audio.paused ? 0 : startVol;
+
+    const startPlaybackAndFade = () => {
+      setIsPlaying(true);
+      const startTime = performance.now();
+
+      const animateFadeIn = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / FADE_DURATION, 1);
+        audio.volume = Math.min(1, Math.max(0, effectiveStartVol + (targetVol - effectiveStartVol) * progress));
+
+        if (progress < 1) {
+          fadeRef.current = requestAnimationFrame(animateFadeIn);
+        } else {
+          audio.volume = targetVol;
+          fadeRef.current = null;
+        }
+      };
+
+      fadeRef.current = requestAnimationFrame(animateFadeIn);
+    };
+
+    if (audio.paused) {
+      audio.play().then(startPlaybackAndFade).catch((err) => {
+        console.error('Audio playback error:', err);
+      });
+    } else {
+      startPlaybackAndFade();
+    }
+  };
+
+  // Fade Out Playback
+  const fadeOut = () => {
+    clearPlayTimeout();
+    cancelFade();
+    setIsArmEngaged(false);
+    if (!audioRef.current) {
+      setIsPlaying(false);
+      return;
+    }
+
+    const audio = audioRef.current;
+    if (audio.paused) {
+      setIsPlaying(false);
+      return;
+    }
+
+    const startVol = audio.volume;
+    const startTime = performance.now();
+    const targetVol = isMuted ? 0 : volume;
+
+    const animateFadeOut = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / FADE_DURATION, 1);
+      audio.volume = Math.max(0, startVol * (1 - progress));
+
+      if (progress < 1) {
+        audio.pause();
+        audio.volume = targetVol;
+        setIsPlaying(false);
+        fadeRef.current = null;
+      }
+    };
+
+    fadeRef.current = requestAnimationFrame(animateFadeOut);
+  };
 
   // Handle audio time update
   const handleTimeUpdate = () => {
@@ -72,18 +178,29 @@ export const VinylTurntablePlayer: React.FC = () => {
     }
   };
 
-  // Toggle play/pause
+  // Handle audio end
+  const handleEnded = () => {
+    clearPlayTimeout();
+    cancelFade();
+    setIsPlaying(false);
+    setIsArmEngaged(false);
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+    }
+  };
+
+  // Toggle play/pause (Arm swings onto disk first, song starts 300ms after needle makes contact)
   const togglePlay = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
+    clearPlayTimeout();
+    if (isArmEngaged || isPlaying) {
+      setIsArmEngaged(false);
+      fadeOut();
     } else {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((err) => {
-        console.error('Audio playback error:', err);
-      });
+      setIsArmEngaged(true);
+      playTimeoutRef.current = setTimeout(() => {
+        fadeIn();
+        playTimeoutRef.current = null;
+      }, 300);
     }
   };
 
@@ -98,6 +215,7 @@ export const VinylTurntablePlayer: React.FC = () => {
 
   // Handle volume change
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    cancelFade();
     const val = parseFloat(e.target.value);
     setVolume(val);
     if (audioRef.current) {
@@ -109,6 +227,7 @@ export const VinylTurntablePlayer: React.FC = () => {
 
   // Toggle mute
   const toggleMute = () => {
+    cancelFade();
     if (!audioRef.current) return;
     const nextMute = !isMuted;
     setIsMuted(nextMute);
@@ -139,7 +258,7 @@ export const VinylTurntablePlayer: React.FC = () => {
         src={songSrc}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleTimeUpdate}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={handleEnded}
       />
 
       {/* Main Square White Deck Plinth */}
@@ -159,10 +278,10 @@ export const VinylTurntablePlayer: React.FC = () => {
         <div className="relative aspect-square w-full max-w-[320px] mx-auto flex items-center justify-center">
           {/* Black Vinyl Record Disc */}
           <div
-            className={`relative w-[280px] h-[280px] rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${isPlaying ? 'animate-spin' : ''
+            className={`relative w-[280px] h-[280px] rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${isArmEngaged || isPlaying ? 'animate-spin' : ''
               }`}
             style={{
-              animationDuration: isPlaying ? (rpm === '45' ? '1.8s' : '2.5s') : '0s',
+              animationDuration: isArmEngaged || isPlaying ? (rpm === '45' ? '1.8s' : '2.5s') : '0s',
             }}
           >
             <ChromaKeyImage
@@ -195,7 +314,7 @@ export const VinylTurntablePlayer: React.FC = () => {
           {/* Rotating Tonearm Assembly (Pivoting directly from mount.png's top-right socket) */}
           <div className="absolute top-0 right-0 w-32 h-52 pointer-events-none z-20">
             <div
-              className={`relative w-full h-full transition-transform duration-700 origin-[74%_10%] z-20 ${isPlaying ? 'rotate-[20deg]' : 'rotate-0'
+              className={`relative w-full h-full transition-transform duration-700 origin-[74%_10%] z-20 ${isArmEngaged ? 'rotate-[20deg]' : 'rotate-0'
                 }`}
             >
               {/* 1. Silver Cylindrical Counterweight Knob at Top Tip */}
@@ -238,10 +357,10 @@ export const VinylTurntablePlayer: React.FC = () => {
           <button
             onClick={togglePlay}
             className="w-10 h-10 rounded-full bg-[#e6e1d3] hover:bg-[#dfd9cb] border border-black/10 flex items-center justify-center shadow-md active:scale-95 transition-all"
-            title={isPlaying ? 'Pause Turntable' : 'Start Turntable'}
+            title={isArmEngaged ? 'Pause Turntable' : 'Start Turntable'}
           >
             <div className="w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center">
-              {isPlaying ? (
+              {isArmEngaged ? (
                 <Pause className="w-3 h-3 text-slate-800" />
               ) : (
                 <Play className="w-3 h-3 text-slate-800 ml-0.5" />
@@ -314,9 +433,9 @@ export const VinylTurntablePlayer: React.FC = () => {
           <button
             onClick={togglePlay}
             className="w-11 h-11 rounded-full bg-primary hover:bg-body-strong text-white shadow-lg flex items-center justify-center transition-all active:scale-90"
-            title={isPlaying ? 'Pause Turntable' : 'Play Vinyl Record'}
+            title={isArmEngaged ? 'Pause Turntable' : 'Play Vinyl Record'}
           >
-            {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+            {isArmEngaged ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
           </button>
 
           {/* Volume Slider & Mute Toggle */}
