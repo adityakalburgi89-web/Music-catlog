@@ -31,7 +31,7 @@ services:
       - DB_NAME=music_catalog_db
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres_password
-      - JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      - JWT_SECRET=your_jwt_secret_key_change_in_production
     depends_on:
       postgres:
         condition: service_healthy
