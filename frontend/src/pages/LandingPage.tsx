@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { VinylTurntablePlayer } from '../components/music/VinylTurntablePlayer';
 import {
   Disc3,
   Search,
@@ -118,40 +119,9 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column 3D Claymation Artifact Container (5 cols) */}
-          <div className="lg:col-span-5">
-            <div className="relative p-8 rounded-xl bg-surface-soft border border-hairline shadow-lg overflow-hidden group">
-              <div className="absolute top-0 right-0 -mr-12 -mt-12 w-64 h-64 bg-brand-pink/20 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Claymation Mountain & Disc Visual Element */}
-              <div className="relative z-10 space-y-6">
-                <div className="w-20 h-20 rounded-2xl bg-brand-ochre flex items-center justify-center text-ink shadow-md group-hover:rotate-12 transition-transform duration-500 mx-auto">
-                  <Disc3 className="w-12 h-12 animate-spin-slow" />
-                </div>
-
-                <div className="p-5 rounded-lg bg-white/80 border border-hairline backdrop-blur-sm shadow-sm space-y-3">
-                  <div className="flex items-center justify-between text-xs font-semibold text-muted">
-                    <span>LIVE ITUNES ENRICHMENT</span>
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700">STATUS 200 OK</span>
-                  </div>
-                  <h4 className="font-display font-medium text-lg text-ink">Random Access Memories</h4>
-                  <div className="flex items-center justify-between text-xs font-medium text-body">
-                    <span>Daft Punk • Electronic</span>
-                    <span className="text-amber-500 font-bold">★ 5.0 Rating</span>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-lg bg-brand-teal text-white shadow-md text-xs space-y-2">
-                  <div className="flex items-center gap-2 font-semibold">
-                    <Sparkles className="w-4 h-4 text-brand-pink" />
-                    <span>AI Sonic Persona Detected</span>
-                  </div>
-                  <p className="text-teal-100 italic">
-                    "Retro-Futuristic Synth Explorer — 41.6% Electronic focus."
-                  </p>
-                </div>
-              </div>
-            </div>
+          {/* Right Column Interactive Vinyl Turntable Player (5 cols) */}
+          <div className="lg:col-span-5 flex justify-center">
+            <VinylTurntablePlayer />
           </div>
         </div>
       </section>
