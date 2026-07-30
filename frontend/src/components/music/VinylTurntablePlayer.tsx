@@ -4,10 +4,11 @@ import { Play, Pause, Volume2, VolumeX, Music2, Disc } from 'lucide-react';
 // Import local mp3 audio file
 import songSrc from '../../music/Three Voices One Fire.mp3';
 
-// Import real record player PNG element images from /imgs
+// Import all real record player PNG element images from /imgs
 import vinylRecordImg from '../../imgs/vinyl-record.png';
 import mountImg from '../../imgs/mount.png';
 import tonearmImg from '../../imgs/tonearm.png';
+import counterweightImg from '../../imgs/counterweight.png';
 import antiSkateImg from '../../imgs/anti-skate-control.png';
 
 // Chroma-Key HTML5 Canvas Component to automatically strip green-screen backgrounds
@@ -182,8 +183,8 @@ export const VinylTurntablePlayer: React.FC = () => {
             </div>
           </div>
 
-          {/* Fixed Top-Right Mounting Base Plate (mount.png placed cleanly at Red Cross location) */}
-          <div className="absolute top-2 right-2 w-32 h-44 pointer-events-none z-10">
+          {/* Fixed Top-Right White Mounting Base Plate (mount.png positioned in top-right place matching reference) */}
+          <div className="absolute top-0 right-0 w-32 h-44 pointer-events-none z-10">
             <ChromaKeyImage
               src={mountImg}
               alt="Tonearm Mount Base"
@@ -192,14 +193,22 @@ export const VinylTurntablePlayer: React.FC = () => {
             />
           </div>
 
-          {/* Rotating Tonearm Arm (Pivoting directly from mount.png's built-in socket) */}
-          <div className="absolute top-2 right-2 w-32 h-52 pointer-events-none z-20">
+          {/* Rotating Tonearm Assembly (Pivoting directly from mount.png's top-right socket) */}
+          <div className="absolute top-0 right-0 w-32 h-52 pointer-events-none z-20">
             <div
-              className={`relative w-full h-full transition-transform duration-700 origin-[78%_14%] z-20 ${
+              className={`relative w-full h-full transition-transform duration-700 origin-[74%_10%] z-20 ${
                 isPlaying ? 'rotate-[20deg]' : 'rotate-0'
               }`}
             >
-              {/* Cueing / Anti-Skate Lever */}
+              {/* 1. Silver Cylindrical Counterweight Knob at Top Tip */}
+              <ChromaKeyImage
+                src={counterweightImg}
+                alt="Counterweight"
+                className="absolute top-[4px] right-[10px] w-7 h-7 object-contain drop-shadow-md z-30"
+                title="Counterweight"
+              />
+
+              {/* 2. Cueing / Anti-Skate Lever */}
               <ChromaKeyImage
                 src={antiSkateImg}
                 alt="Anti-Skate Lever"
@@ -207,11 +216,11 @@ export const VinylTurntablePlayer: React.FC = () => {
                 title="Anti-Skate Lever"
               />
 
-              {/* Black Metallic Tonearm Shaft & Stylus Cartridge */}
+              {/* 3. Black Metallic Tonearm Shaft & Stylus Cartridge */}
               <ChromaKeyImage
                 src={tonearmImg}
                 alt="Tonearm Shaft"
-                className="absolute top-[8px] right-[12px] w-6 h-[180px] object-contain drop-shadow-2xl z-20"
+                className="absolute top-[6px] right-[12px] w-6 h-[180px] object-contain drop-shadow-2xl z-20"
                 title="Tonearm Shaft"
               />
             </div>
