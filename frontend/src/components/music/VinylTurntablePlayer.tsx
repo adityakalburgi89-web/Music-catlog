@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, Music2, Disc } from 'lucide-react';
 
 // Import local mp3 audio file
@@ -11,6 +11,49 @@ import counterweightImg from '../../imgs/counterweight.png';
 import antiSkateImg from '../../imgs/anti-skate-control.png';
 import pivotAssemblyImg from '../../imgs/Tonearm pivot and counterweight assembly.png';
 import tonearmAssemblyImg from '../../imgs/torarm asseembly.png';
+
+// Chroma-Key HTML5 Canvas Component to automatically strip green-screen backgrounds
+const ChromaKeyImage: React.FC<{ src: string; alt: string; className?: string; title?: string }> = ({ src, alt, className, title }) => {
+  const [cleanSrc, setCleanSrc] = useState<string>(src);
+
+  useEffect(() => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = src;
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        ctx.drawImage(img, 0, 0);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+
+        // Auto Green-Screen Pixel Removal Algorithm
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+
+          // Detect green-screen chroma key pixels
+          if (g > 70 && g > r * 1.1 && g > b * 1.1) {
+            data[i + 3] = 0; // Make pixel 100% transparent
+          }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+        setCleanSrc(canvas.toDataURL('image/png'));
+      } catch (err) {
+        console.error('Chroma key processing error:', err);
+      }
+    };
+  }, [src]);
+
+  return <img src={cleanSrc} alt={alt} className={className} title={title} />;
+};
 
 export const VinylTurntablePlayer: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -107,8 +150,8 @@ export const VinylTurntablePlayer: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#d0c9b8] shadow-inner" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#d0c9b8] shadow-inner" />
-            {/* Real Anti-Skate Control Element */}
-            <img
+            {/* Anti-Skate Control Element (Green Screen Stripped) */}
+            <ChromaKeyImage
               src={antiSkateImg}
               alt="Anti Skate Control"
               className="w-6 h-6 object-contain opacity-80 hover:opacity-100 transition-opacity ml-2"
@@ -122,7 +165,7 @@ export const VinylTurntablePlayer: React.FC = () => {
 
         {/* Turntable Platter & Vinyl Disc Deck */}
         <div className="relative aspect-square w-full max-w-[320px] mx-auto flex items-center justify-center bg-[#e8e2d4] rounded-full p-2 shadow-inner border border-black/5">
-          {/* Rotating Real Vinyl Record PNG */}
+          {/* Rotating Real Vinyl Record PNG (Green Screen Stripped) */}
           <div
             className={`relative w-full h-full rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${
               isPlaying ? 'animate-spin' : ''
@@ -131,7 +174,7 @@ export const VinylTurntablePlayer: React.FC = () => {
               animationDuration: isPlaying ? (rpm === '45' ? '1.8s' : '2.5s') : '0s',
             }}
           >
-            <img
+            <ChromaKeyImage
               src={vinylRecordImg}
               alt="Vinyl Record"
               className="w-full h-full object-contain rounded-full drop-shadow-xl"
@@ -148,38 +191,38 @@ export const VinylTurntablePlayer: React.FC = () => {
             </div>
           </div>
 
-          {/* Tonearm Assembly Overlay incorporating all PNG Elements */}
+          {/* Tonearm Assembly Overlay with Green Screen Stripped from all PNG Assets */}
           <div
             className={`absolute -top-3 right-0 w-36 h-48 pointer-events-none transition-transform duration-700 origin-top-right z-20 ${
               isPlaying ? 'rotate-[25deg]' : 'rotate-0'
             }`}
           >
-            {/* Pivot and Counterweight Assembly Green-Screen Asset */}
-            <img
+            {/* Pivot and Counterweight Assembly (Green Screen Stripped) */}
+            <ChromaKeyImage
               src={pivotAssemblyImg}
               alt="Pivot Assembly"
-              className="absolute top-0 right-2 w-14 h-14 object-contain drop-shadow-md z-30 mix-blend-multiply"
+              className="absolute top-0 right-2 w-14 h-14 object-contain drop-shadow-md z-30"
               title="Tonearm Pivot Assembly"
             />
 
-            {/* Real Counterweight PNG */}
-            <img
+            {/* Real Counterweight PNG (Green Screen Stripped) */}
+            <ChromaKeyImage
               src={counterweightImg}
               alt="Counterweight"
               className="absolute top-1 right-4 w-9 h-9 object-contain drop-shadow-md z-20"
               title="Counterweight"
             />
 
-            {/* Tonearm Assembly Green-Screen Overlay Asset */}
-            <img
+            {/* Tonearm Assembly Overlay Asset (Green Screen Stripped) */}
+            <ChromaKeyImage
               src={tonearmAssemblyImg}
               alt="Torarm Assembly"
-              className="absolute top-2 right-0 w-36 h-44 object-contain drop-shadow-xl z-10 mix-blend-multiply"
+              className="absolute top-2 right-0 w-36 h-44 object-contain drop-shadow-xl z-10"
               title="Tonearm Assembly"
             />
 
-            {/* Real Tonearm PNG */}
-            <img
+            {/* Real Tonearm PNG (Green Screen Stripped) */}
+            <ChromaKeyImage
               src={tonearmImg}
               alt="Tonearm"
               className="w-full h-full object-contain drop-shadow-2xl"
