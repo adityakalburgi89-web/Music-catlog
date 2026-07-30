@@ -9,6 +9,8 @@ import vinylRecordImg from '../../imgs/vinyl-record.png';
 import tonearmImg from '../../imgs/tonearm.png';
 import counterweightImg from '../../imgs/counterweight.png';
 import antiSkateImg from '../../imgs/anti-skate-control.png';
+import pivotAssemblyImg from '../../imgs/Tonearm pivot and counterweight assembly.png';
+import tonearmAssemblyImg from '../../imgs/torarm asseembly.png';
 
 export const VinylTurntablePlayer: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -146,24 +148,40 @@ export const VinylTurntablePlayer: React.FC = () => {
             </div>
           </div>
 
-          {/* Tonearm Assembly with Real PNG Elements (Tonearm + Counterweight) */}
+          {/* Tonearm Assembly Overlay incorporating all PNG Elements */}
           <div
-            className={`absolute -top-2 right-1 w-36 h-48 pointer-events-none transition-transform duration-700 origin-top-right z-20 ${
+            className={`absolute -top-3 right-0 w-36 h-48 pointer-events-none transition-transform duration-700 origin-top-right z-20 ${
               isPlaying ? 'rotate-[25deg]' : 'rotate-0'
             }`}
           >
+            {/* Pivot and Counterweight Assembly Green-Screen Asset */}
+            <img
+              src={pivotAssemblyImg}
+              alt="Pivot Assembly"
+              className="absolute top-0 right-2 w-14 h-14 object-contain drop-shadow-md z-30 mix-blend-multiply"
+              title="Tonearm Pivot Assembly"
+            />
+
             {/* Real Counterweight PNG */}
             <img
               src={counterweightImg}
               alt="Counterweight"
-              className="absolute top-0 right-4 w-10 h-10 object-contain drop-shadow-md z-30"
+              className="absolute top-1 right-4 w-9 h-9 object-contain drop-shadow-md z-20"
               title="Counterweight"
+            />
+
+            {/* Tonearm Assembly Green-Screen Overlay Asset */}
+            <img
+              src={tonearmAssemblyImg}
+              alt="Torarm Assembly"
+              className="absolute top-2 right-0 w-36 h-44 object-contain drop-shadow-xl z-10 mix-blend-multiply"
+              title="Tonearm Assembly"
             />
 
             {/* Real Tonearm PNG */}
             <img
               src={tonearmImg}
-              alt="Tonearm Assembly"
+              alt="Tonearm"
               className="w-full h-full object-contain drop-shadow-2xl"
             />
           </div>
