@@ -4,10 +4,12 @@ import { Play, Pause, Volume2, VolumeX, Music2, Disc } from 'lucide-react';
 // Import local mp3 audio file
 import songSrc from '../../music/Three Voices One Fire.mp3';
 
-// Import real record player PNG element images from /imgs
+// Import all real record player PNG element images from /imgs
 import vinylRecordImg from '../../imgs/vinyl-record.png';
 import tonearmImg from '../../imgs/tonearm.png';
+import counterweightImg from '../../imgs/counterweight.png';
 import antiSkateImg from '../../imgs/anti-skate-control.png';
+import pivotAssemblyImg from '../../imgs/Tonearm pivot and counterweight assembly.png';
 import tonearmAssemblyImg from '../../imgs/torarm asseembly.png';
 
 // Chroma-Key HTML5 Canvas Component to automatically strip green-screen backgrounds
@@ -131,7 +133,7 @@ export const VinylTurntablePlayer: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto select-none">
       {/* HTML5 Audio Element */}
       <audio
         ref={audioRef}
@@ -141,34 +143,24 @@ export const VinylTurntablePlayer: React.FC = () => {
         onEnded={() => setIsPlaying(false)}
       />
 
-      {/* Main Turntable Deck Base */}
-      <div className="relative bg-[#f6f3eb] border-2 border-hairline rounded-2xl p-6 shadow-2xl overflow-hidden select-none">
-        {/* Top Branding & Screws Bar */}
-        <div className="flex justify-between items-center mb-3 text-hairline px-2">
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#d0c9b8] shadow-inner" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#d0c9b8] shadow-inner" />
-            </div>
-            <span className="text-[10px] font-mono tracking-widest text-muted uppercase font-semibold">
-              CLAY-AUDIO • VINYL-DECK-2026
-            </span>
+      {/* Main Square White Deck Plinth (Matching Reference Image) */}
+      <div className="relative bg-[#f8f7f2] border-2 border-hairline rounded-[32px] p-6 shadow-2xl overflow-hidden">
+        {/* RCA Jacks / Screws Detail Bar */}
+        <div className="flex justify-between items-center mb-2 px-2">
+          <div className="flex gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#d5d0c2] shadow-inner" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#d5d0c2] shadow-inner" />
           </div>
-
-          {/* Anti-Skate Control Element */}
-          <ChromaKeyImage
-            src={antiSkateImg}
-            alt="Anti Skate Control"
-            className="w-5 h-5 object-contain opacity-80 hover:opacity-100 transition-opacity"
-            title="Anti-Skate Control"
-          />
+          <div className="text-[10px] font-mono tracking-widest text-muted uppercase font-semibold">
+            CLAY-AUDIO • VINYL-DECK-2026
+          </div>
         </div>
 
-        {/* Turntable Platter & Vinyl Disc Deck */}
-        <div className="relative aspect-square w-full max-w-[320px] mx-auto flex items-center justify-center bg-[#e8e2d4] rounded-full p-2 shadow-inner border border-black/5">
-          {/* Rotating Real Vinyl Record PNG */}
+        {/* Center Platter & Vinyl Disc Area */}
+        <div className="relative aspect-square w-full max-w-[320px] mx-auto flex items-center justify-center">
+          {/* Black Vinyl Record Disc */}
           <div
-            className={`relative w-full h-full rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${
+            className={`relative w-[280px] h-[280px] rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${
               isPlaying ? 'animate-spin' : ''
             }`}
             style={{
@@ -181,7 +173,7 @@ export const VinylTurntablePlayer: React.FC = () => {
               className="w-full h-full object-contain rounded-full drop-shadow-xl"
             />
 
-            {/* Vinyl Center Album Label Overlay */}
+            {/* Vinyl Center Label Overlay */}
             <div className="absolute w-24 h-24 rounded-full bg-brand-peach border-4 border-[#111115] flex flex-col items-center justify-center p-2 text-center text-ink shadow-md z-10">
               <Disc className="w-4 h-4 text-primary mb-0.5 animate-pulse" />
               <span className="text-[9px] font-bold tracking-tight line-clamp-1 leading-none text-ink">
@@ -192,41 +184,92 @@ export const VinylTurntablePlayer: React.FC = () => {
             </div>
           </div>
 
-          {/* 100% Unified Tonearm Assembly (Single Metallic Shaft Passing Through Base Plate) */}
-          <div className="absolute top-1 right-2 w-36 h-48 pointer-events-none z-20">
+          {/* Fixed Top-Right White Tear-Drop Base Plate (Etched into Plinth) */}
+          <div className="absolute top-1 right-1 w-32 h-40 pointer-events-none z-10">
+            <ChromaKeyImage
+              src={pivotAssemblyImg}
+              alt="Pivot Base Plate"
+              className="w-full h-full object-contain opacity-95 drop-shadow-sm"
+              title="Pivot Base Plate"
+            />
+          </div>
+
+          {/* Rotating Tonearm Assembly (Connecting Counterweight + Shaft + Needle) */}
+          <div className="absolute top-1 right-1 w-32 h-52 pointer-events-none z-20">
             <div
-              className={`w-full h-full relative transition-transform duration-700 origin-[80%_10%] z-20 ${
-                isPlaying ? 'rotate-[25deg]' : 'rotate-0'
+              className={`relative w-full h-full transition-transform duration-700 origin-[78%_15%] z-20 ${
+                isPlaying ? 'rotate-[20deg]' : 'rotate-0'
               }`}
             >
-              {/* White Mounting Base Plate */}
+              {/* 1. Silver Cylindrical Counterweight at Top Tip of Rod */}
               <ChromaKeyImage
-                src={tonearmAssemblyImg}
-                alt="Tonearm Base Plate"
-                className="absolute top-8 right-2 w-28 h-36 object-contain drop-shadow-xl z-10"
-                title="Tonearm Base Plate"
+                src={counterweightImg}
+                alt="Counterweight"
+                className="absolute top-[2px] right-[21px] w-9 h-9 object-contain drop-shadow-md z-30"
+                title="Counterweight"
               />
 
-              {/* Long Metallic Tonearm Shaft passing directly through white plate */}
+              {/* 2. Cueing / Anti-Skate Lever Joint */}
+              <ChromaKeyImage
+                src={antiSkateImg}
+                alt="Anti-Skate Lever"
+                className="absolute top-[48px] right-[38px] w-7 h-7 object-contain drop-shadow-sm z-25"
+                title="Anti-Skate Lever"
+              />
+
+              {/* 3. Straight Black Metallic Tonearm Rod & Stylus Needle */}
               <ChromaKeyImage
                 src={tonearmImg}
                 alt="Tonearm Shaft"
-                className="absolute top-[2px] right-[24px] w-7 h-44 object-contain drop-shadow-2xl z-20"
+                className="absolute top-[6px] right-[22px] w-[22px] h-[190px] object-contain drop-shadow-2xl z-20"
                 title="Tonearm Shaft"
+              />
+
+              {/* 4. White Base Plate Detail Overlay */}
+              <ChromaKeyImage
+                src={tonearmAssemblyImg}
+                alt="Tonearm Detail"
+                className="absolute top-[32px] right-[10px] w-24 h-28 object-contain opacity-40 pointer-events-none z-10"
+                title="Tonearm Detail"
               />
             </div>
           </div>
         </div>
 
+        {/* Bottom Corner Dials (Matching Reference Image) */}
+        <div className="flex justify-between items-center px-4 mt-2 mb-3">
+          {/* Bottom-Left 3-Way Speed Dial */}
+          <div className="w-9 h-9 rounded-full bg-[#e6e1d3] border border-black/10 flex items-center justify-center shadow-inner">
+            <div className="w-5 h-5 rounded-full border border-black/20 flex items-center justify-center">
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+            </div>
+          </div>
+
+          {/* Bottom-Right Start/Stop Dial Button */}
+          <button
+            onClick={togglePlay}
+            className="w-10 h-10 rounded-full bg-[#e6e1d3] hover:bg-[#dfd9cb] border border-black/10 flex items-center justify-center shadow-md active:scale-95 transition-all"
+            title={isPlaying ? 'Pause Turntable' : 'Start Turntable'}
+          >
+            <div className="w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center">
+              {isPlaying ? (
+                <Pause className="w-3 h-3 text-slate-800" />
+              ) : (
+                <Play className="w-3 h-3 text-slate-800 ml-0.5" />
+              )}
+            </div>
+          </button>
+        </div>
+
         {/* Live Track Details Banner */}
-        <div className="mt-5 p-3 rounded-xl bg-canvas border border-hairline flex items-center justify-between shadow-sm">
+        <div className="p-3 rounded-xl bg-canvas border border-hairline flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-3 overflow-hidden">
             <div className={`p-2 rounded-lg bg-brand-pink text-white shrink-0 ${isPlaying ? 'animate-bounce' : ''}`}>
               <Music2 className="w-4 h-4" />
             </div>
             <div className="overflow-hidden">
               <h4 className="font-display font-semibold text-sm text-ink truncate">Three Voices One Fire</h4>
-              <p className="text-xs text-muted font-medium truncate">Master Audio Stream</p>
+              <p className="text-xs text-muted font-medium truncate font-mono">Original Master Stream</p>
             </div>
           </div>
 
@@ -280,10 +323,10 @@ export const VinylTurntablePlayer: React.FC = () => {
             </button>
           </div>
 
-          {/* Center Play/Pause Button */}
+          {/* Play/Pause Button */}
           <button
             onClick={togglePlay}
-            className="w-12 h-12 rounded-full bg-primary hover:bg-body-strong text-white shadow-lg flex items-center justify-center transition-all active:scale-90"
+            className="w-11 h-11 rounded-full bg-primary hover:bg-body-strong text-white shadow-lg flex items-center justify-center transition-all active:scale-90"
             title={isPlaying ? 'Pause Turntable' : 'Play Vinyl Record'}
           >
             {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
