@@ -1,0 +1,39 @@
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: music-catalog-backend
+  datasource:
+    url: ${JDBC_URL:jdbc:postgresql://${DB_HOST:ep-calm-frog-azbc5c9x-pooler.c-3.ap-southeast-1.aws.neon.tech}:${DB_PORT:5432}/${DB_NAME:music}?sslmode=${DB_SSLMODE:require}}
+    username: ${DB_USERNAME:neondb_owner}
+    password: ${DB_PASSWORD:npg_hxgZ3mXG4Czd}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  itunes:
+    base-url: ${ITUNES_API_BASE_URL:https://itunes.apple.com}
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    model: ${OPENAI_MODEL:llama-3.1-8b-instant}
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+logging:
+  level:
+    com.musiccatalog: DEBUG
+    org.springframework.security: INFO
