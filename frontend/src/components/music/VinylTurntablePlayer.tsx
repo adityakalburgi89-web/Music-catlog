@@ -185,7 +185,7 @@ export const VinylTurntablePlayer: React.FC = () => {
           </div>
 
           {/* Fixed Top-Right White Mounting Base Plate (mount.png) */}
-          <div className="absolute top-1 right-1 w-36 h-44 pointer-events-none z-10">
+          <div className="absolute top-2 right-2 w-32 h-44 pointer-events-none z-10">
             <ChromaKeyImage
               src={mountImg}
               alt="Tonearm Mount Base"
@@ -194,10 +194,10 @@ export const VinylTurntablePlayer: React.FC = () => {
             />
           </div>
 
-          {/* Rotating Tonearm Assembly (Connecting Counterweight + Shaft + Needle + Pivot) */}
-          <div className="absolute top-1 right-1 w-32 h-52 pointer-events-none z-20">
+          {/* Rotating Tonearm Assembly (Pivot socket aligned precisely over top-right of mount.png) */}
+          <div className="absolute top-2 right-2 w-32 h-52 pointer-events-none z-20">
             <div
-              className={`relative w-full h-full transition-transform duration-700 origin-[82%_10%] z-20 ${
+              className={`relative w-full h-full transition-transform duration-700 origin-[80%_12%] z-20 ${
                 isPlaying ? 'rotate-[20deg]' : 'rotate-0'
               }`}
             >
@@ -205,7 +205,7 @@ export const VinylTurntablePlayer: React.FC = () => {
               <ChromaKeyImage
                 src={pivotAssemblyImg}
                 alt="Pivot Base"
-                className="absolute top-1 right-3 w-10 h-10 object-contain drop-shadow-sm z-10"
+                className="absolute top-[8px] right-[10px] w-9 h-9 object-contain drop-shadow-sm z-10"
                 title="Pivot Base"
               />
 
@@ -213,7 +213,7 @@ export const VinylTurntablePlayer: React.FC = () => {
               <ChromaKeyImage
                 src={counterweightImg}
                 alt="Counterweight"
-                className="absolute top-1 right-[17px] w-6 h-6 object-contain drop-shadow-md z-30"
+                className="absolute top-[6px] right-[11px] w-6 h-6 object-contain drop-shadow-md z-30"
                 title="Counterweight"
               />
 
@@ -221,7 +221,7 @@ export const VinylTurntablePlayer: React.FC = () => {
               <ChromaKeyImage
                 src={antiSkateImg}
                 alt="Anti-Skate Lever"
-                className="absolute top-[36px] right-[28px] w-5 h-5 object-contain drop-shadow-sm z-25"
+                className="absolute top-[38px] right-[24px] w-5 h-5 object-contain drop-shadow-sm z-25"
                 title="Anti-Skate Lever"
               />
 
@@ -229,7 +229,7 @@ export const VinylTurntablePlayer: React.FC = () => {
               <ChromaKeyImage
                 src={tonearmImg}
                 alt="Tonearm Shaft"
-                className="absolute top-2 right-[18px] w-5 h-[180px] object-contain drop-shadow-2xl z-20"
+                className="absolute top-[8px] right-[12px] w-5 h-[180px] object-contain drop-shadow-2xl z-20"
                 title="Tonearm Shaft"
               />
             </div>
