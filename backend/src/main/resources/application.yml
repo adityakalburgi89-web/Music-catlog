@@ -8,9 +8,9 @@ spring:
   application:
     name: music-catalog-backend
   datasource:
-    url: ${JDBC_URL:jdbc:postgresql://${DB_HOST:ep-calm-frog-azbc5c9x-pooler.c-3.ap-southeast-1.aws.neon.tech}:${DB_PORT:5432}/${DB_NAME:music}?sslmode=${DB_SSLMODE:require}}
-    username: ${DB_USERNAME:neondb_owner}
-    password: ${DB_PASSWORD:npg_hxgZ3mXG4Czd}
+    url: ${JDBC_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:music_catalog_db}?sslmode=${DB_SSLMODE:prefer}}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:your_db_password_here}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -27,14 +27,14 @@ spring:
 
 app:
   jwt:
-    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    secret: ${JWT_SECRET:your_jwt_secret_key_change_in_production}
     expiration-ms: ${JWT_EXPIRATION_MS:86400000}
   itunes:
     base-url: ${ITUNES_API_BASE_URL:https://itunes.apple.com}
     connect-timeout-ms: 5000
     read-timeout-ms: 5000
   openai:
-    api-key: ${OPENAI_API_KEY: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}
+    api-key: ${OPENAI_API_KEY:your_groq_api_key_here}
     model: ${OPENAI_MODEL:llama-3.1-8b-instant}
   cors:
     allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}

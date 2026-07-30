@@ -27,7 +27,7 @@ public class AIService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${app.openai.api-key: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}")
+    @Value("${app.openai.api-key:your_groq_api_key_here}")
     private String apiKey;
 
     @Value("${app.openai.model:llama-3.1-8b-instant}")
