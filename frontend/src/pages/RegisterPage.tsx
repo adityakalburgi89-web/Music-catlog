@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserPlus, Mail, Lock, User as UserIcon, AlertCircle, ArrowRight, Eye, EyeOff, Sparkles } from 'lucide-react';
-import lofiArtImg from '../imgs/lofi-music-art.png';
+import { UserPlus, Mail, Lock, User as UserIcon, AlertCircle, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 export const RegisterPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -42,31 +41,12 @@ export const RegisterPage: React.FC = () => {
       </div>
 
       {/* Register Form Center Box */}
-      <div className="w-full max-w-md mx-auto my-auto space-y-5">
-        {/* Featured Lo-Fi Artwork Banner */}
-        <div className="relative rounded-2xl overflow-hidden border border-hairline shadow-md group">
-          <img
-            src={lofiArtImg}
-            alt="Lo-Fi Music Lounge Aesthetic"
-            className="w-full h-36 object-cover object-center group-hover:scale-105 transition-transform duration-700"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent flex items-end p-3.5">
-            <div className="flex items-center justify-between w-full text-white text-xs">
-              <span className="font-display font-medium tracking-wide flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                Join the Vinyl Catalog
-              </span>
-              <span className="font-mono text-[10px] bg-white/20 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20">
-                Free Account
-              </span>
-            </div>
-          </div>
-        </div>
-
+      <div className="w-full max-w-md mx-auto my-auto space-y-6">
         <div>
           <h1 className="font-display text-3xl font-medium text-ink tracking-tight">
             Create your account
           </h1>
+
           <p className="mt-1 text-sm text-muted">
             Start building your music catalog and unlock AI-driven insights today.
           </p>
