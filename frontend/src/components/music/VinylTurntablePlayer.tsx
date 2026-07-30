@@ -159,9 +159,8 @@ export const VinylTurntablePlayer: React.FC = () => {
         <div className="relative aspect-square w-full max-w-[320px] mx-auto flex items-center justify-center">
           {/* Black Vinyl Record Disc */}
           <div
-            className={`relative w-[280px] h-[280px] rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${
-              isPlaying ? 'animate-spin' : ''
-            }`}
+            className={`relative w-[280px] h-[280px] rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${isPlaying ? 'animate-spin' : ''
+              }`}
             style={{
               animationDuration: isPlaying ? (rpm === '45' ? '1.8s' : '2.5s') : '0s',
             }}
@@ -196,9 +195,8 @@ export const VinylTurntablePlayer: React.FC = () => {
           {/* Rotating Tonearm Assembly (Pivoting directly from mount.png's top-right socket) */}
           <div className="absolute top-0 right-0 w-32 h-52 pointer-events-none z-20">
             <div
-              className={`relative w-full h-full transition-transform duration-700 origin-[74%_10%] z-20 ${
-                isPlaying ? 'rotate-[20deg]' : 'rotate-0'
-              }`}
+              className={`relative w-full h-full transition-transform duration-700 origin-[74%_10%] z-20 ${isPlaying ? 'rotate-[20deg]' : 'rotate-0'
+                }`}
             >
               {/* 1. Silver Cylindrical Counterweight Knob at Top Tip */}
               <ChromaKeyImage
@@ -298,17 +296,15 @@ export const VinylTurntablePlayer: React.FC = () => {
           <div className="flex items-center gap-1.5 bg-surface-soft p-1 rounded-lg border border-hairline">
             <button
               onClick={() => toggleRpm('33')}
-              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${
-                rpm === '33' ? 'bg-primary text-white shadow-sm' : 'text-body hover:text-ink'
-              }`}
+              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${rpm === '33' ? 'bg-primary text-white shadow-sm' : 'text-body hover:text-ink'
+                }`}
             >
               33 RPM
             </button>
             <button
               onClick={() => toggleRpm('45')}
-              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${
-                rpm === '45' ? 'bg-brand-pink text-white shadow-sm' : 'text-body hover:text-ink'
-              }`}
+              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${rpm === '45' ? 'bg-brand-pink text-white shadow-sm' : 'text-body hover:text-ink'
+                }`}
             >
               45 RPM
             </button>
