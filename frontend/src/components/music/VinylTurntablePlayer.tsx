@@ -4,8 +4,9 @@ import { Play, Pause, Volume2, VolumeX, Music2, Disc } from 'lucide-react';
 // Import local mp3 audio file
 import songSrc from '../../music/Three Voices One Fire.mp3';
 
-// Import all real record player PNG element images from /imgs
+// Import all real record player PNG element images from /imgs including mount.png
 import vinylRecordImg from '../../imgs/vinyl-record.png';
+import mountImg from '../../imgs/mount.png';
 import tonearmImg from '../../imgs/tonearm.png';
 import counterweightImg from '../../imgs/counterweight.png';
 import antiSkateImg from '../../imgs/anti-skate-control.png';
@@ -183,8 +184,18 @@ export const VinylTurntablePlayer: React.FC = () => {
             </div>
           </div>
 
-          {/* 100% Perfectly Aligned Connected Tonearm Unit */}
-          <div className="absolute top-1 right-2 w-32 h-52 pointer-events-none z-20">
+          {/* Fixed Top-Right White Mounting Base Plate (mount.png) */}
+          <div className="absolute top-1 right-1 w-36 h-44 pointer-events-none z-10">
+            <ChromaKeyImage
+              src={mountImg}
+              alt="Tonearm Mount Base"
+              className="w-full h-full object-contain drop-shadow-md"
+              title="Tonearm Mount Base"
+            />
+          </div>
+
+          {/* Rotating Tonearm Assembly (Connecting Counterweight + Shaft + Needle + Pivot) */}
+          <div className="absolute top-1 right-1 w-32 h-52 pointer-events-none z-20">
             <div
               className={`relative w-full h-full transition-transform duration-700 origin-[82%_10%] z-20 ${
                 isPlaying ? 'rotate-[20deg]' : 'rotate-0'
