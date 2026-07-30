@@ -16,3 +16,8 @@ frontend/node_modules/
 .env.local
 backend/.env
 frontend/.env.local
+
+# Scratch and test payloads
+scratch/
+backend/scratch/
+
