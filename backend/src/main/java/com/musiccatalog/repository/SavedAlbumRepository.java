@@ -20,11 +20,13 @@ public interface SavedAlbumRepository extends JpaRepository<SavedAlbum, Long> {
 
     Optional<SavedAlbum> findByIdAndUserId(Long id, Long userId);
 
-    Optional<SavedAlbum> findByUserIdAndItunesCollectionId(Long userId, Long itunesCollectionId);
+    Optional<SavedAlbum> findByUserIdAndAppleCatalogId(Long userId, Long appleCatalogId);
 
-    Boolean existsByUserIdAndItunesCollectionId(Long userId, Long itunesCollectionId);
+    Boolean existsByUserIdAndAppleCatalogId(Long userId, Long appleCatalogId);
 
     List<SavedAlbum> findByUserId(Long userId);
+
+    List<SavedAlbum> findTop5ByUserIdOrderByCreatedAtDesc(Long userId);
 
     @Query("SELECT COUNT(a) FROM SavedAlbum a WHERE a.user.id = :userId")
     Long countByUserId(@Param("userId") Long userId);
@@ -32,18 +34,18 @@ public interface SavedAlbumRepository extends JpaRepository<SavedAlbum, Long> {
     @Query("SELECT COALESCE(SUM(a.trackCount), 0) FROM SavedAlbum a WHERE a.user.id = :userId")
     Long sumTrackCountByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT COALESCE(AVG(a.rating), 0.0) FROM SavedAlbum a WHERE a.user.id = :userId AND a.rating IS NOT NULL")
+    @Query("SELECT COALESCE(AVG(a.userRating), 0.0) FROM SavedAlbum a WHERE a.user.id = :userId AND a.userRating IS NOT NULL")
     Double avgRatingByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT a.genre AS genre, COUNT(a) AS count FROM SavedAlbum a WHERE a.user.id = :userId GROUP BY a.genre ORDER BY count DESC")
-    List<Object[]> findGenreDistributionByUserId(@Param("userId") Long userId);
+    @Query("SELECT a.genre AS key, COUNT(a) AS val FROM SavedAlbum a WHERE a.user.id = :userId GROUP BY a.genre ORDER BY val DESC")
+    List<Object[]> findGenreCountsByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT a.releaseDate AS releaseDate FROM SavedAlbum a WHERE a.user.id = :userId AND a.releaseDate IS NOT NULL")
+    @Query("SELECT a.artistName AS key, COUNT(a) AS val FROM SavedAlbum a WHERE a.user.id = :userId GROUP BY a.artistName ORDER BY val DESC")
+    List<Object[]> findArtistCountsByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT a.userRating AS key, COUNT(a) AS val FROM SavedAlbum a WHERE a.user.id = :userId AND a.userRating IS NOT NULL GROUP BY a.userRating ORDER BY a.userRating DESC")
+    List<Object[]> findRatingCountsByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT a.releaseDate FROM SavedAlbum a WHERE a.user.id = :userId AND a.releaseDate IS NOT NULL")
     List<java.time.LocalDate> findReleaseDatesByUserId(@Param("userId") Long userId);
-
-    @Query("SELECT a.rating AS rating, COUNT(a) AS count FROM SavedAlbum a WHERE a.user.id = :userId AND a.rating IS NOT NULL GROUP BY a.rating ORDER BY a.rating DESC")
-    List<Object[]> findRatingDistributionByUserId(@Param("userId") Long userId);
-
-    @Query("SELECT a.artist AS artist, COUNT(a) AS count FROM SavedAlbum a WHERE a.user.id = :userId GROUP BY a.artist ORDER BY count DESC")
-    List<Object[]> findTopArtistsByUserId(@Param("userId") Long userId);
 }

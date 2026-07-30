@@ -3,8 +3,6 @@ package com.musiccatalog.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musiccatalog.dto.analytics.AnalyticsResponse;
-import com.musiccatalog.dto.analytics.GenreDistributionDto;
-import com.musiccatalog.dto.analytics.YearDistributionDto;
 import com.musiccatalog.dto.insights.TrendSummaryRequest;
 import com.musiccatalog.dto.insights.TrendSummaryResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +36,7 @@ public class AIService {
     public TrendSummaryResponse generateTrendSummary(Long userId, TrendSummaryRequest request) {
         AnalyticsResponse analytics = analyticsService.getUserAnalytics(userId);
 
-        if (analytics.getTotalSavedAlbums() == 0) {
+        if (analytics.getTotalAlbums() == 0) {
             return TrendSummaryResponse.builder()
                     .musicPersona("Emerging Music Enthusiast")
                     .summary("Your personal music catalog is currently empty. Start searching and saving your favorite albums from the iTunes Search page to unlock AI-powered insights and trend analytics!")
@@ -68,11 +66,16 @@ public class AIService {
         return generateLocalFallbackSummary(analytics, request);
     }
 
-    private TrendSummaryResponse callGroqLLM(AnalyticsResponse analytics, TrendSummaryRequest request) {
+    private TrendSummaryResponse callGroqLLM(AnalyticsResponse analytics, TrendSummaryRequest request) throws Exception {
         String url = "https://api.groq.com/openai/v1/chat/completions";
 
-        String topGenre = analytics.getGenreDistribution().isEmpty() ? "Eclectic" : analytics.getGenreDistribution().get(0).getGenre();
-        String topDecade = analytics.getReleaseDecadeDistribution().isEmpty() ? "Modern" : analytics.getReleaseDecadeDistribution().get(0).getDecade();
+        String topGenre = analytics.getAlbumsByGenre().isEmpty()
+                ? "Eclectic"
+                : analytics.getAlbumsByGenre().keySet().iterator().next();
+
+        String topDecade = analytics.getReleasesByYear().isEmpty()
+                ? "Modern"
+                : analytics.getReleasesByYear().keySet().iterator().next() + "s";
 
         String promptText = String.format("""
                 Analyze this music user catalog metrics and generate a JSON response strictly in this exact format:
@@ -88,9 +91,9 @@ public class AIService {
                 - Total Saved Albums: %d
                 - Average Rating: %.2f / 5.0
                 - Top Genre: %s
-                - Top Decade: %s
+                - Top Release Year: %s
                 - Average Track Count: %.1f
-                """, topDecade, analytics.getTotalSavedAlbums(), analytics.getAverageRating(), topGenre, topDecade, analytics.getAverageTrackCount());
+                """, topDecade, analytics.getTotalAlbums(), analytics.getAverageRating(), topGenre, topDecade, analytics.getAverageTrackCount());
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", model);
@@ -111,7 +114,6 @@ public class AIService {
             JsonNode rootNode = objectMapper.readTree(response.getBody());
             String content = rootNode.path("choices").get(0).path("message").path("content").asText();
 
-            // Clean markdown backticks if present
             content = content.replaceAll("```json", "").replaceAll("```", "").trim();
             JsonNode jsonResult = objectMapper.readTree(content);
 
@@ -138,19 +140,25 @@ public class AIService {
     }
 
     private TrendSummaryResponse generateLocalFallbackSummary(AnalyticsResponse analytics, TrendSummaryRequest request) {
-        String topGenre = analytics.getGenreDistribution().isEmpty() ? "Eclectic Music" : analytics.getGenreDistribution().get(0).getGenre();
-        String topDecade = analytics.getReleaseDecadeDistribution().isEmpty() ? "Various Eras" : analytics.getReleaseDecadeDistribution().get(0).getDecade();
+        String topGenre = analytics.getAlbumsByGenre().isEmpty()
+                ? "Eclectic Music"
+                : analytics.getAlbumsByGenre().keySet().iterator().next();
+
+        String topYear = analytics.getReleasesByYear().isEmpty()
+                ? "Various Eras"
+                : analytics.getReleasesByYear().keySet().iterator().next().toString();
+
         Double avgRating = analytics.getAverageRating();
 
-        String persona = String.format("%s %s Connoisseur", topDecade, topGenre);
+        String persona = String.format("%s Connoisseur", topGenre);
         String summary = String.format(
-                "Your catalog is strongly anchored in %s music from the %s era. With an average album rating of %.2f out of 5 stars across %d saved projects, your personal library exhibits high artistic curation.",
-                topGenre, topDecade, avgRating, analytics.getTotalSavedAlbums()
+                "Your catalog is strongly anchored in %s music. With an average album rating of %.2f out of 5 stars across %d saved projects, your personal library exhibits high artistic curation.",
+                topGenre, avgRating, analytics.getTotalAlbums()
         );
 
         List<String> observations = List.of(
-                String.format("Highest genre concentration: %s (%.1f%% of saved catalog).", topGenre, analytics.getGenreDistribution().isEmpty() ? 0.0 : analytics.getGenreDistribution().get(0).getPercentage()),
-                String.format("Dominant release era: %s.", topDecade),
+                String.format("Primary genre concentration: %s.", topGenre),
+                String.format("Key release era anchor: %s.", topYear),
                 String.format("Average album length: %.1f tracks per collection.", analytics.getAverageTrackCount())
         );
 
@@ -159,7 +167,7 @@ public class AIService {
         return TrendSummaryResponse.builder()
                 .musicPersona(persona)
                 .summary(summary)
-                .topDominantDecade(topDecade)
+                .topDominantDecade(topYear)
                 .keyObservations(observations)
                 .recommendedGenresToExplore(recs)
                 .generatedAt(LocalDateTime.now())

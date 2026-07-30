@@ -1,10 +1,10 @@
 import { api } from './api';
-import { AlbumSaveRequest, AlbumUpdateRequest, AlbumResponse, LibraryPageResponse, SavedAlbum } from '../types';
+import { AlbumCreateRequest, AlbumUpdateRequest, LibraryPageResponse, SavedAlbum } from '../types';
 
 export const libraryService = {
-  async getLibrary(genre?: string, sortBy = 'createdAt', order = 'desc', page = 1, limit = 12): Promise<LibraryPageResponse> {
+  async getLibrary(sortBy = 'createdAt', order = 'desc', page = 1, size = 12): Promise<LibraryPageResponse> {
     const response = await api.get<LibraryPageResponse>('/library', {
-      params: { genre, sortBy, order, page, limit },
+      params: { page: page - 1, size, sort: `${sortBy},${order}` },
     });
     return response.data;
   },
@@ -14,7 +14,7 @@ export const libraryService = {
     return response.data;
   },
 
-  async saveAlbum(albumData: AlbumSaveRequest): Promise<SavedAlbum> {
+  async saveAlbum(albumData: AlbumCreateRequest): Promise<SavedAlbum> {
     const response = await api.post<SavedAlbum>('/library', albumData);
     return response.data;
   },

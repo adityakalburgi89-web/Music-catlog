@@ -4,12 +4,25 @@ import { BookmarkCheck, Plus, Calendar, Disc, DollarSign } from 'lucide-react';
 
 interface AlbumSearchCardProps {
   album: ITunesAlbum;
+  index: number;
   onSave: (album: ITunesAlbum) => Promise<void>;
 }
 
-export const AlbumSearchCard: React.FC<AlbumSearchCardProps> = ({ album, onSave }) => {
+// 6-Color Clay Saturated Palette Cycle
+const CARD_PALETTES = [
+  { bg: 'bg-brand-pink', text: 'text-white', textMuted: 'text-pink-100', badgeBg: 'bg-white/20 text-white', btnBg: 'bg-white text-ink hover:bg-slate-100', savedBtn: 'bg-white/30 text-white' },
+  { bg: 'bg-brand-teal', text: 'text-white', textMuted: 'text-teal-100', badgeBg: 'bg-white/20 text-white', btnBg: 'bg-white text-ink hover:bg-slate-100', savedBtn: 'bg-white/30 text-white' },
+  { bg: 'bg-brand-lavender', text: 'text-ink', textMuted: 'text-slate-700', badgeBg: 'bg-ink/10 text-ink', btnBg: 'bg-primary text-white hover:bg-body-strong', savedBtn: 'bg-ink/20 text-ink' },
+  { bg: 'bg-brand-peach', text: 'text-ink', textMuted: 'text-slate-800', badgeBg: 'bg-ink/10 text-ink', btnBg: 'bg-primary text-white hover:bg-body-strong', savedBtn: 'bg-ink/20 text-ink' },
+  { bg: 'bg-brand-ochre', text: 'text-ink', textMuted: 'text-slate-800', badgeBg: 'bg-ink/10 text-ink', btnBg: 'bg-primary text-white hover:bg-body-strong', savedBtn: 'bg-ink/20 text-ink' },
+  { bg: 'bg-surface-card border border-hairline', text: 'text-ink', textMuted: 'text-muted', badgeBg: 'bg-surface-strong text-ink', btnBg: 'bg-primary text-white hover:bg-body-strong', savedBtn: 'bg-emerald-500/20 text-emerald-800' },
+];
+
+export const AlbumSearchCard: React.FC<AlbumSearchCardProps> = ({ album, index, onSave }) => {
   const [isSaving, setIsSaving] = useState(false);
-  const [saved, setSaved] = useState(album.isSavedInLibrary || false);
+  const [saved, setSaved] = useState(album.saved || false);
+
+  const palette = CARD_PALETTES[index % CARD_PALETTES.length];
 
   const handleSave = async () => {
     if (saved || isSaving) return;
@@ -29,69 +42,74 @@ export const AlbumSearchCard: React.FC<AlbumSearchCardProps> = ({ album, onSave 
     : 'N/A';
 
   return (
-    <div className="group relative bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10 flex flex-col">
-      <div className="relative aspect-square overflow-hidden bg-slate-800">
-        <img
-          src={album.artworkUrl || 'https://via.placeholder.com/300?text=No+Artwork'}
-          alt={album.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
-        
-        <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-indigo-300">
-          {album.genre || 'Music'}
-        </span>
-      </div>
+    <div className={`group relative ${palette.bg} rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between overflow-hidden`}>
+      <div>
+        {/* Top Header Badge */}
+        <div className="flex items-center justify-between mb-4">
+          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${palette.badgeBg}`}>
+            {album.genre || 'Music'}
+          </span>
+          <span className={`text-xs font-medium ${palette.textMuted}`}>
+            #{album.appleCatalogId}
+          </span>
+        </div>
 
-      <div className="p-4 flex-1 flex flex-col justify-between">
-        <div>
-          <h3 className="font-bold text-base text-slate-100 line-clamp-1 group-hover:text-indigo-400 transition-colors" title={album.title}>
-            {album.title}
-          </h3>
-          <p className="text-sm font-medium text-slate-400 line-clamp-1 mb-3">
-            {album.artist}
-          </p>
-
-          <div className="grid grid-cols-2 gap-2 text-xs text-slate-400 mb-4">
-            <div className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-slate-500" />
-              <span>{formattedDate}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Disc className="w-3.5 h-3.5 text-slate-500" />
-              <span>{album.trackCount} Tracks</span>
-            </div>
-            {album.price !== undefined && album.price > 0 && (
-              <div className="flex items-center gap-1 text-slate-300 font-semibold col-span-2">
-                <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
-                <span>{album.price.toFixed(2)}</span>
-              </div>
-            )}
+        {/* Artwork & Album Title Fragment */}
+        <div className="flex items-start gap-4 mb-4">
+          <img
+            src={album.artworkUrl || 'https://via.placeholder.com/300?text=No+Artwork'}
+            alt={album.title}
+            className="w-20 h-20 rounded-lg object-cover shadow-md shrink-0 border border-black/10 group-hover:scale-105 transition-transform"
+          />
+          <div className="overflow-hidden">
+            <h3 className={`font-display font-medium text-lg leading-snug line-clamp-2 ${palette.text}`} title={album.title}>
+              {album.title}
+            </h3>
+            <p className={`text-xs font-medium line-clamp-1 mt-1 ${palette.textMuted}`}>
+              {album.artistName}
+            </p>
           </div>
         </div>
 
-        <button
-          onClick={handleSave}
-          disabled={saved || isSaving}
-          className={`w-full py-2.5 px-4 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition-all ${
-            saved
-              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 cursor-default'
-              : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 active:scale-95'
-          }`}
-        >
-          {saved ? (
-            <>
-              <BookmarkCheck className="w-4 h-4" />
-              Saved to Library
-            </>
-          ) : (
-            <>
-              <Plus className="w-4 h-4" />
-              {isSaving ? 'Saving...' : 'Save to Library'}
-            </>
+        {/* Product UI Fragment Metrics */}
+        <div className="grid grid-cols-2 gap-2 text-xs font-medium mb-5 p-3 rounded-lg bg-black/5">
+          <div className={`flex items-center gap-1.5 ${palette.text}`}>
+            <Calendar className="w-3.5 h-3.5" />
+            <span>{formattedDate}</span>
+          </div>
+          <div className={`flex items-center gap-1.5 ${palette.text}`}>
+            <Disc className="w-3.5 h-3.5" />
+            <span>{album.trackCount} Tracks</span>
+          </div>
+          {album.collectionPrice !== undefined && album.collectionPrice > 0 && (
+            <div className={`flex items-center gap-1 font-bold col-span-2 ${palette.text}`}>
+              <DollarSign className="w-3.5 h-3.5" />
+              <span>{album.collectionPrice.toFixed(2)} USD</span>
+            </div>
           )}
-        </button>
+        </div>
       </div>
+
+      {/* Button CTA */}
+      <button
+        onClick={handleSave}
+        disabled={saved || isSaving}
+        className={`w-full py-3 px-4 rounded-md font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95 ${
+          saved ? palette.savedBtn : palette.btnBg
+        }`}
+      >
+        {saved ? (
+          <>
+            <BookmarkCheck className="w-4 h-4" />
+            Saved to Library
+          </>
+        ) : (
+          <>
+            <Plus className="w-4 h-4" />
+            {isSaving ? 'Saving...' : 'Save Album'}
+          </>
+        )}
+      </button>
     </div>
   );
 };

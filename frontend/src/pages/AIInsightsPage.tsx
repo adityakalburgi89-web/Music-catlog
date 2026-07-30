@@ -26,14 +26,18 @@ export const AIInsightsPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          <Sparkles className="w-6 h-6 text-purple-400" />
+    <div className="space-y-8 py-4">
+      <div className="pb-6 border-b border-hairline">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-lavender/40 text-ink text-xs font-semibold mb-3 border border-brand-lavender">
+          <Sparkles className="w-3.5 h-3.5 text-brand-pink" />
+          LLM Groq Synthesis Engine
+        </div>
+        <h1 className="font-display text-4xl font-medium tracking-tight text-ink flex items-center gap-3">
+          <Sparkles className="w-8 h-8 text-ink" />
           AI-Powered Trend Summary
         </h1>
-        <p className="text-slate-400 text-sm">
-          Intelligent musicology analysis derived from your personal album collection.
+        <p className="text-body text-sm mt-1">
+          Intelligent musicology insights derived from your saved album database.
         </p>
       </div>
 

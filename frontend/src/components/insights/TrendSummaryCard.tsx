@@ -10,21 +10,22 @@ interface TrendSummaryCardProps {
 
 export const TrendSummaryCard: React.FC<TrendSummaryCardProps> = ({ insights, onRefresh, isLoading }) => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Dynamic Persona Hero Banner */}
-      <div className="relative p-8 rounded-3xl bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border border-indigo-500/30 shadow-2xl overflow-hidden">
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-        
+      <div className="relative p-8 sm:p-10 rounded-xl bg-brand-teal text-white shadow-xl overflow-hidden">
+        {/* Subtle decorative clay background gradient element */}
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-brand-pink/20 rounded-full blur-3xl pointer-events-none" />
+
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-semibold mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold mb-4 border border-white/20">
               <Sparkles className="w-3.5 h-3.5" />
               AI Sonic Persona
             </div>
-            <h2 className="text-3xl font-extrabold text-white tracking-tight mb-2">
+            <h2 className="font-display text-4xl sm:text-5xl font-medium tracking-tight text-white mb-3">
               {insights.musicPersona}
             </h2>
-            <p className="text-slate-300 text-sm max-w-2xl leading-relaxed">
+            <p className="text-teal-100 text-sm sm:text-base max-w-2xl leading-relaxed">
               {insights.summary}
             </p>
           </div>
@@ -32,10 +33,10 @@ export const TrendSummaryCard: React.FC<TrendSummaryCardProps> = ({ insights, on
           <button
             onClick={onRefresh}
             disabled={isLoading}
-            className="self-start md:self-auto px-5 py-2.5 rounded-xl font-bold text-xs bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50"
+            className="self-start md:self-auto px-6 py-3 rounded-md font-semibold text-xs bg-white text-ink hover:bg-slate-100 shadow-md transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 shrink-0"
           >
-            <Sparkles className="w-4 h-4 animate-pulse" />
-            {isLoading ? 'Re-analyzing Catalog...' : 'Refresh AI Analysis'}
+            <Sparkles className="w-4 h-4 text-brand-pink animate-pulse" />
+            {isLoading ? 'Synthesizing...' : 'Refresh AI Insights'}
           </button>
         </div>
       </div>
@@ -43,15 +44,15 @@ export const TrendSummaryCard: React.FC<TrendSummaryCardProps> = ({ insights, on
       {/* Grid of AI Observations */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Key Observations */}
-        <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-xl">
-          <h3 className="text-base font-bold text-slate-100 mb-4 flex items-center gap-2">
-            <Lightbulb className="w-5 h-5 text-amber-400" />
-            Key Collection Insights
+        <div className="p-6 sm:p-8 rounded-xl bg-brand-lavender text-ink shadow-sm">
+          <h3 className="font-display font-medium text-xl text-ink mb-5 flex items-center gap-2">
+            <Lightbulb className="w-5 h-5 text-ink" />
+            Key Collection Observations
           </h3>
           <ul className="space-y-3">
             {insights.keyObservations.map((obs, index) => (
-              <li key={index} className="flex items-start gap-3 p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-sm text-slate-300">
-                <span className="w-5 h-5 rounded-full bg-indigo-500/10 text-indigo-400 font-bold text-xs flex items-center justify-center border border-indigo-500/20 shrink-0 mt-0.5">
+              <li key={index} className="flex items-start gap-3 p-3.5 rounded-lg bg-white/60 border border-black/5 text-sm text-ink font-medium">
+                <span className="w-6 h-6 rounded-full bg-primary text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
                   {index + 1}
                 </span>
                 <span>{obs}</span>
@@ -61,17 +62,17 @@ export const TrendSummaryCard: React.FC<TrendSummaryCardProps> = ({ insights, on
         </div>
 
         {/* Recommended Genres */}
-        <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-xl flex flex-col justify-between">
+        <div className="p-6 sm:p-8 rounded-xl bg-brand-peach text-ink shadow-sm flex flex-col justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-100 mb-4 flex items-center gap-2">
-              <Compass className="w-5 h-5 text-purple-400" />
-              Recommended Genres to Explore Next
+            <h3 className="font-display font-medium text-xl text-ink mb-5 flex items-center gap-2">
+              <Compass className="w-5 h-5 text-ink" />
+              Recommended Genres to Explore
             </h3>
             <div className="flex flex-wrap gap-2.5 mb-6">
               {insights.recommendedGenresToExplore.map((genre, idx) => (
                 <span
                   key={idx}
-                  className="px-3.5 py-1.5 rounded-xl bg-slate-800 border border-slate-700/60 text-slate-200 font-semibold text-xs shadow-sm hover:border-purple-500/50 transition-colors"
+                  className="px-4 py-2 rounded-full bg-white text-ink font-semibold text-xs shadow-sm border border-black/5"
                 >
                   🎧 {genre}
                 </span>
@@ -79,7 +80,7 @@ export const TrendSummaryCard: React.FC<TrendSummaryCardProps> = ({ insights, on
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <div className="flex items-center gap-2 text-xs text-slate-800 border-t border-black/10 pt-4 font-medium">
             <Clock className="w-3.5 h-3.5" />
             <span>Generated on {new Date(insights.generatedAt).toLocaleString()}</span>
           </div>

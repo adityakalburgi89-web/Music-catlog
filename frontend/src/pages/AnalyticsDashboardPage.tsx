@@ -3,7 +3,7 @@ import { analyticsService } from '../services/analyticsService';
 import { AnalyticsResponse } from '../types';
 import { AnalyticsCharts } from '../components/analytics/AnalyticsCharts';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, Sparkles } from 'lucide-react';
 
 export const AnalyticsDashboardPage: React.FC = () => {
   const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null);
@@ -25,19 +25,23 @@ export const AnalyticsDashboardPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          <BarChart3 className="w-6 h-6 text-indigo-400" />
+    <div className="space-y-8 py-4">
+      <div className="pb-6 border-b border-hairline">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-ochre/30 text-ink text-xs font-semibold mb-3 border border-brand-ochre/40">
+          <Sparkles className="w-3.5 h-3.5" />
+          Database Aggregations
+        </div>
+        <h1 className="font-display text-4xl font-medium tracking-tight text-ink flex items-center gap-3">
+          <BarChart3 className="w-8 h-8 text-ink" />
           Catalog Analytics Dashboard
         </h1>
-        <p className="text-slate-400 text-sm">
-          Analytics computed exclusively from your locally saved albums in PostgreSQL.
+        <p className="text-body text-sm mt-1">
+          Metrics computed exclusively from saved albums in PostgreSQL database.
         </p>
       </div>
 
       {isLoading ? (
-        <LoadingSpinner label="Calculating database analytics..." />
+        <LoadingSpinner label="Compiling PostgreSQL database aggregations..." />
       ) : (
         analytics && <AnalyticsCharts analytics={analytics} />
       )}

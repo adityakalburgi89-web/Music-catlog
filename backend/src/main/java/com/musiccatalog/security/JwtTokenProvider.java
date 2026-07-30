@@ -38,7 +38,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .subject(Long.toString(userPrincipal.getId()))
                 .claim("email", userPrincipal.getEmail())
-                .claim("fullName", userPrincipal.getFullName())
+                .claim("name", userPrincipal.getName())
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey())

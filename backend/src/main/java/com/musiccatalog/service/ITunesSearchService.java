@@ -1,7 +1,7 @@
 package com.musiccatalog.service;
 
-import com.musiccatalog.dto.itunes.ITunesAlbumDto;
-import com.musiccatalog.dto.itunes.ITunesSearchResponse;
+import com.musiccatalog.dto.itunes.AlbumSearchDto;
+import com.musiccatalog.dto.itunes.AlbumSearchResponse;
 import com.musiccatalog.repository.SavedAlbumRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +25,11 @@ public class ITunesSearchService {
     @Value("${app.itunes.base-url:https://itunes.apple.com}")
     private String itunesBaseUrl;
 
-    public ITunesSearchResponse searchAlbums(String query, int page, int limit, Long userId) {
+    @Cacheable(value = "itunesSearchCache", key = "#query + '-' + #limit")
+    public AlbumSearchResponse searchAlbums(String query, int limit, Long userId) {
         if (query == null || query.trim().isEmpty()) {
-            return ITunesSearchResponse.builder()
+            return AlbumSearchResponse.builder()
                     .query(query)
-                    .page(page)
-                    .limit(limit)
                     .totalResults(0)
                     .resultCount(0)
                     .albums(Collections.emptyList())
@@ -39,47 +38,36 @@ public class ITunesSearchService {
 
         try {
             String encodedQuery = URLEncoder.encode(query.trim(), StandardCharsets.UTF_8);
-            String url = String.format("%s/search?term=%s&entity=album&limit=200", itunesBaseUrl, encodedQuery);
+            String url = String.format("%s/search?term=%s&entity=album&limit=%d", itunesBaseUrl, encodedQuery, Math.max(limit, 10));
 
-            ITunesSearchResponse response = restTemplate.getForObject(url, ITunesSearchResponse.class);
+            AlbumSearchResponse response = restTemplate.getForObject(url, AlbumSearchResponse.class);
 
-            List<ITunesAlbumDto> allAlbums = (response != null && response.getResults() != null)
+            List<AlbumSearchDto> rawAlbums = (response != null && response.getResults() != null)
                     ? response.getResults()
                     : Collections.emptyList();
 
-            // Decorate with saved in library status
-            Set<Long> savedItunesIds = new HashSet<>();
-            if (userId != null && !allAlbums.isEmpty()) {
-                savedAlbumRepository.findByUserId(userId).forEach(saved -> savedItunesIds.add(saved.getItunesCollectionId()));
+            // Decorate with saved in library status for current user
+            Set<Long> savedCatalogIds = new HashSet<>();
+            if (userId != null && !rawAlbums.isEmpty()) {
+                savedAlbumRepository.findByUserId(userId)
+                        .forEach(saved -> savedCatalogIds.add(saved.getAppleCatalogId()));
             }
 
-            allAlbums.forEach(album -> album.setIsSavedInLibrary(
-                    album.getItunesCollectionId() != null && savedItunesIds.contains(album.getItunesCollectionId())
+            rawAlbums.forEach(album -> album.setSaved(
+                    album.getAppleCatalogId() != null && savedCatalogIds.contains(album.getAppleCatalogId())
             ));
 
-            // Paginate local results
-            int totalResults = allAlbums.size();
-            int fromIndex = Math.min((page - 1) * limit, totalResults);
-            int toIndex = Math.min(fromIndex + limit, totalResults);
-            List<ITunesAlbumDto> paginatedAlbums = (fromIndex < totalResults)
-                    ? allAlbums.subList(fromIndex, toIndex)
-                    : Collections.emptyList();
-
-            return ITunesSearchResponse.builder()
+            return AlbumSearchResponse.builder()
                     .query(query)
-                    .page(page)
-                    .limit(limit)
-                    .totalResults(totalResults)
-                    .resultCount(paginatedAlbums.size())
-                    .albums(paginatedAlbums)
+                    .totalResults(rawAlbums.size())
+                    .resultCount(rawAlbums.size())
+                    .albums(rawAlbums)
                     .build();
 
         } catch (Exception ex) {
-            log.error("Failed to query iTunes Search API: {}", ex.getMessage(), ex);
-            return ITunesSearchResponse.builder()
+            log.error("Error querying iTunes Search API: {}", ex.getMessage(), ex);
+            return AlbumSearchResponse.builder()
                     .query(query)
-                    .page(page)
-                    .limit(limit)
                     .totalResults(0)
                     .resultCount(0)
                     .albums(Collections.emptyList())

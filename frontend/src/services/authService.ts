@@ -2,8 +2,8 @@ import { api } from './api';
 import { AuthResponse, User } from '../types';
 
 export const authService = {
-  async register(email: string, password: string, fullName: string): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>('/auth/register', { email, password, fullName });
+  async register(email: string, password: string, name: string): Promise<AuthResponse> {
+    const response = await api.post<AuthResponse>('/auth/register', { email, password, name });
     if (response.data.token) {
       localStorage.setItem('jwt_token', response.data.token);
       localStorage.setItem('auth_user', JSON.stringify(response.data.user));

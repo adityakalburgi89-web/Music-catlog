@@ -4,7 +4,9 @@ import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Navbar } from './components/common/Navbar';
 import { Sidebar } from './components/common/Sidebar';
+import { Footer } from './components/common/Footer';
 
+import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { SearchPage } from './pages/SearchPage';
@@ -14,12 +16,13 @@ import { AIInsightsPage } from './pages/AIInsightsPage';
 
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-canvas text-body font-sans">
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
         <main className="flex-1 p-6 max-w-7xl mx-auto overflow-y-auto">
           {children}
+          <Footer />
         </main>
       </div>
     </div>
@@ -31,7 +34,13 @@ export const App: React.FC = () => {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public Routes */}
+          {/* Public Landing Page */}
+          <Route path="/" element={
+            <>
+              <LandingPage />
+              <Footer />
+            </>
+          } />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
@@ -72,7 +81,7 @@ export const App: React.FC = () => {
           </Route>
 
           {/* Default Redirect */}
-          <Route path="*" element={<Navigate to="/search" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

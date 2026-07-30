@@ -30,52 +30,51 @@ public class DataInitializer implements CommandLineRunner {
             User demoUser = User.builder()
                     .email("admin@musiccatalog.com")
                     .password(passwordEncoder.encode("password123"))
-                    .fullName("Demo Architect")
+                    .name("Demo Architect")
                     .build();
 
             User savedUser = userRepository.save(demoUser);
 
-            // Seed sample albums for immediate analytics demo
             SavedAlbum album1 = SavedAlbum.builder()
                     .user(savedUser)
-                    .itunesCollectionId(617154241L)
+                    .appleCatalogId(617154241L)
                     .title("Random Access Memories")
-                    .artist("Daft Punk")
+                    .artistName("Daft Punk")
                     .genre("Electronic")
                     .releaseDate(LocalDate.of(2013, 5, 17))
                     .trackCount(13)
-                    .price(new BigDecimal("11.99"))
+                    .collectionPrice(new BigDecimal("11.99"))
                     .artworkUrl("https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a4/c8/ce/a4c8cefc-b6e8-0b5c-4f7f-d38df81c8172/886443927087.jpg/100x100bb.jpg")
-                    .rating(5)
-                    .notes("Masterpiece production and incredible analog synth integration.")
+                    .userRating(5)
+                    .userNotes("Masterpiece production and analog synth integration.")
                     .build();
 
             SavedAlbum album2 = SavedAlbum.builder()
                     .user(savedUser)
-                    .itunesCollectionId(372732701L)
+                    .appleCatalogId(372732701L)
                     .title("The Dark Side of the Moon")
-                    .artist("Pink Floyd")
+                    .artistName("Pink Floyd")
                     .genre("Rock")
                     .releaseDate(LocalDate.of(1973, 3, 1))
                     .trackCount(10)
-                    .price(new BigDecimal("9.99"))
+                    .collectionPrice(new BigDecimal("9.99"))
                     .artworkUrl("https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/ad/bb/df/adbbdfd9-4d6d-2d4e-b541-11d27fb2e293/00509990289825.jpg/100x100bb.jpg")
-                    .rating(5)
-                    .notes("Timeless concept album with legendary production quality.")
+                    .userRating(5)
+                    .userNotes("Timeless concept album with legendary production quality.")
                     .build();
 
             SavedAlbum album3 = SavedAlbum.builder()
                     .user(savedUser)
-                    .itunesCollectionId(1440841363L)
+                    .appleCatalogId(1440841363L)
                     .title("Kid A")
-                    .artist("Radiohead")
+                    .artistName("Radiohead")
                     .genre("Alternative")
                     .releaseDate(LocalDate.of(2000, 10, 2))
                     .trackCount(10)
-                    .price(new BigDecimal("10.99"))
+                    .collectionPrice(new BigDecimal("10.99"))
                     .artworkUrl("https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/91/3d/8c/913d8c1c-4b5a-4e2b-bf2d-86f2bc8f42d2/634904015622.jpg/100x100bb.jpg")
-                    .rating(4)
-                    .notes("Experimental masterpiece defining 2000s electronic-rock fusion.")
+                    .userRating(4)
+                    .userNotes("Experimental electronic-rock fusion.")
                     .build();
 
             savedAlbumRepository.save(album1);

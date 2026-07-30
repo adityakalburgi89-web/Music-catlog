@@ -1,32 +1,29 @@
 export interface User {
   id: number;
   email: string;
-  fullName: string;
+  name: string;
 }
 
 export interface AuthResponse {
   token: string;
-  type: string;
+  tokenType: string;
   user: User;
 }
 
 export interface ITunesAlbum {
-  itunesCollectionId: number;
+  appleCatalogId: number;
   title: string;
-  artist: string;
+  artistName: string;
   genre: string;
   releaseDate: string;
   trackCount: number;
-  price: number;
+  collectionPrice: number;
   artworkUrl: string;
-  country?: string;
-  isSavedInLibrary?: boolean;
+  saved?: boolean;
 }
 
-export interface ITunesSearchResponse {
+export interface AlbumSearchResponse {
   query: string;
-  page: number;
-  limit: number;
   totalResults: number;
   resultCount: number;
   albums: ITunesAlbum[];
@@ -34,16 +31,16 @@ export interface ITunesSearchResponse {
 
 export interface SavedAlbum {
   id: number;
-  itunesCollectionId: number;
+  appleCatalogId: number;
   title: string;
-  artist: string;
+  artistName: string;
   genre: string;
   releaseDate: string;
   trackCount: number;
-  price: number;
+  collectionPrice: number;
   artworkUrl: string;
-  rating?: number;
-  notes?: string;
+  userRating?: number;
+  userNotes?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -51,59 +48,40 @@ export interface SavedAlbum {
 export interface LibraryPageResponse {
   content: SavedAlbum[];
   page: number;
-  limit: number;
+  size: number;
   totalElements: number;
   totalPages: number;
+  last: boolean;
 }
 
-export interface AlbumSaveRequest {
-  itunesCollectionId: number;
+export interface AlbumCreateRequest {
+  appleCatalogId: number;
   title: string;
-  artist: string;
+  artistName: string;
   genre: string;
   releaseDate?: string;
   trackCount: number;
-  price?: number;
+  collectionPrice?: number;
   artworkUrl?: string;
-  rating?: number;
-  notes?: string;
+  userRating?: number;
+  userNotes?: string;
 }
 
 export interface AlbumUpdateRequest {
-  rating?: number;
-  notes?: string;
-}
-
-export interface GenreDistribution {
-  genre: string;
-  count: number;
-  percentage: number;
-}
-
-export interface DecadeDistribution {
-  decade: string;
-  count: number;
-}
-
-export interface RatingDistribution {
-  rating: number;
-  count: number;
-}
-
-export interface ArtistDistribution {
-  artist: string;
-  albumCount: number;
+  userRating?: number;
+  userNotes?: string;
 }
 
 export interface AnalyticsResponse {
-  totalSavedAlbums: number;
-  totalTracks: number;
-  averageTrackCount: number;
+  totalAlbums: number;
   averageRating: number;
-  genreDistribution: GenreDistribution[];
-  releaseDecadeDistribution: DecadeDistribution[];
-  ratingDistribution: RatingDistribution[];
-  topArtists: ArtistDistribution[];
+  averageTrackCount: number;
+  albumsByGenre: Record<string, number>;
+  albumsByArtist: Record<string, number>;
+  releasesByYear: Record<number, number>;
+  ratingDistribution: Record<number, number>;
+  trackCountDistribution: Record<string, number>;
+  recentlyAddedAlbums: SavedAlbum[];
 }
 
 export interface TrendSummaryResponse {

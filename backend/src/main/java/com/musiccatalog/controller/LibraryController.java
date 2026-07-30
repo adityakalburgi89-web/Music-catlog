@@ -1,11 +1,13 @@
 package com.musiccatalog.controller;
 
+import com.musiccatalog.dto.library.AlbumCreateRequest;
 import com.musiccatalog.dto.library.AlbumResponse;
-import com.musiccatalog.dto.library.AlbumSaveRequest;
 import com.musiccatalog.dto.library.AlbumUpdateRequest;
 import com.musiccatalog.dto.library.LibraryPageResponse;
 import com.musiccatalog.security.UserPrincipal;
 import com.musiccatalog.service.LibraryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,24 +18,25 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/library")
 @RequiredArgsConstructor
+@Tag(name = "Library", description = "Personal album library management endpoints")
 public class LibraryController {
 
     private final LibraryService libraryService;
 
     @GetMapping
+    @Operation(summary = "Get user's personal saved album catalog")
     public ResponseEntity<LibraryPageResponse> getUserLibrary(
-            @RequestParam(name = "genre", required = false) String genre,
-            @RequestParam(name = "sortBy", required = false, defaultValue = "createdAt") String sortBy,
-            @RequestParam(name = "order", required = false, defaultValue = "desc") String order,
-            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(name = "limit", required = false, defaultValue = "12") int limit,
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "12") int size,
+            @RequestParam(name = "sort", required = false, defaultValue = "createdAt,desc") String sort,
             @AuthenticationPrincipal UserPrincipal currentUser) {
 
-        LibraryPageResponse response = libraryService.getUserLibrary(currentUser.getId(), genre, sortBy, order, page, limit);
+        LibraryPageResponse response = libraryService.getUserLibrary(currentUser.getId(), page, size, sort);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get specific saved album details by ID")
     public ResponseEntity<AlbumResponse> getAlbumById(
             @PathVariable Long id,
             @AuthenticationPrincipal UserPrincipal currentUser) {
@@ -43,8 +46,9 @@ public class LibraryController {
     }
 
     @PostMapping
+    @Operation(summary = "Save an album to the personal library")
     public ResponseEntity<AlbumResponse> saveAlbum(
-            @Valid @RequestBody AlbumSaveRequest request,
+            @Valid @RequestBody AlbumCreateRequest request,
             @AuthenticationPrincipal UserPrincipal currentUser) {
 
         AlbumResponse response = libraryService.saveAlbum(currentUser.getId(), request);
@@ -52,6 +56,7 @@ public class LibraryController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update rating or notes on a saved album")
     public ResponseEntity<AlbumResponse> updateAlbum(
             @PathVariable Long id,
             @Valid @RequestBody AlbumUpdateRequest request,
@@ -62,6 +67,7 @@ public class LibraryController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete an album from personal library")
     public ResponseEntity<Void> deleteAlbum(
             @PathVariable Long id,
             @AuthenticationPrincipal UserPrincipal currentUser) {

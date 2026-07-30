@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "saved_albums", uniqueConstraints = {
-    @UniqueConstraint(name = "uq_user_itunes_collection", columnNames = {"user_id", "itunes_collection_id"})
+    @UniqueConstraint(name = "uq_user_apple_catalog", columnNames = {"user_id", "apple_catalog_id"})
 })
 @Getter
 @Setter
@@ -28,14 +28,14 @@ public class SavedAlbum {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "itunes_collection_id", nullable = false)
-    private Long itunesCollectionId;
+    @Column(name = "apple_catalog_id", nullable = false)
+    private Long appleCatalogId;
 
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String artist;
+    @Column(name = "artist_name", nullable = false)
+    private String artistName;
 
     @Column(nullable = false, length = 100)
     private String genre;
@@ -46,17 +46,17 @@ public class SavedAlbum {
     @Column(name = "track_count", nullable = false)
     private Integer trackCount;
 
-    @Column(precision = 6, scale = 2)
-    private BigDecimal price;
-
     @Column(name = "artwork_url", length = 500)
     private String artworkUrl;
 
-    @Column
-    private Integer rating; // 1 - 5 stars
+    @Column(name = "collection_price", precision = 6, scale = 2)
+    private BigDecimal collectionPrice;
 
-    @Column(columnDefinition = "TEXT")
-    private String notes;
+    @Column(name = "user_rating")
+    private Integer userRating; // 1 - 5 stars, nullable
+
+    @Column(name = "user_notes", length = 1000)
+    private String userNotes;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

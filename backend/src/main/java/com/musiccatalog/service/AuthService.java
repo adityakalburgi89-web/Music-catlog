@@ -3,7 +3,7 @@ package com.musiccatalog.service;
 import com.musiccatalog.dto.auth.AuthResponse;
 import com.musiccatalog.dto.auth.LoginRequest;
 import com.musiccatalog.dto.auth.RegisterRequest;
-import com.musiccatalog.dto.auth.UserDto;
+import com.musiccatalog.dto.auth.UserResponse;
 import com.musiccatalog.entity.User;
 import com.musiccatalog.exception.DuplicateResourceException;
 import com.musiccatalog.repository.UserRepository;
@@ -35,7 +35,7 @@ public class AuthService {
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .fullName(request.getFullName())
+                .name(request.getName())
                 .build();
 
         User savedUser = userRepository.save(user);
@@ -49,11 +49,11 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .token(jwt)
-                .type("Bearer")
-                .user(UserDto.builder()
+                .tokenType("Bearer")
+                .user(UserResponse.builder()
                         .id(savedUser.getId())
                         .email(savedUser.getEmail())
-                        .fullName(savedUser.getFullName())
+                        .name(savedUser.getName())
                         .build())
                 .build();
     }
@@ -70,11 +70,11 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .token(jwt)
-                .type("Bearer")
-                .user(UserDto.builder()
+                .tokenType("Bearer")
+                .user(UserResponse.builder()
                         .id(user.getId())
                         .email(user.getEmail())
-                        .fullName(user.getFullName())
+                        .name(user.getName())
                         .build())
                 .build();
     }

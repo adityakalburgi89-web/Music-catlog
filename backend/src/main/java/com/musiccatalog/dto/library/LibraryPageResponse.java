@@ -14,7 +14,8 @@ import java.util.List;
 public class LibraryPageResponse {
     private List<AlbumResponse> content;
     private Integer page;
-    private Integer limit;
+    private Integer size;
     private Long totalElements;
     private Integer totalPages;
+    private Boolean last;
 }

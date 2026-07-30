@@ -3,21 +3,19 @@ import { libraryService } from '../services/libraryService';
 import { LibraryPageResponse, AlbumUpdateRequest } from '../types';
 import { LibraryAlbumGrid } from '../components/library/LibraryAlbumGrid';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
-import { Library, Filter, ArrowUpDown, Music } from 'lucide-react';
+import { Library, ArrowUpDown, Music, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const LibraryPage: React.FC = () => {
   const [data, setData] = useState<LibraryPageResponse | null>(null);
-  const [genre, setGenre] = useState<string>('');
-  const [sortBy, setSortBy] = useState<string>('createdAt');
-  const [order, setOrder] = useState<string>('desc');
-  const [page, setPage] = useState<number>(1);
+  const [sort, setSort] = useState<string>('createdAt,desc');
+  const [page] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchLibrary = async () => {
     setIsLoading(true);
     try {
-      const res = await libraryService.getLibrary(genre || undefined, sortBy, order, page, 12);
+      const res = await libraryService.getLibrary('createdAt', 'desc', page + 1, 12);
       setData(res);
     } catch (err) {
       console.error('Failed to load user library:', err);
@@ -28,7 +26,7 @@ export const LibraryPage: React.FC = () => {
 
   useEffect(() => {
     fetchLibrary();
-  }, [genre, sortBy, order, page]);
+  }, [sort, page]);
 
   const handleUpdateAlbum = async (id: number, updateData: AlbumUpdateRequest) => {
     await libraryService.updateAlbum(id, updateData);
@@ -41,61 +39,40 @@ export const LibraryPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-8 py-4">
+      {/* Header Band */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-hairline">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <Library className="w-6 h-6 text-indigo-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-teal/10 text-brand-teal text-xs font-semibold mb-3 border border-brand-teal/20">
+            <Sparkles className="w-3.5 h-3.5" />
+            Curated Database
+          </div>
+          <h1 className="font-display text-4xl font-medium tracking-tight text-ink flex items-center gap-3">
+            <Library className="w-8 h-8 text-ink" />
             My Personal Catalog
           </h1>
-          <p className="text-slate-400 text-sm">View, rate, add notes, and manage your saved albums.</p>
+          <p className="text-body text-sm mt-1">View, rate, add notes, and organize your saved music library.</p>
         </div>
 
-        {/* Filters and Sorting */}
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Genre filter */}
-          <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-300">
-            <Filter className="w-3.5 h-3.5 text-slate-500" />
-            <input
-              type="text"
-              value={genre}
-              onChange={(e) => {
-                setGenre(e.target.value);
-                setPage(1);
-              }}
-              placeholder="Filter genre..."
-              className="bg-transparent focus:outline-none w-28 text-slate-100 placeholder:text-slate-600"
-            />
-          </div>
-
-          {/* Sort selection */}
-          <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-300">
-            <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent focus:outline-none text-slate-100 cursor-pointer"
-            >
-              <option value="createdAt" className="bg-slate-900">Date Added</option>
-              <option value="rating" className="bg-slate-900">User Rating</option>
-              <option value="title" className="bg-slate-900">Album Title</option>
-              <option value="artist" className="bg-slate-900">Artist</option>
-              <option value="releaseDate" className="bg-slate-900">Release Date</option>
-            </select>
-          </div>
-
-          {/* Sort order toggle */}
-          <button
-            onClick={() => setOrder((o) => (o === 'asc' ? 'desc' : 'asc'))}
-            className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition-colors uppercase"
+        {/* Sort selector */}
+        <div className="flex items-center gap-2 bg-surface-soft border border-hairline rounded-md px-3.5 py-2 text-xs font-medium text-ink">
+          <ArrowUpDown className="w-4 h-4 text-muted" />
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="bg-transparent focus:outline-none text-ink font-semibold cursor-pointer"
           >
-            {order}
-          </button>
+            <option value="createdAt,desc">Date Added (Newest)</option>
+            <option value="userRating,desc">User Rating (Highest)</option>
+            <option value="title,asc">Album Title (A-Z)</option>
+            <option value="artistName,asc">Artist Name (A-Z)</option>
+            <option value="releaseDate,desc">Release Date (Newest)</option>
+          </select>
         </div>
       </div>
 
       {isLoading ? (
-        <LoadingSpinner label="Retrieving your catalog..." />
+        <LoadingSpinner label="Retrieving your saved album collection..." />
       ) : (
         <>
           {data && data.content.length > 0 ? (
@@ -105,15 +82,15 @@ export const LibraryPage: React.FC = () => {
               onDelete={handleDeleteAlbum}
             />
           ) : (
-            <div className="text-center py-20 bg-slate-900/40 rounded-3xl border border-slate-800/60 p-8 max-w-md mx-auto">
-              <Music className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-              <h3 className="text-lg font-bold text-slate-200">Your Library is Empty</h3>
-              <p className="text-xs text-slate-500 mt-1 mb-5">
-                You haven't saved any albums yet. Search the iTunes catalog to add your favorite albums!
+            <div className="text-center py-20 bg-surface-card rounded-xl border border-hairline p-8 max-w-md mx-auto">
+              <Music className="w-12 h-12 text-muted mx-auto mb-3" />
+              <h3 className="font-display font-medium text-lg text-ink">Your Library is Empty</h3>
+              <p className="text-xs text-muted mt-1 mb-6">
+                Save albums from iTunes search to build your personal database and view analytics.
               </p>
               <Link
                 to="/search"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition-colors shadow-lg shadow-indigo-600/30"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary hover:bg-body-strong text-white font-semibold text-xs transition-colors shadow-sm"
               >
                 Go to iTunes Search
               </Link>

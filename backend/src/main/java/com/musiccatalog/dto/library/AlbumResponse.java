@@ -15,16 +15,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AlbumResponse {
     private Long id;
-    private Long itunesCollectionId;
+    private Long appleCatalogId;
     private String title;
-    private String artist;
+    private String artistName;
     private String genre;
     private LocalDate releaseDate;
     private Integer trackCount;
-    private BigDecimal price;
     private String artworkUrl;
-    private Integer rating;
-    private String notes;
+    private BigDecimal collectionPrice;
+    private Integer userRating;
+    private String userNotes;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
