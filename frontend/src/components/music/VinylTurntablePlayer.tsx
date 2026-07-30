@@ -278,10 +278,10 @@ export const VinylTurntablePlayer: React.FC = () => {
         <div className="relative aspect-square w-full max-w-[320px] mx-auto flex items-center justify-center">
           {/* Black Vinyl Record Disc */}
           <div
-            className={`relative w-[280px] h-[280px] rounded-full shadow-2xl flex items-center justify-center transition-transform duration-700 ${isArmEngaged || isPlaying ? 'animate-spin' : ''
-              }`}
+            className="relative w-[280px] h-[280px] rounded-full shadow-2xl flex items-center justify-center animate-spin"
             style={{
-              animationDuration: isArmEngaged || isPlaying ? (rpm === '45' ? '1.8s' : '2.5s') : '0s',
+              animationPlayState: isArmEngaged || isPlaying ? 'running' : 'paused',
+              animationDuration: rpm === '45' ? '1.8s' : '2.5s',
             }}
           >
             <ChromaKeyImage
@@ -372,7 +372,7 @@ export const VinylTurntablePlayer: React.FC = () => {
         {/* Live Track Details Banner */}
         <div className="p-3 rounded-xl bg-canvas border border-hairline flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className={`p-2 rounded-lg bg-brand-pink text-white shrink-0 ${isPlaying ? 'animate-bounce' : ''}`}>
+            <div className="p-2 rounded-lg bg-brand-pink text-white shrink-0">
               <Music2 className="w-4 h-4" />
             </div>
             <div className="overflow-hidden">
