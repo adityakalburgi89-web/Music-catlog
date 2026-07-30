@@ -78,4 +78,36 @@ public class AuthService {
                         .build())
                 .build();
     }
+
+    @Transactional
+    public AuthResponse loginWithGoogle(com.musiccatalog.dto.auth.GoogleOAuthRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .email(request.getEmail())
+                            .name(request.getName())
+                            .password(passwordEncoder.encode(java.util.UUID.randomUUID().toString()))
+                            .build();
+                    return userRepository.save(newUser);
+                });
+
+        com.musiccatalog.security.UserPrincipal userPrincipal = com.musiccatalog.security.UserPrincipal.create(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userPrincipal, null, userPrincipal.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.generateToken(authentication);
+
+        return AuthResponse.builder()
+                .token(jwt)
+                .tokenType("Bearer")
+                .user(UserResponse.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .build())
+                .build();
+    }
 }
+
