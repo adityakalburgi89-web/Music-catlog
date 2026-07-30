@@ -28,12 +28,22 @@ public class DataInitializer implements CommandLineRunner {
             log.info("Seeding demo admin account and sample catalog...");
 
             User demoUser = User.builder()
-                    .email("admin@musiccatalog.com")
-                    .password(passwordEncoder.encode("password123"))
+                    .email("demo@claymusic.com")
+                    .password(passwordEncoder.encode("demo1234"))
                     .name("Demo Architect")
                     .build();
 
             User savedUser = userRepository.save(demoUser);
+
+            if (!userRepository.existsByEmail("admin@musiccatalog.com")) {
+                User adminUser = User.builder()
+                        .email("admin@musiccatalog.com")
+                        .password(passwordEncoder.encode("password123"))
+                        .name("Catalog Admin")
+                        .build();
+                userRepository.save(adminUser);
+            }
+
 
             SavedAlbum album1 = SavedAlbum.builder()
                     .user(savedUser)
