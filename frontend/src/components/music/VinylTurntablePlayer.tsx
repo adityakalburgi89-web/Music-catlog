@@ -10,7 +10,6 @@ import tonearmImg from '../../imgs/tonearm.png';
 import counterweightImg from '../../imgs/counterweight.png';
 import antiSkateImg from '../../imgs/anti-skate-control.png';
 import pivotAssemblyImg from '../../imgs/Tonearm pivot and counterweight assembly.png';
-import tonearmAssemblyImg from '../../imgs/torarm asseembly.png';
 
 // Chroma-Key HTML5 Canvas Component to automatically strip green-screen backgrounds
 const ChromaKeyImage: React.FC<{ src: string; alt: string; className?: string; title?: string }> = ({ src, alt, className, title }) => {
@@ -223,14 +222,6 @@ export const VinylTurntablePlayer: React.FC = () => {
                 alt="Tonearm Shaft"
                 className="absolute top-[6px] right-[22px] w-[22px] h-[190px] object-contain drop-shadow-2xl z-20"
                 title="Tonearm Shaft"
-              />
-
-              {/* 4. White Base Plate Detail Overlay */}
-              <ChromaKeyImage
-                src={tonearmAssemblyImg}
-                alt="Tonearm Detail"
-                className="absolute top-[32px] right-[10px] w-24 h-28 object-contain opacity-40 pointer-events-none z-10"
-                title="Tonearm Detail"
               />
             </div>
           </div>
