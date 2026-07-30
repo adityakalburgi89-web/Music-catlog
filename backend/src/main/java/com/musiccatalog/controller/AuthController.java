@@ -33,4 +33,12 @@ public class AuthController {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/google")
+    @Operation(summary = "Authenticate or provision user via Google OAuth")
+    public ResponseEntity<AuthResponse> googleLogin(@Valid @RequestBody com.musiccatalog.dto.auth.GoogleOAuthRequest request) {
+        AuthResponse response = authService.loginWithGoogle(request);
+        return ResponseEntity.ok(response);
+    }
 }
+
