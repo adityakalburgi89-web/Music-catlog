@@ -6,8 +6,8 @@ import songSrc from '../../music/Three Voices One Fire.mp3';
 
 // Import real record player PNG element images from /imgs
 import vinylRecordImg from '../../imgs/vinyl-record.png';
+import tonearmImg from '../../imgs/tonearm.png';
 import antiSkateImg from '../../imgs/anti-skate-control.png';
-import pivotAssemblyImg from '../../imgs/Tonearm pivot and counterweight assembly.png';
 import tonearmAssemblyImg from '../../imgs/torarm asseembly.png';
 
 // Chroma-Key HTML5 Canvas Component to automatically strip green-screen backgrounds
@@ -192,28 +192,27 @@ export const VinylTurntablePlayer: React.FC = () => {
             </div>
           </div>
 
-          {/* Connected Tonearm Assembly (Connecting Red Mark #1 to Red Mark #2) */}
+          {/* 100% Unified Tonearm Assembly (Single Metallic Shaft Passing Through Base Plate) */}
           <div className="absolute top-1 right-2 w-36 h-48 pointer-events-none z-20">
-            {/* Swiveling Unified Container */}
             <div
-              className={`w-full h-full relative transition-transform duration-700 origin-[82%_12%] z-20 ${
+              className={`w-full h-full relative transition-transform duration-700 origin-[80%_10%] z-20 ${
                 isPlaying ? 'rotate-[25deg]' : 'rotate-0'
               }`}
             >
-              {/* Silver Pivot Base (Red Mark #2) */}
-              <ChromaKeyImage
-                src={pivotAssemblyImg}
-                alt="Pivot Base"
-                className="absolute top-0 right-3 w-14 h-14 object-contain drop-shadow-md z-10"
-                title="Pivot Base"
-              />
-
-              {/* Black Tonearm Shaft attached directly to Silver Pivot Base (Red Mark #1 -> Red Mark #2) */}
+              {/* White Mounting Base Plate */}
               <ChromaKeyImage
                 src={tonearmAssemblyImg}
-                alt="Tonearm Assembly"
-                className="absolute top-[32px] right-[20px] w-28 h-40 object-contain drop-shadow-2xl z-20"
-                title="Tonearm Assembly"
+                alt="Tonearm Base Plate"
+                className="absolute top-8 right-2 w-28 h-36 object-contain drop-shadow-xl z-10"
+                title="Tonearm Base Plate"
+              />
+
+              {/* Long Metallic Tonearm Shaft passing directly through white plate */}
+              <ChromaKeyImage
+                src={tonearmImg}
+                alt="Tonearm Shaft"
+                className="absolute top-[2px] right-[24px] w-7 h-44 object-contain drop-shadow-2xl z-20"
+                title="Tonearm Shaft"
               />
             </div>
           </div>
