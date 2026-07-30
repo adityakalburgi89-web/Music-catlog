@@ -142,7 +142,7 @@ export const VinylTurntablePlayer: React.FC = () => {
         onEnded={() => setIsPlaying(false)}
       />
 
-      {/* Main Square White Deck Plinth (Matching Reference Image) */}
+      {/* Main Square White Deck Plinth */}
       <div className="relative bg-[#f8f7f2] border-2 border-hairline rounded-[32px] p-6 shadow-2xl overflow-hidden">
         {/* RCA Jacks / Screws Detail Bar */}
         <div className="flex justify-between items-center mb-2 px-2">
@@ -183,51 +183,49 @@ export const VinylTurntablePlayer: React.FC = () => {
             </div>
           </div>
 
-          {/* Fixed Top-Right White Tear-Drop Base Plate (Etched into Plinth) */}
-          <div className="absolute top-1 right-1 w-32 h-40 pointer-events-none z-10">
-            <ChromaKeyImage
-              src={pivotAssemblyImg}
-              alt="Pivot Base Plate"
-              className="w-full h-full object-contain opacity-95 drop-shadow-sm"
-              title="Pivot Base Plate"
-            />
-          </div>
-
-          {/* Rotating Tonearm Assembly (Connecting Counterweight + Shaft + Needle) */}
-          <div className="absolute top-1 right-1 w-32 h-52 pointer-events-none z-20">
+          {/* 100% Perfectly Aligned Connected Tonearm Unit */}
+          <div className="absolute top-1 right-2 w-32 h-52 pointer-events-none z-20">
             <div
-              className={`relative w-full h-full transition-transform duration-700 origin-[78%_15%] z-20 ${
+              className={`relative w-full h-full transition-transform duration-700 origin-[82%_10%] z-20 ${
                 isPlaying ? 'rotate-[20deg]' : 'rotate-0'
               }`}
             >
-              {/* 1. Silver Cylindrical Counterweight at Top Tip of Rod */}
+              {/* 1. Silver Circular Pivot Base Washer */}
+              <ChromaKeyImage
+                src={pivotAssemblyImg}
+                alt="Pivot Base"
+                className="absolute top-1 right-3 w-10 h-10 object-contain drop-shadow-sm z-10"
+                title="Pivot Base"
+              />
+
+              {/* 2. Silver Counterweight Cylinder */}
               <ChromaKeyImage
                 src={counterweightImg}
                 alt="Counterweight"
-                className="absolute top-[2px] right-[21px] w-9 h-9 object-contain drop-shadow-md z-30"
+                className="absolute top-1 right-[17px] w-6 h-6 object-contain drop-shadow-md z-30"
                 title="Counterweight"
               />
 
-              {/* 2. Cueing / Anti-Skate Lever Joint */}
+              {/* 3. Cueing / Anti-Skate Lever */}
               <ChromaKeyImage
                 src={antiSkateImg}
                 alt="Anti-Skate Lever"
-                className="absolute top-[48px] right-[38px] w-7 h-7 object-contain drop-shadow-sm z-25"
+                className="absolute top-[36px] right-[28px] w-5 h-5 object-contain drop-shadow-sm z-25"
                 title="Anti-Skate Lever"
               />
 
-              {/* 3. Straight Black Metallic Tonearm Rod & Stylus Needle */}
+              {/* 4. Straight Black Tonearm Shaft & Stylus Cartridge */}
               <ChromaKeyImage
                 src={tonearmImg}
                 alt="Tonearm Shaft"
-                className="absolute top-[6px] right-[22px] w-[22px] h-[190px] object-contain drop-shadow-2xl z-20"
+                className="absolute top-2 right-[18px] w-5 h-[180px] object-contain drop-shadow-2xl z-20"
                 title="Tonearm Shaft"
               />
             </div>
           </div>
         </div>
 
-        {/* Bottom Corner Dials (Matching Reference Image) */}
+        {/* Bottom Corner Dials */}
         <div className="flex justify-between items-center px-4 mt-2 mb-3">
           {/* Bottom-Left 3-Way Speed Dial */}
           <div className="w-9 h-9 rounded-full bg-[#e6e1d3] border border-black/10 flex items-center justify-center shadow-inner">
