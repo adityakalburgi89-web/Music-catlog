@@ -9,8 +9,8 @@ spring:
     name: music-catalog-backend
   datasource:
     url: ${SPRING_DATASOURCE_URL:${JDBC_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:music_catalog_db}?sslmode=${DB_SSLMODE:prefer}}}
-    username: ${SPRING_DATASOURCE_USERNAME:${DB_USERNAME:postgres}}
-    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD:your_db_password_here}}
+    username: ${SPRING_DATASOURCE_USERNAME:${DB_USERNAME:}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD:}}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
