@@ -54,7 +54,11 @@ const ChromaKeyImage: React.FC<{ src: string; alt: string; className?: string; t
   return <img src={cleanSrc} alt={alt} className={className} title={title} />;
 };
 
+import { usePlayer } from '../../context/PlayerContext';
+
 export const VinylTurntablePlayer: React.FC = () => {
+  const { currentTrack, setPlayingState } = usePlayer();
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fadeRef = useRef<number | null>(null);
   const playTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -67,7 +71,26 @@ export const VinylTurntablePlayer: React.FC = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [rpm, setRpm] = useState<'33' | '45'>('33');
 
-  const FADE_DURATION = 600; // Smooth 600ms fade transition
+  const FADE_DURATION = 600;
+
+  // Auto-play when currentTrack changes from PlayerContext
+  useEffect(() => {
+    if (currentTrack?.downloadUrl && audioRef.current) {
+      audioRef.current.src = currentTrack.downloadUrl;
+      audioRef.current.currentTime = 0;
+      setIsArmEngaged(true);
+      clearPlayTimeout();
+      playTimeoutRef.current = setTimeout(() => {
+        fadeIn();
+        playTimeoutRef.current = null;
+      }, 300);
+    }
+  }, [currentTrack]);
+
+  // Sync internal isPlaying with PlayerContext
+  useEffect(() => {
+    setPlayingState(isPlaying);
+  }, [isPlaying]);
 
   const cancelFade = () => {
     if (fadeRef.current !== null) {
@@ -291,13 +314,19 @@ export const VinylTurntablePlayer: React.FC = () => {
             />
 
             {/* Vinyl Center Label Overlay */}
-            <div className="absolute w-24 h-24 rounded-full bg-brand-peach border-4 border-[#111115] flex flex-col items-center justify-center p-2 text-center text-ink shadow-md z-10">
-              <Disc className="w-4 h-4 text-primary mb-0.5 animate-pulse" />
-              <span className="text-[9px] font-bold tracking-tight line-clamp-1 leading-none text-ink">
-                Three Voices One Fire
+            <div className="absolute w-24 h-24 rounded-full bg-brand-peach border-4 border-[#111115] flex flex-col items-center justify-center p-2 text-center text-ink shadow-md z-10 overflow-hidden">
+              {currentTrack?.artworkUrl ? (
+                <img src={currentTrack.artworkUrl} alt={currentTrack.title} className="absolute inset-0 w-full h-full object-cover opacity-80" />
+              ) : (
+                <Disc className="w-4 h-4 text-primary mb-0.5 animate-pulse" />
+              )}
+              <span className="relative z-10 text-[9px] font-bold tracking-tight line-clamp-1 leading-none text-ink bg-white/70 px-1 rounded">
+                {currentTrack ? currentTrack.title : 'Three Voices One Fire'}
               </span>
-              <span className="text-[7px] font-medium text-slate-700 mt-0.5">Master Cut</span>
-              <div className="w-3 h-3 rounded-full bg-[#111115] mt-1 border border-white/40" />
+              <span className="relative z-10 text-[7px] font-medium text-slate-900 mt-0.5 bg-white/70 px-1 rounded truncate max-w-full">
+                {currentTrack ? currentTrack.artist : 'Master Cut'}
+              </span>
+              <div className="relative z-10 w-3 h-3 rounded-full bg-[#111115] mt-0.5 border border-white/40" />
             </div>
           </div>
 
@@ -376,8 +405,12 @@ export const VinylTurntablePlayer: React.FC = () => {
               <Music2 className="w-4 h-4" />
             </div>
             <div className="overflow-hidden">
-              <h4 className="font-display font-semibold text-sm text-ink truncate">Three Voices One Fire</h4>
-              <p className="text-xs text-muted font-medium truncate font-mono">Original Master Stream</p>
+              <h4 className="font-display font-semibold text-sm text-ink truncate" title={currentTrack ? currentTrack.title : 'Three Voices One Fire'}>
+                {currentTrack ? currentTrack.title : 'Three Voices One Fire'}
+              </h4>
+              <p className="text-xs text-muted font-medium truncate font-mono">
+                {currentTrack ? currentTrack.artist : 'Original Master Stream'}
+              </p>
             </div>
           </div>
 
