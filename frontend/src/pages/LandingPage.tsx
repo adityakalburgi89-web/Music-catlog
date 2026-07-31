@@ -107,14 +107,95 @@ export const LandingPage: React.FC = () => {
               </a>
             </div>
 
-            {/* Social Trust Badges */}
-            <div className="pt-8 border-t border-hairline flex flex-wrap items-center gap-6 text-xs text-muted">
-              <span className="font-semibold text-ink uppercase tracking-wider">Trusted by music curators at</span>
-              <div className="flex items-center gap-6 font-display font-bold text-sm text-body">
-                <span>SOUNDWAVE</span>
-                <span>SONIC LABS</span>
-                <span>HARMONY B2B</span>
-                <span>BEATLINE</span>
+            {/* Social Trust & AI Integration Badges */}
+            <div className="pt-8 border-t border-hairline space-y-4">
+              <span className="text-xs font-semibold text-ink uppercase tracking-wider block">
+                Integrated with AI Music Generators & Trusted By
+              </span>
+              <div className="flex flex-wrap items-center gap-3 text-xs font-bold font-display text-body">
+                {/* Suno AI */}
+                <div className="px-3.5 py-2 rounded-xl bg-surface-card border border-hairline flex items-center gap-2.5 hover:border-orange-500/50 hover:shadow-md transition-all">
+                  <svg className="w-5 h-5" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="16" fill="url(#suno-grad)" />
+                    <path d="M10 18C12 14 14 11 16 11C18 11 20 14 22 18C20 22 18 24 16 24C14 24 12 22 10 18Z" fill="white" />
+                    <circle cx="16" cy="17.5" r="3" fill="#E85D04" />
+                    <defs>
+                      <linearGradient id="suno-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#FF7A00" />
+                        <stop offset="1" stopColor="#E52E71" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <span className="text-ink font-extrabold text-sm tracking-tight">Suno AI</span>
+                </div>
+
+                {/* ElevenLabs */}
+                <div className="px-3.5 py-2 rounded-xl bg-surface-card border border-hairline flex items-center gap-2.5 hover:border-slate-900/50 hover:shadow-md transition-all">
+                  <svg className="w-5 h-5" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#111115" />
+                    <rect x="10" y="8" width="4.5" height="16" rx="2" fill="white" />
+                    <rect x="17.5" y="8" width="4.5" height="16" rx="2" fill="white" />
+                  </svg>
+                  <span className="text-ink font-extrabold text-sm tracking-tight">ElevenLabs</span>
+                </div>
+
+                {/* Udio */}
+                <div className="px-3.5 py-2 rounded-xl bg-surface-card border border-hairline flex items-center gap-2.5 hover:border-purple-500/50 hover:shadow-md transition-all">
+                  <svg className="w-5 h-5" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#581C87" />
+                    <path d="M10 10V18C10 21.3 12.7 24 16 24C19.3 24 22 21.3 22 18V10" stroke="white" strokeWidth="3.5" strokeLinecap="round" />
+                  </svg>
+                  <span className="text-ink font-extrabold text-sm tracking-tight">Udio</span>
+                </div>
+
+                {/* MelodyCraft */}
+                <div className="px-3.5 py-2 rounded-xl bg-surface-card border border-hairline flex items-center gap-2.5 hover:border-brand-lavender hover:shadow-md transition-all">
+                  <svg className="w-5 h-5" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#6366F1" />
+                    <path d="M12 21V11L22 8V18" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="10" cy="21" r="3" fill="white" />
+                    <circle cx="20" cy="18" r="3" fill="white" />
+                  </svg>
+                  <span className="text-ink font-extrabold text-sm tracking-tight">MelodyCraft</span>
+                </div>
+
+                {/* SOUNDWAVE */}
+                <div className="px-3.5 py-2 rounded-xl bg-surface-card border border-hairline flex items-center gap-2 hover:border-teal-500/50 transition-all">
+                  <svg className="w-4 h-4 text-teal-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M2 12h3l3-9 4 18 4-12 3 6h3" />
+                  </svg>
+                  <span className="text-body font-bold text-xs tracking-wider uppercase">SOUNDWAVE</span>
+                </div>
+
+                {/* SONIC LABS */}
+                <div className="px-3.5 py-2 rounded-xl bg-surface-card border border-hairline flex items-center gap-2 hover:border-amber-500/50 transition-all">
+                  <svg className="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v10M8 10v4M16 10v4" />
+                  </svg>
+                  <span className="text-body font-bold text-xs tracking-wider uppercase">SONIC LABS</span>
+                </div>
+
+                {/* HARMONY B2B */}
+                <div className="px-3.5 py-2 rounded-xl bg-surface-card border border-hairline flex items-center gap-2 hover:border-indigo-500/50 transition-all">
+                  <svg className="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                  </svg>
+                  <span className="text-body font-bold text-xs tracking-wider uppercase">HARMONY B2B</span>
+                </div>
+
+                {/* BEATLINE */}
+                <div className="px-3.5 py-2 rounded-xl bg-surface-card border border-hairline flex items-center gap-2 hover:border-rose-500/50 transition-all">
+                  <svg className="w-4 h-4 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="4" y1="20" x2="4" y2="10" />
+                    <line x1="12" y1="20" x2="12" y2="4" />
+                    <line x1="20" y1="20" x2="20" y2="14" />
+                  </svg>
+                  <span className="text-body font-bold text-xs tracking-wider uppercase">BEATLINE</span>
+                </div>
               </div>
             </div>
           </div>
