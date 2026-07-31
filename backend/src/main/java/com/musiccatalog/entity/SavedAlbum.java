@@ -52,6 +52,9 @@ public class SavedAlbum {
     @Column(name = "collection_price", precision = 6, scale = 2)
     private BigDecimal collectionPrice;
 
+    @Column(name = "download_url", length = 1024)
+    private String downloadUrl;
+
     @Column(name = "user_rating")
     private Integer userRating; // 1 - 5 stars, nullable
 

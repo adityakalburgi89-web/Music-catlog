@@ -15,10 +15,18 @@ import { SearchPage } from './pages/SearchPage';
 import { LibraryPage } from './pages/LibraryPage';
 import { AnalyticsDashboardPage } from './pages/AnalyticsDashboardPage';
 import { AIInsightsPage } from './pages/AIInsightsPage';
+import { PlayerProvider, usePlayer } from './context/PlayerContext';
 import { Disc, X } from 'lucide-react';
 
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isPlayerOpen, setIsPlayerOpen] = useState(false);
+  const { currentTrack, isPlaying } = usePlayer();
+
+  React.useEffect(() => {
+    if (currentTrack) {
+      setIsPlayerOpen(true);
+    }
+  }, [currentTrack]);
 
   return (
     <div className="min-h-screen flex flex-col bg-canvas text-body font-sans relative">
@@ -47,12 +55,23 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         ) : (
           <button
             onClick={() => setIsPlayerOpen(true)}
-            className="flex items-center gap-2.5 px-4 py-3 rounded-full bg-primary text-white hover:bg-body-strong shadow-2xl transition-all hover:scale-105 active:scale-95 border border-white/10 group"
+            className={`flex items-center gap-2.5 px-4 py-3 rounded-full text-white shadow-2xl transition-all hover:scale-105 active:scale-95 border border-white/10 group ${
+              isPlaying ? 'bg-brand-pink' : 'bg-primary hover:bg-body-strong'
+            }`}
           >
-            <div className="w-7 h-7 rounded-full bg-brand-pink text-white flex items-center justify-center group-hover:rotate-180 transition-transform duration-700">
-              <Disc className="w-4 h-4 animate-spin-slow" />
+            <div className="w-7 h-7 rounded-full bg-white/20 text-white flex items-center justify-center group-hover:rotate-180 transition-transform duration-700">
+              <Disc className={`w-4 h-4 ${isPlaying ? 'animate-spin' : 'animate-spin-slow'}`} />
             </div>
-            <span className="text-xs font-semibold tracking-wide">Play Vinyl Deck</span>
+            <div className="text-left overflow-hidden max-w-[140px]">
+              <span className="text-xs font-semibold tracking-wide block truncate">
+                {currentTrack ? currentTrack.title : 'Play Vinyl Deck'}
+              </span>
+              {currentTrack && (
+                <span className="text-[10px] text-white/80 block truncate font-mono">
+                  {currentTrack.artist}
+                </span>
+              )}
+            </div>
           </button>
         )}
       </div>
@@ -63,65 +82,67 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 export const App: React.FC = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Public Landing Page */}
-          <Route
-            path="/"
-            element={
-              <>
-                <LandingPage />
-                <Footer />
-              </>
-            }
-          />
+      <PlayerProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Landing Page */}
+            <Route
+              path="/"
+              element={
+                <>
+                  <LandingPage />
+                  <Footer />
+                </>
+              }
+            />
 
-          {/* Persistent Auth Layout Routes (Music deck audio doesn't unmount when toggling between Login and Register) */}
-          <Route element={<AuthLayout />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-          </Route>
+            {/* Persistent Auth Layout Routes */}
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+            </Route>
 
-          {/* Protected Application Routes */}
-          <Route element={<ProtectedRoute />}>
-            <Route
-              path="/search"
-              element={
-                <AppLayout>
-                  <SearchPage />
-                </AppLayout>
-              }
-            />
-            <Route
-              path="/library"
-              element={
-                <AppLayout>
-                  <LibraryPage />
-                </AppLayout>
-              }
-            />
-            <Route
-              path="/analytics"
-              element={
-                <AppLayout>
-                  <AnalyticsDashboardPage />
-                </AppLayout>
-              }
-            />
-            <Route
-              path="/insights"
-              element={
-                <AppLayout>
-                  <AIInsightsPage />
-                </AppLayout>
-              }
-            />
-          </Route>
+            {/* Protected Application Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route
+                path="/search"
+                element={
+                  <AppLayout>
+                    <SearchPage />
+                  </AppLayout>
+                }
+              />
+              <Route
+                path="/library"
+                element={
+                  <AppLayout>
+                    <LibraryPage />
+                  </AppLayout>
+                }
+              />
+              <Route
+                path="/analytics"
+                element={
+                  <AppLayout>
+                    <AnalyticsDashboardPage />
+                  </AppLayout>
+                }
+              />
+              <Route
+                path="/insights"
+                element={
+                  <AppLayout>
+                    <AIInsightsPage />
+                  </AppLayout>
+                }
+              />
+            </Route>
 
-          {/* Default Redirect */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
+            {/* Default Redirect */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </PlayerProvider>
     </AuthProvider>
   );
 };

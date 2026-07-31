@@ -23,6 +23,7 @@ public class AlbumResponse {
     private Integer trackCount;
     private String artworkUrl;
     private BigDecimal collectionPrice;
+    private String downloadUrl;
     private Integer userRating;
     private String userNotes;
     private LocalDateTime createdAt;

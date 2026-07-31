@@ -1,5 +1,6 @@
 package com.musiccatalog.dto.itunes;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -16,29 +17,38 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AlbumSearchDto {
 
-    @JsonProperty("collectionId")
+    @JsonProperty("appleCatalogId")
+    @JsonAlias({"collectionId", "appleCatalogId"})
     private Long appleCatalogId;
 
-    @JsonProperty("collectionName")
+    @JsonProperty("title")
+    @JsonAlias({"collectionName", "title"})
     private String title;
 
     @JsonProperty("artistName")
+    @JsonAlias({"artistName", "artist"})
     private String artistName;
 
-    @JsonProperty("primaryGenreName")
+    @JsonProperty("genre")
+    @JsonAlias({"primaryGenreName", "genre"})
     private String genre;
 
     @JsonProperty("releaseDate")
+    @JsonAlias("releaseDate")
     private String releaseDate;
 
     @JsonProperty("trackCount")
+    @JsonAlias("trackCount")
     private Integer trackCount;
 
-    @JsonProperty("artworkUrl100")
+    @JsonProperty("artworkUrl")
+    @JsonAlias({"artworkUrl100", "artworkUrl600", "artworkUrl60", "artworkUrl"})
     private String artworkUrl;
 
     @JsonProperty("collectionPrice")
+    @JsonAlias("collectionPrice")
     private BigDecimal collectionPrice;
 
     private Boolean saved;
 }
+

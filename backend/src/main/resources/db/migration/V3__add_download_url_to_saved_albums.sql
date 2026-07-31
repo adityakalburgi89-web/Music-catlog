@@ -1,0 +1,1 @@
+ALTER TABLE saved_albums ADD COLUMN IF NOT EXISTS download_url VARCHAR(1024);

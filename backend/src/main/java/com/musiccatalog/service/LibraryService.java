@@ -48,6 +48,7 @@ public class LibraryService {
                 .trackCount(request.getTrackCount())
                 .artworkUrl(request.getArtworkUrl())
                 .collectionPrice(request.getCollectionPrice())
+                .downloadUrl(request.getDownloadUrl())
                 .userRating(request.getUserRating())
                 .userNotes(request.getUserNotes())
                 .build();

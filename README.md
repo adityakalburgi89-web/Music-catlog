@@ -8,6 +8,7 @@ A full-stack, enterprise-grade application for music catalog discovery, personal
 - **Frontend**: React 18, Vite, TypeScript, Tailwind CSS, Lucide React Icons, Recharts
 - **Database**: PostgreSQL 16
 - **External Integration**: iTunes Search API (`https://itunes.apple.com/search`)
+- **JioSaavn Live Audio Stream**: Integrated JioSaavn API for searching 320kbps MP3 tracks and playlists with direct Vinyl Turntable audio streaming
 - **AI Engine**: Integrated LLM Trend Summary Engine (OpenAI / Groq API with robust fallback)
 - **Deployment Ready**: Render (Backend + PostgreSQL DB) & Vercel (Frontend)
 

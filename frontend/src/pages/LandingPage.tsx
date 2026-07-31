@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { VinylTurntablePlayer } from '../components/music/VinylTurntablePlayer';
+import { VerifiedCompanyLogos } from '../components/common/VerifiedCompanyLogos';
 import {
   Disc3,
   Search,
@@ -107,16 +108,8 @@ export const LandingPage: React.FC = () => {
               </a>
             </div>
 
-            {/* Social Trust Badges */}
-            <div className="pt-8 border-t border-hairline flex flex-wrap items-center gap-6 text-xs text-muted">
-              <span className="font-semibold text-ink uppercase tracking-wider">Trusted by music curators at</span>
-              <div className="flex items-center gap-6 font-display font-bold text-sm text-body">
-                <span>SOUNDWAVE</span>
-                <span>SONIC LABS</span>
-                <span>HARMONY B2B</span>
-                <span>BEATLINE</span>
-              </div>
-            </div>
+            {/* Social Trust Badges with Verified Company Logos */}
+            <VerifiedCompanyLogos />
           </div>
 
           {/* Right Column Interactive Vinyl Turntable Player (5 cols) */}

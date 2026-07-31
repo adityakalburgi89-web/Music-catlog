@@ -39,6 +39,7 @@ export interface SavedAlbum {
   trackCount: number;
   collectionPrice: number;
   artworkUrl: string;
+  downloadUrl?: string;
   userRating?: number;
   userNotes?: string;
   createdAt: string;
@@ -63,8 +64,40 @@ export interface AlbumCreateRequest {
   trackCount: number;
   collectionPrice?: number;
   artworkUrl?: string;
+  downloadUrl?: string;
   userRating?: number;
   userNotes?: string;
+}
+
+export interface JioSaavnSong {
+  id: string;
+  name: string;
+  albumName: string;
+  artistName: string;
+  genre: string;
+  year?: string;
+  releaseDate?: string;
+  duration?: number;
+  artworkUrl?: string;
+  downloadUrl?: string;
+  saved?: boolean;
+}
+
+export interface JioSaavnPlaylist {
+  id: string;
+  name: string;
+  artworkUrl?: string;
+  songCount?: number;
+  language?: string;
+  url?: string;
+}
+
+export interface JioSaavnSearchResponse {
+  query: string;
+  totalResults: number;
+  resultCount: number;
+  songs?: JioSaavnSong[];
+  playlists?: JioSaavnPlaylist[];
 }
 
 export interface AlbumUpdateRequest {

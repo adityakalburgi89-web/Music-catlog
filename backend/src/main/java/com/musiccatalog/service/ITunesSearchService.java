@@ -25,7 +25,7 @@ public class ITunesSearchService {
     @Value("${app.itunes.base-url:https://itunes.apple.com}")
     private String itunesBaseUrl;
 
-    @Cacheable(value = "itunesSearchCache", key = "#query + '-' + #limit")
+    @Cacheable(value = "itunesSearchCache", key = "#query + '-' + #limit + '-' + (#userId != null ? #userId : 0)")
     public AlbumSearchResponse searchAlbums(String query, int limit, Long userId) {
         if (query == null || query.trim().isEmpty()) {
             return AlbumSearchResponse.builder()
@@ -53,9 +53,14 @@ public class ITunesSearchService {
                         .forEach(saved -> savedCatalogIds.add(saved.getAppleCatalogId()));
             }
 
-            rawAlbums.forEach(album -> album.setSaved(
+            rawAlbums.forEach(album -> {
+                if (album.getArtworkUrl() != null) {
+                    album.setArtworkUrl(album.getArtworkUrl().replaceAll("/\\d+x\\d+bb\\.", "/600x600bb."));
+                }
+                album.setSaved(
                     album.getAppleCatalogId() != null && savedCatalogIds.contains(album.getAppleCatalogId())
-            ));
+                );
+            });
 
             return AlbumSearchResponse.builder()
                     .query(query)

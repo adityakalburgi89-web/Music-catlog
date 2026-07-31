@@ -1,44 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { searchService } from '../services/searchService';
 import { libraryService } from '../services/libraryService';
-import { ITunesAlbum, AlbumSearchResponse } from '../types';
+import { ITunesAlbum, AlbumSearchResponse, JioSaavnSong, JioSaavnSearchResponse } from '../types';
 import { AlbumSearchCard } from '../components/search/AlbumSearchCard';
+import { JioSaavnSongCard } from '../components/search/JioSaavnSongCard';
+import { JioSaavnPlaylistCard } from '../components/search/JioSaavnPlaylistCard';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
-import { Search, Music, Sparkles } from 'lucide-react';
+import { Search, Music, Radio, Disc, ListMusic } from 'lucide-react';
+
+type SearchTab = 'jiosaavn-songs' | 'jiosaavn-playlists' | 'itunes-albums';
 
 export const SearchPage: React.FC = () => {
   const [query, setQuery] = useState('Daft Punk');
   const [activeQuery, setActiveQuery] = useState('Daft Punk');
-  const [data, setData] = useState<AlbumSearchResponse | null>(null);
+  const [activeTab, setActiveTab] = useState<SearchTab>('jiosaavn-songs');
+
+  const [itunesData, setItunesData] = useState<AlbumSearchResponse | null>(null);
+  const [jiosaavnSongsData, setJiosaavnSongsData] = useState<JioSaavnSearchResponse | null>(null);
+  const [jiosaavnPlaylistsData, setJiosaavnPlaylistsData] = useState<JioSaavnSearchResponse | null>(null);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const fetchSearchResults = async (q: string) => {
+  const fetchSearchResults = async (q: string, tab: SearchTab) => {
     if (!q.trim()) return;
     setIsLoading(true);
     setError('');
     try {
-      const res = await searchService.searchAlbums(q, 12);
-      setData(res);
+      if (tab === 'jiosaavn-songs') {
+        const res = await searchService.searchJioSaavnSongs(q, 12);
+        setJiosaavnSongsData(res);
+      } else if (tab === 'jiosaavn-playlists') {
+        const res = await searchService.searchJioSaavnPlaylists(q, 12);
+        setJiosaavnPlaylistsData(res);
+      } else {
+        const res = await searchService.searchAlbums(q, 12);
+        setItunesData(res);
+      }
     } catch (err) {
-      setError('Failed to search iTunes catalog. Please try again.');
+      setError('Failed to fetch search results. Please check your connection.');
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchSearchResults(activeQuery);
-  }, [activeQuery]);
+    fetchSearchResults(activeQuery, activeTab);
+  }, [activeQuery, activeTab]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (query.trim() !== activeQuery) {
+    if (query.trim()) {
       setActiveQuery(query.trim());
     }
   };
 
-  const handleSaveAlbum = async (album: ITunesAlbum) => {
+  const handleSaveITunesAlbum = async (album: ITunesAlbum) => {
     await libraryService.saveAlbum({
       appleCatalogId: album.appleCatalogId,
       title: album.title,
@@ -51,20 +68,44 @@ export const SearchPage: React.FC = () => {
     });
   };
 
+  const handleSaveJioSaavnSong = async (song: JioSaavnSong) => {
+    const numericId = song.id ? Math.abs((longHash(song.id))) : Math.floor(Math.random() * 1000000);
+    await libraryService.saveAlbum({
+      appleCatalogId: numericId,
+      title: song.name,
+      artistName: song.artistName,
+      genre: song.genre || 'Music',
+      releaseDate: song.releaseDate ? song.releaseDate.split('T')[0] : undefined,
+      trackCount: 1,
+      collectionPrice: 0,
+      artworkUrl: song.artworkUrl,
+      downloadUrl: song.downloadUrl,
+    });
+  };
+
+  const longHash = (str: string): number => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash);
+  };
+
   return (
-    <div className="space-y-10 py-4">
+    <div className="space-y-8 py-4">
       {/* Hero Header Band */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-hairline">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-peach/40 text-ink text-xs font-semibold mb-3 border border-brand-peach">
-            <Sparkles className="w-3.5 h-3.5" />
-            Global iTunes Catalog
+            <Radio className="w-3.5 h-3.5 text-brand-pink animate-pulse" />
+            JioSaavn & iTunes Live Search API
           </div>
           <h1 className="font-display text-4xl sm:text-5xl font-medium tracking-tight text-ink">
-            Discover unique music data
+            Search songs & playlists
           </h1>
           <p className="mt-2 text-body text-base leading-relaxed">
-            Search live album projects from the global iTunes API and curate your personal database.
+            Search live tracks with direct 320kbps MP3 audio playback, explore curated playlists, or curate your iTunes album library.
           </p>
         </div>
 
@@ -75,7 +116,7 @@ export const SearchPage: React.FC = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search Daft Punk, Pink Floyd..."
+            placeholder="Search songs, artists, playlists..."
             className="w-full pl-12 pr-24 py-3 rounded-md bg-canvas border border-hairline text-ink text-sm focus:outline-none focus:border-primary transition-colors shadow-sm placeholder:text-muted"
           />
           <button
@@ -87,6 +128,45 @@ export const SearchPage: React.FC = () => {
         </form>
       </div>
 
+      {/* Tabs Selector */}
+      <div className="flex items-center gap-2 border-b border-hairline pb-4 overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('jiosaavn-songs')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+            activeTab === 'jiosaavn-songs'
+              ? 'bg-primary text-white'
+              : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
+          }`}
+        >
+          <Music className="w-4 h-4" />
+          JioSaavn Live Songs
+        </button>
+
+        <button
+          onClick={() => setActiveTab('jiosaavn-playlists')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+            activeTab === 'jiosaavn-playlists'
+              ? 'bg-primary text-white'
+              : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
+          }`}
+        >
+          <ListMusic className="w-4 h-4" />
+          JioSaavn Playlists
+        </button>
+
+        <button
+          onClick={() => setActiveTab('itunes-albums')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+            activeTab === 'itunes-albums'
+              ? 'bg-primary text-white'
+              : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
+          }`}
+        >
+          <Disc className="w-4 h-4" />
+          iTunes Albums
+        </button>
+      </div>
+
       {/* Error State */}
       {error && (
         <div className="p-4 rounded-md bg-rose-500/10 border border-rose-500/20 text-rose-600 text-sm">
@@ -96,36 +176,105 @@ export const SearchPage: React.FC = () => {
 
       {/* Loading & Grid Output */}
       {isLoading ? (
-        <LoadingSpinner label={`Searching iTunes catalog for "${activeQuery}"...`} />
+        <LoadingSpinner label={`Searching for "${activeQuery}"...`} />
       ) : (
         <>
-          {data && data.albums && data.albums.length > 0 ? (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between text-xs text-muted">
-                <span>Showing search results for <strong className="text-ink">"{data.query}"</strong></span>
-                <span>Found {data.totalResults} matching albums</span>
-              </div>
+          {/* Tab 1: JioSaavn Songs */}
+          {activeTab === 'jiosaavn-songs' && (
+            <>
+              {jiosaavnSongsData && jiosaavnSongsData.songs && jiosaavnSongsData.songs.length > 0 ? (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between text-xs text-muted">
+                    <span>Showing live songs for <strong className="text-ink">"{jiosaavnSongsData.query}"</strong></span>
+                    <span>Found {jiosaavnSongsData.totalResults} tracks</span>
+                  </div>
 
-              {/* Saturated 3-Up Feature Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data.albums.map((album, idx) => (
-                  <AlbumSearchCard
-                    key={album.appleCatalogId}
-                    album={album}
-                    index={idx}
-                    onSave={handleSaveAlbum}
-                  />
-                ))}
-              </div>
-            </div>
-          ) : (
-            data && (
-              <div className="text-center py-20 bg-surface-soft rounded-xl border border-hairline p-8 max-w-md mx-auto">
-                <Music className="w-12 h-12 text-muted mx-auto mb-3" />
-                <h3 className="font-display font-medium text-lg text-ink">No Albums Found</h3>
-                <p className="text-xs text-muted mt-1">Try searching for famous artists or album titles.</p>
-              </div>
-            )
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {jiosaavnSongsData.songs.map((song, idx) => (
+                      <JioSaavnSongCard
+                        key={song.id || idx}
+                        song={song}
+                        index={idx}
+                        onSave={handleSaveJioSaavnSong}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                jiosaavnSongsData && (
+                  <div className="text-center py-20 bg-surface-soft rounded-xl border border-hairline p-8 max-w-md mx-auto">
+                    <Music className="w-12 h-12 text-muted mx-auto mb-3" />
+                    <h3 className="font-display font-medium text-lg text-ink">No Songs Found</h3>
+                    <p className="text-xs text-muted mt-1">Try searching for famous tracks, singers, or movies.</p>
+                  </div>
+                )
+              )}
+            </>
+          )}
+
+          {/* Tab 2: JioSaavn Playlists */}
+          {activeTab === 'jiosaavn-playlists' && (
+            <>
+              {jiosaavnPlaylistsData && jiosaavnPlaylistsData.playlists && jiosaavnPlaylistsData.playlists.length > 0 ? (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between text-xs text-muted">
+                    <span>Showing playlists for <strong className="text-ink">"{jiosaavnPlaylistsData.query}"</strong></span>
+                    <span>Found {jiosaavnPlaylistsData.totalResults} playlists</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {jiosaavnPlaylistsData.playlists.map((playlist, idx) => (
+                      <JioSaavnPlaylistCard
+                        key={playlist.id || idx}
+                        playlist={playlist}
+                        index={idx}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                jiosaavnPlaylistsData && (
+                  <div className="text-center py-20 bg-surface-soft rounded-xl border border-hairline p-8 max-w-md mx-auto">
+                    <ListMusic className="w-12 h-12 text-muted mx-auto mb-3" />
+                    <h3 className="font-display font-medium text-lg text-ink">No Playlists Found</h3>
+                    <p className="text-xs text-muted mt-1">Try searching for keywords like "Indie", "Bollywood", or "Party".</p>
+                  </div>
+                )
+              )}
+            </>
+          )}
+
+          {/* Tab 3: iTunes Albums */}
+          {activeTab === 'itunes-albums' && (
+            <>
+              {itunesData && itunesData.albums && itunesData.albums.length > 0 ? (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between text-xs text-muted">
+                    <span>Showing iTunes search results for <strong className="text-ink">"{itunesData.query}"</strong></span>
+                    <span>Found {itunesData.totalResults} matching albums</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {itunesData.albums.map((album, idx) => (
+                      <AlbumSearchCard
+                        key={album.appleCatalogId}
+                        album={album}
+                        index={idx}
+                        onSave={handleSaveITunesAlbum}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                itunesData && (
+                  <div className="text-center py-20 bg-surface-soft rounded-xl border border-hairline p-8 max-w-md mx-auto">
+                    <Disc className="w-12 h-12 text-muted mx-auto mb-3" />
+                    <h3 className="font-display font-medium text-lg text-ink">No Albums Found</h3>
+                    <p className="text-xs text-muted mt-1">Try searching for famous artists or album titles.</p>
+                  </div>
+                )
+              )}
+            </>
           )}
         </>
       )}
