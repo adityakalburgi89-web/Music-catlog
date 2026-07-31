@@ -43,7 +43,7 @@ app:
     client-secret: ${GOOGLE_CLIENT_SECRET:your_google_client_secret_here}
 
   cors:
-    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000,https://music-catlog.vercel.app,https://music-catalog.vercel.app}
 
 
 springdoc:
