@@ -38,10 +38,11 @@ public class AuthService {
                 .name(request.getName())
                 .build();
 
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.saveAndFlush(user);
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+        com.musiccatalog.security.UserPrincipal userPrincipal = com.musiccatalog.security.UserPrincipal.create(savedUser);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userPrincipal, null, userPrincipal.getAuthorities()
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
