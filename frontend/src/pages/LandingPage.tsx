@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { VinylTurntablePlayer } from '../components/music/VinylTurntablePlayer';
 import { VerifiedCompanyLogos } from '../components/common/VerifiedCompanyLogos';
+import clayAudioIcon from '../logo/ClayAudio/Clay-Audio-icon.png';
 import {
-  Disc3,
   Search,
   Sparkles,
   BarChart3,
@@ -25,8 +25,8 @@ export const LandingPage: React.FC = () => {
       <header className="sticky top-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline h-16 flex items-center">
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-brand-ochre flex items-center justify-center text-ink shadow-sm group-hover:rotate-6 transition-transform">
-              <Disc3 className="w-6 h-6 animate-spin-slow" />
+            <div className="w-10 h-10 rounded-xl bg-brand-ochre flex items-center justify-center shadow-sm group-hover:rotate-6 transition-transform overflow-hidden p-1">
+              <img src={clayAudioIcon} alt="Clay Audio Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <span className="font-display font-medium text-xl text-ink tracking-tight">
