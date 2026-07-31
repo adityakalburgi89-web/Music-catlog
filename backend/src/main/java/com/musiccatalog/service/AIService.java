@@ -39,12 +39,12 @@ public class AIService {
         if (analytics.getTotalAlbums() == 0) {
             return TrendSummaryResponse.builder()
                     .musicPersona("Emerging Music Enthusiast")
-                    .summary("Your personal music catalog is currently empty. Start searching and saving your favorite albums from the iTunes Search page to unlock AI-powered insights and trend analytics!")
+                    .summary(
+                            "Your personal music catalog is currently empty. Start searching and saving your favorite albums from the iTunes Search page to unlock AI-powered insights and trend analytics!")
                     .topDominantDecade("N/A")
                     .keyObservations(List.of(
                             "No albums stored in personal library.",
-                            "Add at least 3-5 albums with ratings to generate deep sonic insights."
-                    ))
+                            "Add at least 3-5 albums with ratings to generate deep sonic insights."))
                     .recommendedGenresToExplore(List.of("Alternative", "Electronic", "Classic Rock", "Jazz", "Hip-Hop"))
                     .generatedAt(LocalDateTime.now())
                     .build();
@@ -59,14 +59,16 @@ public class AIService {
                 }
             }
         } catch (Exception ex) {
-            log.warn("Groq API call failed or timed out. Falling back to local smart synthesis engine: {}", ex.getMessage());
+            log.warn("Groq API call failed or timed out. Falling back to local smart synthesis engine: {}",
+                    ex.getMessage());
         }
 
         // Fallback Local Smart Synthesis Engine
         return generateLocalFallbackSummary(analytics, request);
     }
 
-    private TrendSummaryResponse callGroqLLM(AnalyticsResponse analytics, TrendSummaryRequest request) throws Exception {
+    private TrendSummaryResponse callGroqLLM(AnalyticsResponse analytics, TrendSummaryRequest request)
+            throws Exception {
         String url = "https://api.groq.com/openai/v1/chat/completions";
 
         String topGenre = analytics.getAlbumsByGenre().isEmpty()
@@ -93,14 +95,15 @@ public class AIService {
                 - Top Genre: %s
                 - Top Release Year: %s
                 - Average Track Count: %.1f
-                """, topDecade, analytics.getTotalAlbums(), analytics.getAverageRating(), topGenre, topDecade, analytics.getAverageTrackCount());
+                """, topDecade, analytics.getTotalAlbums(), analytics.getAverageRating(), topGenre, topDecade,
+                analytics.getAverageTrackCount());
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", model);
         requestBody.put("messages", List.of(
-                Map.of("role", "system", "content", "You are an expert musicologist AI. Respond ONLY in raw valid JSON without markdown formatting."),
-                Map.of("role", "user", "content", promptText)
-        ));
+                Map.of("role", "system", "content",
+                        "You are an expert musicologist AI. Respond ONLY in raw valid JSON without markdown formatting."),
+                Map.of("role", "user", "content", promptText)));
         requestBody.put("temperature", 0.7);
 
         HttpHeaders headers = new HttpHeaders();
@@ -129,7 +132,8 @@ public class AIService {
 
             return TrendSummaryResponse.builder()
                     .musicPersona(jsonResult.path("musicPersona").asText("Aesthetic Cataloguer"))
-                    .summary(jsonResult.path("summary").asText("A finely curated collection reflecting diverse artistic tastes."))
+                    .summary(jsonResult.path("summary")
+                            .asText("A finely curated collection reflecting diverse artistic tastes."))
                     .topDominantDecade(jsonResult.path("topDominantDecade").asText(topDecade))
                     .keyObservations(keyObs)
                     .recommendedGenresToExplore(recGenres)
@@ -139,7 +143,8 @@ public class AIService {
         return null;
     }
 
-    private TrendSummaryResponse generateLocalFallbackSummary(AnalyticsResponse analytics, TrendSummaryRequest request) {
+    private TrendSummaryResponse generateLocalFallbackSummary(AnalyticsResponse analytics,
+            TrendSummaryRequest request) {
         String topGenre = analytics.getAlbumsByGenre().isEmpty()
                 ? "Eclectic Music"
                 : analytics.getAlbumsByGenre().keySet().iterator().next();
@@ -153,14 +158,12 @@ public class AIService {
         String persona = String.format("%s Connoisseur", topGenre);
         String summary = String.format(
                 "Your catalog is strongly anchored in %s music. With an average album rating of %.2f out of 5 stars across %d saved projects, your personal library exhibits high artistic curation.",
-                topGenre, avgRating, analytics.getTotalAlbums()
-        );
+                topGenre, avgRating, analytics.getTotalAlbums());
 
         List<String> observations = List.of(
                 String.format("Primary genre concentration: %s.", topGenre),
                 String.format("Key release era anchor: %s.", topYear),
-                String.format("Average album length: %.1f tracks per collection.", analytics.getAverageTrackCount())
-        );
+                String.format("Average album length: %.1f tracks per collection.", analytics.getAverageTrackCount()));
 
         List<String> recs = List.of("Progressive Rock", "Synthwave", "Neo-Soul", "Post-Bop Jazz", "Indie Electronic");
 

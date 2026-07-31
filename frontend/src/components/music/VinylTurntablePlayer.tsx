@@ -274,7 +274,7 @@ export const VinylTurntablePlayer: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto select-none">
+    <div className="w-full max-w-sm mx-auto select-none">
       {/* HTML5 Audio Element */}
       <audio
         ref={audioRef}
@@ -285,23 +285,23 @@ export const VinylTurntablePlayer: React.FC = () => {
       />
 
       {/* Main Square White Deck Plinth */}
-      <div className="relative bg-[#f8f7f2] border-2 border-hairline rounded-[32px] p-6 shadow-2xl overflow-hidden">
+      <div className="relative bg-[#f8f7f2] border-2 border-hairline rounded-[28px] p-4 sm:p-5 shadow-xl overflow-hidden">
         {/* RCA Jacks / Screws Detail Bar */}
-        <div className="flex justify-between items-center mb-2 px-2">
-          <div className="flex gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#d5d0c2] shadow-inner" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#d5d0c2] shadow-inner" />
+        <div className="flex justify-between items-center mb-1.5 px-1">
+          <div className="flex gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#d5d0c2] shadow-inner" />
+            <span className="w-2 h-2 rounded-full bg-[#d5d0c2] shadow-inner" />
           </div>
-          <div className="text-[10px] font-mono tracking-widest text-muted uppercase font-semibold">
+          <div className="text-[9px] font-mono tracking-widest text-muted uppercase font-semibold">
             CLAY-AUDIO • VINYL-DECK-2026
           </div>
         </div>
 
         {/* Center Platter & Vinyl Disc Area */}
-        <div className="relative aspect-square w-full max-w-[320px] mx-auto flex items-center justify-center">
+        <div className="relative aspect-square w-full max-w-[250px] mx-auto flex items-center justify-center">
           {/* Black Vinyl Record Disc */}
           <div
-            className="relative w-[280px] h-[280px] rounded-full shadow-2xl flex items-center justify-center animate-spin"
+            className="relative w-[220px] h-[220px] rounded-full shadow-xl flex items-center justify-center animate-spin"
             style={{
               animationPlayState: isArmEngaged || isPlaying ? 'running' : 'paused',
               animationDuration: rpm === '45' ? '1.8s' : '2.5s',
@@ -310,28 +310,28 @@ export const VinylTurntablePlayer: React.FC = () => {
             <ChromaKeyImage
               src={vinylRecordImg}
               alt="Vinyl Record"
-              className="w-full h-full object-contain rounded-full drop-shadow-xl"
+              className="w-full h-full object-contain rounded-full drop-shadow-lg"
             />
 
             {/* Vinyl Center Label Overlay */}
-            <div className="absolute w-24 h-24 rounded-full bg-brand-peach border-4 border-[#111115] flex flex-col items-center justify-center p-2 text-center text-ink shadow-md z-10 overflow-hidden">
+            <div className="absolute w-20 h-20 rounded-full bg-brand-peach border-2 border-[#111115] flex flex-col items-center justify-center p-1.5 text-center text-ink shadow-md z-10 overflow-hidden">
               {currentTrack?.artworkUrl ? (
                 <img src={currentTrack.artworkUrl} alt={currentTrack.title} className="absolute inset-0 w-full h-full object-cover opacity-80" />
               ) : (
-                <Disc className="w-4 h-4 text-primary mb-0.5 animate-pulse" />
+                <Disc className="w-3.5 h-3.5 text-primary mb-0.5 animate-pulse" />
               )}
-              <span className="relative z-10 text-[9px] font-bold tracking-tight line-clamp-1 leading-none text-ink bg-white/70 px-1 rounded">
+              <span className="relative z-10 text-[8px] font-bold tracking-tight line-clamp-1 leading-none text-ink max-w-full px-1">
                 {currentTrack ? currentTrack.title : 'Three Voices One Fire'}
               </span>
-              <span className="relative z-10 text-[7px] font-medium text-slate-900 mt-0.5 bg-white/70 px-1 rounded truncate max-w-full">
+              <span className="relative z-10 text-[6.5px] font-semibold text-slate-800 mt-0.5 truncate max-w-full px-1">
                 {currentTrack ? currentTrack.artist : 'Master Cut'}
               </span>
-              <div className="relative z-10 w-3 h-3 rounded-full bg-[#111115] mt-0.5 border border-white/40" />
+              <div className="relative z-10 w-2.5 h-2.5 rounded-full bg-[#111115] mt-0.5 border border-white/40" />
             </div>
           </div>
 
-          {/* Fixed Top-Right White Mounting Base Plate (mount.png positioned in top-right place matching reference) */}
-          <div className="absolute top-0 right-0 w-32 h-44 pointer-events-none z-10">
+          {/* Fixed Top-Right White Mounting Base Plate */}
+          <div className="absolute top-0 right-0 w-24 h-36 pointer-events-none z-10">
             <ChromaKeyImage
               src={mountImg}
               alt="Tonearm Mount Base"
@@ -340,17 +340,17 @@ export const VinylTurntablePlayer: React.FC = () => {
             />
           </div>
 
-          {/* Rotating Tonearm Assembly (Pivoting directly from mount.png's top-right socket) */}
-          <div className="absolute top-0 right-0 w-32 h-52 pointer-events-none z-20">
+          {/* Rotating Tonearm Assembly */}
+          <div className="absolute top-0 right-0 w-24 h-40 pointer-events-none z-20">
             <div
               className={`relative w-full h-full transition-transform duration-700 origin-[74%_10%] z-20 ${isArmEngaged ? 'rotate-[20deg]' : 'rotate-0'
                 }`}
             >
-              {/* 1. Silver Cylindrical Counterweight Knob at Top Tip */}
+              {/* 1. Silver Cylindrical Counterweight Knob */}
               <ChromaKeyImage
                 src={counterweightImg}
                 alt="Counterweight"
-                className="absolute top-[4px] right-[10px] w-7 h-7 object-contain drop-shadow-md z-30"
+                className="absolute top-[3px] right-[8px] w-6 h-6 object-contain drop-shadow-md z-30"
                 title="Counterweight"
               />
 
@@ -358,15 +358,15 @@ export const VinylTurntablePlayer: React.FC = () => {
               <ChromaKeyImage
                 src={antiSkateImg}
                 alt="Anti-Skate Lever"
-                className="absolute top-[38px] right-[24px] w-5 h-5 object-contain drop-shadow-sm z-25"
+                className="absolute top-[30px] right-[18px] w-4 h-4 object-contain drop-shadow-sm z-25"
                 title="Anti-Skate Lever"
               />
 
-              {/* 3. Black Metallic Tonearm Shaft & Stylus Cartridge */}
+              {/* 3. Black Metallic Tonearm Shaft */}
               <ChromaKeyImage
                 src={tonearmImg}
                 alt="Tonearm Shaft"
-                className="absolute top-[6px] right-[12px] w-6 h-[180px] object-contain drop-shadow-2xl z-20"
+                className="absolute top-[5px] right-[10px] w-5 h-[140px] object-contain drop-shadow-xl z-20"
                 title="Tonearm Shaft"
               />
             </div>
@@ -374,10 +374,10 @@ export const VinylTurntablePlayer: React.FC = () => {
         </div>
 
         {/* Bottom Corner Dials */}
-        <div className="flex justify-between items-center px-4 mt-2 mb-3">
+        <div className="flex justify-between items-center px-2 mt-1 mb-2">
           {/* Bottom-Left 3-Way Speed Dial */}
-          <div className="w-9 h-9 rounded-full bg-[#e6e1d3] border border-black/10 flex items-center justify-center shadow-inner">
-            <div className="w-5 h-5 rounded-full border border-black/20 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-[#e6e1d3] border border-black/10 flex items-center justify-center shadow-inner">
+            <div className="w-4 h-4 rounded-full border border-black/20 flex items-center justify-center">
               <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
             </div>
           </div>
@@ -385,30 +385,30 @@ export const VinylTurntablePlayer: React.FC = () => {
           {/* Bottom-Right Start/Stop Dial Button */}
           <button
             onClick={togglePlay}
-            className="w-10 h-10 rounded-full bg-[#e6e1d3] hover:bg-[#dfd9cb] border border-black/10 flex items-center justify-center shadow-md active:scale-95 transition-all"
+            className="w-9 h-9 rounded-full bg-[#e6e1d3] hover:bg-[#dfd9cb] border border-black/10 flex items-center justify-center shadow-md active:scale-95 transition-all"
             title={isArmEngaged ? 'Pause Turntable' : 'Start Turntable'}
           >
-            <div className="w-6 h-6 rounded-full border-2 border-slate-700 flex items-center justify-center">
+            <div className="w-5 h-5 rounded-full border-2 border-slate-700 flex items-center justify-center">
               {isArmEngaged ? (
-                <Pause className="w-3 h-3 text-slate-800" />
+                <Pause className="w-2.5 h-2.5 text-slate-800" />
               ) : (
-                <Play className="w-3 h-3 text-slate-800 ml-0.5" />
+                <Play className="w-2.5 h-2.5 text-slate-800 ml-0.5" />
               )}
             </div>
           </button>
         </div>
 
         {/* Live Track Details Banner */}
-        <div className="p-3 rounded-xl bg-canvas border border-hairline flex items-center justify-between shadow-sm">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="p-2 rounded-lg bg-brand-pink text-white shrink-0">
-              <Music2 className="w-4 h-4" />
+        <div className="p-2.5 rounded-xl bg-canvas border border-hairline flex items-center justify-between shadow-sm">
+          <div className="flex items-center gap-2.5 overflow-hidden">
+            <div className="p-1.5 rounded-lg bg-brand-pink text-white shrink-0">
+              <Music2 className="w-3.5 h-3.5" />
             </div>
             <div className="overflow-hidden">
-              <h4 className="font-display font-semibold text-sm text-ink truncate" title={currentTrack ? currentTrack.title : 'Three Voices One Fire'}>
+              <h4 className="font-display font-semibold text-xs text-ink truncate" title={currentTrack ? currentTrack.title : 'Three Voices One Fire'}>
                 {currentTrack ? currentTrack.title : 'Three Voices One Fire'}
               </h4>
-              <p className="text-xs text-muted font-medium truncate font-mono">
+              <p className="text-[10px] text-muted font-medium truncate font-mono">
                 {currentTrack ? currentTrack.artist : 'Original Master Stream'}
               </p>
             </div>
@@ -416,17 +416,17 @@ export const VinylTurntablePlayer: React.FC = () => {
 
           {/* Equalizer Bar Animation */}
           {isPlaying && (
-            <div className="flex items-end gap-1 h-5 px-2">
-              <span className="w-1 bg-brand-pink rounded-full animate-[bounce_0.6s_infinite_100ms] h-4" />
-              <span className="w-1 bg-brand-teal rounded-full animate-[bounce_0.6s_infinite_300ms] h-5" />
-              <span className="w-1 bg-brand-ochre rounded-full animate-[bounce_0.6s_infinite_200ms] h-3" />
-              <span className="w-1 bg-brand-lavender rounded-full animate-[bounce_0.6s_infinite_400ms] h-5" />
+            <div className="flex items-end gap-0.5 h-4 px-1">
+              <span className="w-1 bg-brand-pink rounded-full animate-[bounce_0.6s_infinite_100ms] h-3" />
+              <span className="w-1 bg-brand-teal rounded-full animate-[bounce_0.6s_infinite_300ms] h-4" />
+              <span className="w-1 bg-brand-ochre rounded-full animate-[bounce_0.6s_infinite_200ms] h-2.5" />
+              <span className="w-1 bg-brand-lavender rounded-full animate-[bounce_0.6s_infinite_400ms] h-4" />
             </div>
           )}
         </div>
 
         {/* Scrubbing Timeline Progress Bar */}
-        <div className="mt-4 space-y-1">
+        <div className="mt-2.5 space-y-0.5">
           <input
             type="range"
             min={0}
@@ -434,28 +434,28 @@ export const VinylTurntablePlayer: React.FC = () => {
             step={0.1}
             value={currentTime}
             onChange={handleSeek}
-            className="w-full accent-primary h-1.5 bg-surface-strong rounded-lg cursor-pointer"
+            className="w-full accent-primary h-1 bg-surface-strong rounded-lg cursor-pointer"
           />
-          <div className="flex justify-between text-[11px] font-mono text-muted font-medium">
+          <div className="flex justify-between text-[10px] font-mono text-muted font-medium">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
         </div>
 
         {/* Bottom Control Buttons Row */}
-        <div className="mt-4 flex items-center justify-between gap-3 pt-3 border-t border-hairline">
+        <div className="mt-2.5 flex items-center justify-between gap-2 pt-2.5 border-t border-hairline">
           {/* RPM Speed Selector Buttons */}
-          <div className="flex items-center gap-1.5 bg-surface-soft p-1 rounded-lg border border-hairline">
+          <div className="flex items-center gap-1 bg-surface-soft p-0.5 rounded-lg border border-hairline">
             <button
               onClick={() => toggleRpm('33')}
-              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${rpm === '33' ? 'bg-primary text-white shadow-sm' : 'text-body hover:text-ink'
+              className={`px-2 py-0.5 rounded text-[10px] font-bold font-mono transition-all ${rpm === '33' ? 'bg-primary text-white shadow-sm' : 'text-body hover:text-ink'
                 }`}
             >
               33 RPM
             </button>
             <button
               onClick={() => toggleRpm('45')}
-              className={`px-2.5 py-1 rounded text-xs font-bold font-mono transition-all ${rpm === '45' ? 'bg-brand-pink text-white shadow-sm' : 'text-body hover:text-ink'
+              className={`px-2 py-0.5 rounded text-[10px] font-bold font-mono transition-all ${rpm === '45' ? 'bg-brand-pink text-white shadow-sm' : 'text-body hover:text-ink'
                 }`}
             >
               45 RPM
@@ -465,19 +465,19 @@ export const VinylTurntablePlayer: React.FC = () => {
           {/* Play/Pause Button */}
           <button
             onClick={togglePlay}
-            className="w-11 h-11 rounded-full bg-primary hover:bg-body-strong text-white shadow-lg flex items-center justify-center transition-all active:scale-90"
+            className="w-9 h-9 rounded-full bg-primary hover:bg-body-strong text-white shadow-md flex items-center justify-center transition-all active:scale-90"
             title={isArmEngaged ? 'Pause Turntable' : 'Play Vinyl Record'}
           >
-            {isArmEngaged ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+            {isArmEngaged ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
           </button>
 
           {/* Volume Slider & Mute Toggle */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <button
               onClick={toggleMute}
-              className="p-1.5 rounded-md text-muted hover:text-ink transition-colors"
+              className="p-1 rounded-md text-muted hover:text-ink transition-colors"
             >
-              {isMuted || volume === 0 ? <VolumeX className="w-4 h-4 text-rose-500" /> : <Volume2 className="w-4 h-4" />}
+              {isMuted || volume === 0 ? <VolumeX className="w-3.5 h-3.5 text-rose-500" /> : <Volume2 className="w-3.5 h-3.5" />}
             </button>
             <input
               type="range"
@@ -486,7 +486,7 @@ export const VinylTurntablePlayer: React.FC = () => {
               step={0.05}
               value={isMuted ? 0 : volume}
               onChange={handleVolumeChange}
-              className="w-16 accent-primary h-1 bg-surface-strong rounded-lg cursor-pointer"
+              className="w-14 accent-primary h-1 bg-surface-strong rounded-lg cursor-pointer"
             />
           </div>
         </div>
