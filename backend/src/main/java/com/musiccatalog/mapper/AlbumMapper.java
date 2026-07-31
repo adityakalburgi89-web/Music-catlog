@@ -19,6 +19,7 @@ public class AlbumMapper {
                 .trackCount(entity.getTrackCount())
                 .artworkUrl(entity.getArtworkUrl())
                 .collectionPrice(entity.getCollectionPrice())
+                .downloadUrl(entity.getDownloadUrl())
                 .userRating(entity.getUserRating())
                 .userNotes(entity.getUserNotes())
                 .createdAt(entity.getCreatedAt())
