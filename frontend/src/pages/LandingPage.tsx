@@ -32,7 +32,7 @@ export const LandingPage: React.FC = () => {
               <span className="font-display font-medium text-xl text-ink tracking-tight">
                 Clay<span className="text-brand-pink font-bold">Catalog</span>
               </span>
-              <span className="ml-2 text-xs px-2.5 py-0.5 rounded-full bg-brand-lavender/40 text-ink font-medium border border-brand-lavender">
+              <span className="hidden sm:inline-block ml-2 text-xs px-2.5 py-0.5 rounded-full bg-brand-lavender/40 text-ink font-medium border border-brand-lavender">
                 Insights
               </span>
             </div>
@@ -49,7 +49,7 @@ export const LandingPage: React.FC = () => {
             {isAuthenticated ? (
               <Link
                 to="/search"
-                className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-md bg-primary text-white hover:bg-body-strong transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-md bg-primary text-white hover:bg-body-strong transition-colors shadow-sm"
               >
                 Go to Dashboard
                 <ArrowRight className="w-4 h-4" />
@@ -58,13 +58,13 @@ export const LandingPage: React.FC = () => {
               <>
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-body hover:text-ink transition-colors px-3 py-2"
+                  className="text-xs sm:text-sm font-medium text-body hover:text-ink transition-colors px-2 sm:px-3 py-2"
                 >
                   Sign in
                 </Link>
                 <Link
                   to="/register"
-                  className="text-sm font-semibold px-5 py-2.5 rounded-md bg-primary text-white hover:bg-body-strong transition-colors shadow-sm"
+                  className="text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-md bg-primary text-white hover:bg-body-strong transition-colors shadow-sm"
                 >
                   Try free
                 </Link>
@@ -75,7 +75,7 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* 1. Hero Band (7-5 Split Grid) */}
-      <section className="pt-16 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="pt-10 sm:pt-16 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
@@ -84,11 +84,11 @@ export const LandingPage: React.FC = () => {
               The Playful B2B Music Intelligence Platform
             </div>
 
-            <h1 className="font-display font-medium text-5xl sm:text-6xl lg:text-7xl tracking-tight text-ink leading-[1.05]">
+            <h1 className="font-display font-medium text-4xl sm:text-6xl lg:text-7xl tracking-tight text-ink leading-[1.05]">
               Go to market with unique music data.
             </h1>
 
-            <p className="text-body text-lg sm:text-xl max-w-2xl leading-relaxed">
+            <p className="hidden sm:block text-body text-lg sm:text-xl max-w-2xl leading-relaxed">
               Discover albums live from iTunes, curate personal catalogs in PostgreSQL, and unlock AI-powered sonic trend insights.
             </p>
 
@@ -112,8 +112,8 @@ export const LandingPage: React.FC = () => {
             <VerifiedCompanyLogos />
           </div>
 
-          {/* Right Column Interactive Vinyl Turntable Player (5 cols) */}
-          <div className="lg:col-span-5 flex justify-center">
+          {/* Right Column Interactive Vinyl Turntable Player (5 cols) - Hidden on Mobile View */}
+          <div className="hidden sm:flex lg:col-span-5 justify-center">
             <VinylTurntablePlayer />
           </div>
         </div>
@@ -379,12 +379,12 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* 5. Pre-Footer Illustrated CTA Band */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="p-12 sm:p-16 rounded-xl bg-surface-soft border border-hairline text-center space-y-6 relative overflow-hidden shadow-sm">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="p-6 sm:p-16 rounded-xl bg-surface-soft border border-hairline text-center space-y-6 relative overflow-hidden shadow-sm">
           <div className="w-16 h-16 rounded-2xl bg-brand-ochre flex items-center justify-center text-ink shadow-md mx-auto">
             <Zap className="w-8 h-8" />
           </div>
-          <h2 className="font-display font-medium text-4xl sm:text-5xl text-ink max-w-2xl mx-auto leading-tight">
+          <h2 className="font-display font-medium text-3xl sm:text-5xl text-ink max-w-2xl mx-auto leading-tight">
             Turn your growth ideas into reality today.
           </h2>
           <p className="text-body text-base max-w-xl mx-auto">
