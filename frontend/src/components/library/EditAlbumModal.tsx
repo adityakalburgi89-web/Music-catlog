@@ -9,6 +9,8 @@ interface EditAlbumModalProps {
   onSave: (id: number, updateData: AlbumUpdateRequest) => Promise<void>;
 }
 
+const FALLBACK_ARTWORK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%23242433'/><circle cx='150' cy='150' r='100' fill='%2312121a' stroke='%23333348' stroke-width='4'/><circle cx='150' cy='150' r='35' fill='%23e85d04'/><circle cx='150' cy='150' r='10' fill='%2312121a'/></svg>";
+
 export const EditAlbumModal: React.FC<EditAlbumModalProps> = ({ album, isOpen, onClose, onSave }) => {
   const [userRating, setUserRating] = useState<number>(album.userRating || 5);
   const [userNotes, setUserNotes] = useState<string>(album.userNotes || '');
@@ -41,8 +43,12 @@ export const EditAlbumModal: React.FC<EditAlbumModalProps> = ({ album, isOpen, o
 
         <div className="flex items-center gap-4 mb-6">
           <img
-            src={album.artworkUrl || 'https://via.placeholder.com/100'}
+            src={album.artworkUrl || FALLBACK_ARTWORK}
             alt={album.title}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = FALLBACK_ARTWORK;
+            }}
             className="w-16 h-16 rounded-md object-cover border border-hairline shrink-0"
           />
           <div>
