@@ -18,6 +18,8 @@ const CARD_PALETTES = [
   { bg: 'bg-surface-card border border-hairline', text: 'text-ink', textMuted: 'text-muted', badgeBg: 'bg-surface-strong text-ink', btnBg: 'bg-primary text-white hover:bg-body-strong', savedBtn: 'bg-emerald-500/20 text-emerald-800' },
 ];
 
+const FALLBACK_ARTWORK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%23242433'/><circle cx='150' cy='150' r='100' fill='%2312121a' stroke='%23333348' stroke-width='4'/><circle cx='150' cy='150' r='35' fill='%23e85d04'/><circle cx='150' cy='150' r='10' fill='%2312121a'/></svg>";
+
 export const AlbumSearchCard: React.FC<AlbumSearchCardProps> = ({ album, index, onSave }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(album.saved || false);
@@ -57,8 +59,12 @@ export const AlbumSearchCard: React.FC<AlbumSearchCardProps> = ({ album, index, 
         {/* Artwork & Album Title Fragment */}
         <div className="flex items-start gap-4 mb-4">
           <img
-            src={album.artworkUrl || 'https://via.placeholder.com/300?text=No+Artwork'}
+            src={album.artworkUrl || FALLBACK_ARTWORK}
             alt={album.title}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = FALLBACK_ARTWORK;
+            }}
             className="w-20 h-20 rounded-lg object-cover shadow-md shrink-0 border border-black/10 group-hover:scale-105 transition-transform"
           />
           <div className="overflow-hidden">
