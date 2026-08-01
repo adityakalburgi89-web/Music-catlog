@@ -5,14 +5,15 @@ import { ITunesAlbum, AlbumSearchResponse, JioSaavnSong, JioSaavnSearchResponse 
 import { AlbumSearchCard } from '../components/search/AlbumSearchCard';
 import { JioSaavnSongCard } from '../components/search/JioSaavnSongCard';
 import { JioSaavnPlaylistCard } from '../components/search/JioSaavnPlaylistCard';
+import { SearchInputWithAI } from '../components/search/SearchInputWithAI';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { Search, Music, Radio, Disc, ListMusic } from 'lucide-react';
 
 type SearchTab = 'jiosaavn-songs' | 'jiosaavn-playlists' | 'itunes-albums';
 
 export const SearchPage: React.FC = () => {
-  const [query, setQuery] = useState('Daft Punk');
-  const [activeQuery, setActiveQuery] = useState('Daft Punk');
+  const [query, setQuery] = useState('');
+  const [activeQuery, setActiveQuery] = useState('');
   const [activeTab, setActiveTab] = useState<SearchTab>('jiosaavn-songs');
 
   const [itunesData, setItunesData] = useState<AlbumSearchResponse | null>(null);
@@ -45,13 +46,14 @@ export const SearchPage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchSearchResults(activeQuery, activeTab);
+    if (activeQuery.trim()) {
+      fetchSearchResults(activeQuery, activeTab);
+    }
   }, [activeQuery, activeTab]);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) {
-      setActiveQuery(query.trim());
+  const handleExecuteSearch = (searchQuery: string) => {
+    if (searchQuery.trim()) {
+      setActiveQuery(searchQuery.trim());
     }
   };
 
@@ -109,30 +111,19 @@ export const SearchPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Search Bar Input */}
-        <form onSubmit={handleSearchSubmit} className="relative w-full md:w-96">
-          <Search className="w-5 h-5 text-muted absolute left-4 top-3.5" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search songs, artists, playlists..."
-            className="w-full pl-12 pr-24 py-3 rounded-md bg-canvas border border-hairline text-ink text-sm focus:outline-none focus:border-primary transition-colors shadow-sm placeholder:text-muted"
-          />
-          <button
-            type="submit"
-            className="absolute right-2 top-2 bottom-2 px-4 rounded-md bg-primary hover:bg-body-strong text-white font-semibold text-xs transition-colors"
-          >
-            Search
-          </button>
-        </form>
+        {/* Search Bar Input with AI Recommendations */}
+        <SearchInputWithAI
+          query={query}
+          setQuery={setQuery}
+          onSearch={handleExecuteSearch}
+        />
       </div>
 
       {/* Tabs Selector */}
-      <div className="flex items-center gap-2 border-b border-hairline pb-4 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-hairline pb-4 overflow-x-auto whitespace-nowrap">
         <button
           onClick={() => setActiveTab('jiosaavn-songs')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 ${
             activeTab === 'jiosaavn-songs'
               ? 'bg-primary text-white'
               : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
@@ -144,7 +135,7 @@ export const SearchPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('jiosaavn-playlists')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 ${
             activeTab === 'jiosaavn-playlists'
               ? 'bg-primary text-white'
               : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
@@ -156,7 +147,7 @@ export const SearchPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('itunes-albums')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 ${
             activeTab === 'itunes-albums'
               ? 'bg-primary text-white'
               : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
@@ -177,6 +168,16 @@ export const SearchPage: React.FC = () => {
       {/* Loading & Grid Output */}
       {isLoading ? (
         <LoadingSpinner label={`Searching for "${activeQuery}"...`} />
+      ) : !activeQuery.trim() ? (
+        <div className="text-center py-16 bg-surface-soft rounded-xl border border-hairline p-8 max-w-md mx-auto my-6 shadow-sm">
+          <div className="w-14 h-14 rounded-full bg-brand-peach/30 text-ink flex items-center justify-center mx-auto mb-4 border border-brand-peach/50">
+            <Search className="w-7 h-7" />
+          </div>
+          <h3 className="font-display font-medium text-xl text-ink">Search ClayCatalog</h3>
+          <p className="text-sm text-muted mt-2 leading-relaxed">
+            Enter an artist, song title, or playlist keyword in the search bar above to start searching.
+          </p>
+        </div>
       ) : (
         <>
           {/* Tab 1: JioSaavn Songs */}

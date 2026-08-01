@@ -73,7 +73,7 @@ export const VinylTurntablePlayer: React.FC = () => {
 
   const FADE_DURATION = 600;
 
-  // Auto-play when currentTrack changes from PlayerContext
+  // Sync playback when currentTrack changes from PlayerContext
   useEffect(() => {
     if (currentTrack?.downloadUrl && audioRef.current) {
       audioRef.current.src = currentTrack.downloadUrl;
@@ -84,6 +84,14 @@ export const VinylTurntablePlayer: React.FC = () => {
         fadeIn();
         playTimeoutRef.current = null;
       }, 300);
+    } else if (!currentTrack) {
+      clearPlayTimeout();
+      cancelFade();
+      setIsArmEngaged(false);
+      setIsPlaying(false);
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
     }
   }, [currentTrack]);
 

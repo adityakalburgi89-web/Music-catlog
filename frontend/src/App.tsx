@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { AuthLayout } from './components/common/AuthLayout';
@@ -6,7 +6,7 @@ import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Navbar } from './components/common/Navbar';
 import { Sidebar } from './components/common/Sidebar';
 import { Footer } from './components/common/Footer';
-import { VinylTurntablePlayer } from './components/music/VinylTurntablePlayer';
+import { ModernAudioPlayer } from './components/music/ModernAudioPlayer';
 
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
@@ -15,31 +15,21 @@ import { SearchPage } from './pages/SearchPage';
 import { LibraryPage } from './pages/LibraryPage';
 import { AnalyticsDashboardPage } from './pages/AnalyticsDashboardPage';
 import { AIInsightsPage } from './pages/AIInsightsPage';
-import { PlayerProvider, usePlayer } from './context/PlayerContext';
-import { Disc, X, Search, Library, BarChart3, Sparkles } from 'lucide-react';
+import { PlayerProvider } from './context/PlayerContext';
+import { Search, Library, BarChart3, Sparkles } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isPlayerOpen, setIsPlayerOpen] = useState(false);
-  const { currentTrack, isPlaying } = usePlayer();
-
-  React.useEffect(() => {
-    if (currentTrack) {
-      setIsPlayerOpen(true);
-    }
-  }, [currentTrack]);
-
   return (
-    <div className="min-h-screen flex flex-col bg-canvas text-body font-sans relative">
+    <div className="min-h-screen flex flex-col bg-canvas text-body font-sans relative pb-32 sm:pb-24">
       <Navbar />
 
       {/* Mobile Sub Navigation Bar */}
-      <div className="md:hidden flex items-center justify-around bg-surface-soft border-b border-hairline p-2 sticky top-16 z-30 overflow-x-auto text-xs font-semibold">
+      <div className="md:hidden flex items-center justify-around bg-surface-soft border-b border-hairline p-2 sticky top-16 z-30 overflow-x-auto text-xs font-semibold whitespace-nowrap">
         <NavLink
           to="/search"
           className={({ isActive }) =>
-            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
-              isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
+            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors shrink-0 ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
             }`
           }
         >
@@ -49,8 +39,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <NavLink
           to="/library"
           className={({ isActive }) =>
-            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
-              isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
+            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors shrink-0 ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
             }`
           }
         >
@@ -60,8 +49,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <NavLink
           to="/analytics"
           className={({ isActive }) =>
-            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
-              isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
+            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors shrink-0 ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
             }`
           }
         >
@@ -71,8 +59,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <NavLink
           to="/insights"
           className={({ isActive }) =>
-            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
-              isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
+            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors shrink-0 ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
             }`
           }
         >
@@ -89,42 +76,8 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </main>
       </div>
 
-      {/* Floating Vinyl Turntable Deck Drawer Widget */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 max-w-[calc(100vw-2rem)] sm:max-w-sm">
-        {isPlayerOpen ? (
-          <div className="relative animate-in fade-in slide-in-from-bottom-5 duration-300">
-            <button
-              onClick={() => setIsPlayerOpen(false)}
-              className="absolute -top-3 -right-3 z-50 p-2 rounded-full bg-primary text-white hover:bg-body-strong shadow-lg border border-white/20 transition-transform hover:scale-110"
-              title="Close Vinyl Deck"
-            >
-              <X className="w-4 h-4" />
-            </button>
-            <VinylTurntablePlayer />
-          </div>
-        ) : (
-          <button
-            onClick={() => setIsPlayerOpen(true)}
-            className={`flex items-center gap-2.5 px-4 py-3 rounded-full text-white shadow-2xl transition-all hover:scale-105 active:scale-95 border border-white/10 group ${
-              isPlaying ? 'bg-brand-pink' : 'bg-primary hover:bg-body-strong'
-            }`}
-          >
-            <div className="w-7 h-7 rounded-full bg-white/20 text-white flex items-center justify-center group-hover:rotate-180 transition-transform duration-700">
-              <Disc className={`w-4 h-4 ${isPlaying ? 'animate-spin' : 'animate-spin-slow'}`} />
-            </div>
-            <div className="text-left overflow-hidden max-w-[140px]">
-              <span className="text-xs font-semibold tracking-wide block truncate">
-                {currentTrack ? currentTrack.title : 'Play Vinyl Deck'}
-              </span>
-              {currentTrack && (
-                <span className="text-[10px] text-white/80 block truncate font-mono">
-                  {currentTrack.artist}
-                </span>
-              )}
-            </div>
-          </button>
-        )}
-      </div>
+      {/* Modern Audio Player Bar for Application Dashboard */}
+      <ModernAudioPlayer />
     </div>
   );
 };
