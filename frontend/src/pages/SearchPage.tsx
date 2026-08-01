@@ -11,8 +11,8 @@ import { Search, Music, Radio, Disc, ListMusic } from 'lucide-react';
 type SearchTab = 'jiosaavn-songs' | 'jiosaavn-playlists' | 'itunes-albums';
 
 export const SearchPage: React.FC = () => {
-  const [query, setQuery] = useState('Daft Punk');
-  const [activeQuery, setActiveQuery] = useState('Daft Punk');
+  const [query, setQuery] = useState('');
+  const [activeQuery, setActiveQuery] = useState('');
   const [activeTab, setActiveTab] = useState<SearchTab>('jiosaavn-songs');
 
   const [itunesData, setItunesData] = useState<AlbumSearchResponse | null>(null);
@@ -45,7 +45,9 @@ export const SearchPage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchSearchResults(activeQuery, activeTab);
+    if (activeQuery.trim()) {
+      fetchSearchResults(activeQuery, activeTab);
+    }
   }, [activeQuery, activeTab]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -177,6 +179,16 @@ export const SearchPage: React.FC = () => {
       {/* Loading & Grid Output */}
       {isLoading ? (
         <LoadingSpinner label={`Searching for "${activeQuery}"...`} />
+      ) : !activeQuery.trim() ? (
+        <div className="text-center py-16 bg-surface-soft rounded-xl border border-hairline p-8 max-w-md mx-auto my-6 shadow-sm">
+          <div className="w-14 h-14 rounded-full bg-brand-peach/30 text-ink flex items-center justify-center mx-auto mb-4 border border-brand-peach/50">
+            <Search className="w-7 h-7" />
+          </div>
+          <h3 className="font-display font-medium text-xl text-ink">Search ClayCatalog</h3>
+          <p className="text-sm text-muted mt-2 leading-relaxed">
+            Enter an artist, song title, or playlist keyword in the search bar above to start searching.
+          </p>
+        </div>
       ) : (
         <>
           {/* Tab 1: JioSaavn Songs */}
