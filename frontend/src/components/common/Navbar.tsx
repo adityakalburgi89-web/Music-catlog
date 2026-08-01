@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { usePlayer } from '../../context/PlayerContext';
 import { LogOut, User as UserIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import clayAudioIcon from '../../logo/ClayAudio/Clay-Audio-icon.png';
@@ -7,10 +8,12 @@ import { LogoutModal } from './LogoutModal';
 
 export const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
+  const { resetPlayer } = usePlayer();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleConfirmLogout = () => {
     setShowLogoutModal(false);
+    resetPlayer();
     logout();
   };
 
