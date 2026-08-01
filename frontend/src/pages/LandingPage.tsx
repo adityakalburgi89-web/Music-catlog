@@ -75,10 +75,10 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* 1. Hero Band (7-5 Split Grid) */}
-      <section className="pt-10 sm:pt-16 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="pt-16 sm:pt-24 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column (7 cols) */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-6 pt-2 sm:pt-6">
 
 
             <h1 className="font-display font-medium text-4xl sm:text-6xl lg:text-7xl tracking-tight text-ink leading-[1.05]">
