@@ -107,7 +107,7 @@ export const ModernAudioPlayer: React.FC = () => {
   const remainingTime = Math.max(0, duration - currentTime);
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 select-none">
+    <div className="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 z-50 select-none flex justify-center sm:block">
       <audio
         ref={audioRef}
         src={currentTrack?.downloadUrl || songSrc}
@@ -118,15 +118,15 @@ export const ModernAudioPlayer: React.FC = () => {
 
       <style>{`
         .main-music-card {
+          width: 100%;
           max-width: 420px;
-          width: 320px;
-          padding: 18px;
-          border-radius: 35px;
+          padding: 12px 14px;
+          border-radius: 22px;
           background: #000;
           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 10px;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
           color: white;
           transition: all 0.3s ease;
@@ -136,19 +136,22 @@ export const ModernAudioPlayer: React.FC = () => {
         @media (min-width: 640px) {
           .main-music-card {
             width: 380px;
+            padding: 18px;
+            border-radius: 35px;
+            gap: 14px;
           }
         }
 
         .track-info {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 10px;
         }
 
         .album-art-container {
-          width: 64px;
-          height: 64px;
-          border-radius: 16px;
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
           background: linear-gradient(135deg, #ff9a9e, #fad0c4);
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
           flex-shrink: 0;
@@ -159,8 +162,12 @@ export const ModernAudioPlayer: React.FC = () => {
           justify-content: center;
         }
 
-        .album-art-container:hover {
-          transform: scale(1.05);
+        @media (min-width: 640px) {
+          .album-art-container {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+          }
         }
 
         .album-art-img {
@@ -175,17 +182,23 @@ export const ModernAudioPlayer: React.FC = () => {
         }
 
         .track-title {
-          font-size: 1.25em;
+          font-size: 1.05em;
           font-weight: 600;
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
         }
 
+        @media (min-width: 640px) {
+          .track-title {
+            font-size: 1.25em;
+          }
+        }
+
         .artist-name {
-          font-size: 0.9em;
+          font-size: 0.85em;
           color: #d1d1d6;
-          margin-top: 2px;
+          margin-top: 1px;
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
@@ -195,15 +208,22 @@ export const ModernAudioPlayer: React.FC = () => {
           display: flex;
           align-items: flex-end;
           gap: 2px;
-          width: 38px;
-          height: 32px;
+          width: 30px;
+          height: 24px;
+        }
+
+        @media (min-width: 640px) {
+          .volume-bars {
+            width: 38px;
+            height: 32px;
+          }
         }
 
         .volume-bars .bar {
-          width: 3px;
+          width: 2.5px;
           background: linear-gradient(180deg, #00c6ff, #0072ff);
           border-radius: 2px;
-          height: 6px;
+          height: 5px;
           transition: height 0.2s ease;
         }
 
@@ -213,25 +233,37 @@ export const ModernAudioPlayer: React.FC = () => {
 
         @keyframes bounce {
           0%, 100% {
-            height: 6px;
+            height: 5px;
           }
           50% {
-            height: 26px;
+            height: 22px;
           }
         }
 
         .playback-controls {
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 6px;
+        }
+
+        @media (min-width: 640px) {
+          .playback-controls {
+            gap: 8px;
+          }
         }
 
         .time-info {
           display: flex;
           justify-content: space-between;
-          font-size: 0.8em;
+          font-size: 0.75em;
           color: #8e8e93;
           font-family: monospace;
+        }
+
+        @media (min-width: 640px) {
+          .time-info {
+            font-size: 0.8em;
+          }
         }
 
         .progress-bar-container {
@@ -286,21 +318,34 @@ export const ModernAudioPlayer: React.FC = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          gap: 12px;
-          margin-top: 4px;
+          gap: 8px;
+          margin-top: 2px;
+        }
+
+        @media (min-width: 640px) {
+          .button-row {
+            gap: 12px;
+            margin-top: 4px;
+          }
         }
 
         .main-control-btns {
           justify-content: center;
           align-items: center;
           display: flex;
-          gap: 20px;
+          gap: 12px;
           flex-grow: 1;
         }
 
+        @media (min-width: 640px) {
+          .main-control-btns {
+            gap: 20px;
+          }
+        }
+
         .control-button {
-          width: 48px;
-          height: 48px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           border: none;
           background: none;
@@ -310,6 +355,13 @@ export const ModernAudioPlayer: React.FC = () => {
           cursor: pointer;
           transition: background 0.2s, transform 0.2s;
           color: #fff;
+        }
+
+        @media (min-width: 640px) {
+          .control-button {
+            width: 48px;
+            height: 48px;
+          }
         }
 
         .control-button:hover {
@@ -322,12 +374,20 @@ export const ModernAudioPlayer: React.FC = () => {
         }
 
         .control-button.radar-btn {
-          width: 38px;
-          height: 38px;
-          font-size: 11px;
+          width: 34px;
+          height: 34px;
+          font-size: 10px;
           font-weight: bold;
           font-family: monospace;
           background: rgba(255, 255, 255, 0.08);
+        }
+
+        @media (min-width: 640px) {
+          .control-button.radar-btn {
+            width: 38px;
+            height: 38px;
+            font-size: 11px;
+          }
         }
       `}</style>
 

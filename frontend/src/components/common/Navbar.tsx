@@ -30,24 +30,25 @@ export const Navbar: React.FC = () => {
                 <span className="font-display font-medium text-xl text-ink tracking-tight">
                   Clay<span className="text-brand-pink font-bold">Catalog</span>
                 </span>
-                <span className="ml-2 text-xs px-2.5 py-0.5 rounded-full bg-brand-lavender/40 text-ink font-medium border border-brand-lavender">
+                <span className="hidden sm:inline-block ml-2 text-xs px-2.5 py-0.5 rounded-full bg-brand-lavender/40 text-ink font-medium border border-brand-lavender">
                   Insights
                 </span>
               </div>
             </Link>
 
             {isAuthenticated && user ? (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-surface-soft border border-hairline">
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-md bg-surface-soft border border-hairline">
                   <UserIcon className="w-4 h-4 text-ink" />
-                  <span className="text-sm font-medium text-ink">{user.name}</span>
+                  <span className="text-sm font-medium text-ink hidden sm:inline">{user.name}</span>
                 </div>
                 <button
                   onClick={() => setShowLogoutModal(true)}
-                  className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-md bg-primary text-white hover:bg-body-strong transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-semibold px-3 sm:px-4 py-2 rounded-md bg-primary text-white hover:bg-body-strong transition-colors"
+                  title="Logout"
                 >
                   <LogOut className="w-3.5 h-3.5" />
-                  Logout
+                  <span className="hidden sm:inline">Logout</span>
                 </button>
               </div>
             ) : (

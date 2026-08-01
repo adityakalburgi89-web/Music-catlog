@@ -21,15 +21,15 @@ import { NavLink } from 'react-router-dom';
 
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-canvas text-body font-sans relative pb-20">
+    <div className="min-h-screen flex flex-col bg-canvas text-body font-sans relative pb-32 sm:pb-24">
       <Navbar />
 
       {/* Mobile Sub Navigation Bar */}
-      <div className="md:hidden flex items-center justify-around bg-surface-soft border-b border-hairline p-2 sticky top-16 z-30 overflow-x-auto text-xs font-semibold">
+      <div className="md:hidden flex items-center justify-around bg-surface-soft border-b border-hairline p-2 sticky top-16 z-30 overflow-x-auto text-xs font-semibold whitespace-nowrap">
         <NavLink
           to="/search"
           className={({ isActive }) =>
-            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
+            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors shrink-0 ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
             }`
           }
         >
@@ -39,7 +39,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <NavLink
           to="/library"
           className={({ isActive }) =>
-            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
+            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors shrink-0 ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
             }`
           }
         >
@@ -49,7 +49,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <NavLink
           to="/analytics"
           className={({ isActive }) =>
-            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
+            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors shrink-0 ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
             }`
           }
         >
@@ -59,7 +59,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <NavLink
           to="/insights"
           className={({ isActive }) =>
-            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
+            `flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors shrink-0 ${isActive ? 'bg-primary text-white' : 'text-body hover:text-ink'
             }`
           }
         >

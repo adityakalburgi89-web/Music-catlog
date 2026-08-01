@@ -120,10 +120,10 @@ export const SearchPage: React.FC = () => {
       </div>
 
       {/* Tabs Selector */}
-      <div className="flex items-center gap-2 border-b border-hairline pb-4 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-hairline pb-4 overflow-x-auto whitespace-nowrap">
         <button
           onClick={() => setActiveTab('jiosaavn-songs')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 ${
             activeTab === 'jiosaavn-songs'
               ? 'bg-primary text-white'
               : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
@@ -135,7 +135,7 @@ export const SearchPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('jiosaavn-playlists')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 ${
             activeTab === 'jiosaavn-playlists'
               ? 'bg-primary text-white'
               : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
@@ -147,7 +147,7 @@ export const SearchPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('itunes-albums')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm shrink-0 ${
             activeTab === 'itunes-albums'
               ? 'bg-primary text-white'
               : 'bg-surface-soft hover:bg-canvas text-ink border border-hairline'
