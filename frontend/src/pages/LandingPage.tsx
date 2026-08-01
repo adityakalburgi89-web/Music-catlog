@@ -41,7 +41,7 @@ export const LandingPage: React.FC = () => {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-body">
             <a href="#features" className="hover:text-ink transition-colors">Features</a>
             <a href="#analytics" className="hover:text-ink transition-colors">Analytics</a>
-            <a href="#ai-engine" className="hover:text-ink transition-colors">AI Engine</a>
+            <a href="#ai-engine" className="hover:text-ink transition-colors">AI Insights</a>
             <a href="#pricing" className="hover:text-ink transition-colors">Pricing</a>
           </nav>
 
@@ -79,17 +79,14 @@ export const LandingPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-peach/40 text-ink text-xs font-semibold border border-brand-peach">
-              <Sparkles className="w-4 h-4 text-brand-pink" />
-              The Playful B2B Music Intelligence Platform
-            </div>
+
 
             <h1 className="font-display font-medium text-4xl sm:text-6xl lg:text-7xl tracking-tight text-ink leading-[1.05]">
-              Go to market with unique music data.
+              Explore, curate, & collect your music.
             </h1>
 
             <p className="hidden sm:block text-body text-lg sm:text-xl max-w-2xl leading-relaxed">
-              Discover albums live from iTunes, curate personal catalogs in PostgreSQL, and unlock AI-powered sonic trend insights.
+              Discover trending songs live, build custom library collections, listen on vinyl, and unlock smart AI music insights.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -129,7 +126,7 @@ export const LandingPage: React.FC = () => {
             Everything you need for music intelligence
           </h2>
           <p className="text-body text-base">
-            Curate, search, aggregate, and synthesize music data with six specialized platform layers.
+            Curate, search, organize, and synthesize music data with six specialized platform features.
           </p>
         </div>
 
@@ -141,13 +138,13 @@ export const LandingPage: React.FC = () => {
               <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center mb-6">
                 <Search className="w-6 h-6 text-white" />
               </div>
-              <h3 className="font-display font-medium text-2xl mb-3 text-white">iTunes Search API Proxy</h3>
+              <h3 className="font-display font-medium text-2xl mb-3 text-white">Instant Music Search</h3>
               <p className="text-pink-100 text-sm leading-relaxed mb-6">
-                Search global album metadata live from Apple's iTunes Search API with built-in caching and URL-encoding.
+                Search millions of global tracks and albums instantly with real-time metadata and high quality preview streaming.
               </p>
             </div>
             <div className="p-3.5 rounded-lg bg-white/10 text-xs font-mono text-white">
-              GET /api/search?query=Daft+Punk
+              Search: Global Music Library
             </div>
           </div>
 
@@ -157,13 +154,13 @@ export const LandingPage: React.FC = () => {
               <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center mb-6">
                 <Layers className="w-6 h-6 text-white" />
               </div>
-              <h3 className="font-display font-medium text-2xl mb-3 text-white">PostgreSQL Catalog</h3>
+              <h3 className="font-display font-medium text-2xl mb-3 text-white">Personal Saved Library</h3>
               <p className="text-teal-100 text-sm leading-relaxed mb-6">
-                Save albums into your personal database with unique constraint isolation `(user_id, apple_catalog_id)`.
+                Bookmark your favorite tracks and albums into a secure, organized personal catalog stored just for you.
               </p>
             </div>
             <div className="p-3.5 rounded-lg bg-white/10 text-xs font-mono text-white">
-              Constraint: uq_user_apple_catalog
+              Organized: Personal Catalog
             </div>
           </div>
 
@@ -173,13 +170,13 @@ export const LandingPage: React.FC = () => {
               <div className="w-12 h-12 rounded-lg bg-primary text-white flex items-center justify-center mb-6">
                 <Sparkles className="w-6 h-6" />
               </div>
-              <h3 className="font-display font-medium text-2xl mb-3 text-ink">Groq LLM AI Summaries</h3>
+              <h3 className="font-display font-medium text-2xl mb-3 text-ink">AI Catalog Insights</h3>
               <p className="text-slate-800 text-sm leading-relaxed mb-6">
-                Generate dynamic music persona titles, key collection observations, and recommended genre explorations.
+                Discover your listening style with AI-powered music personas, collection summaries, and genre recommendations.
               </p>
             </div>
             <div className="p-3.5 rounded-lg bg-white/60 text-xs font-mono text-ink">
-              Model: llama-3.1-8b-instant
+              Smart Persona Generator
             </div>
           </div>
 
@@ -189,13 +186,13 @@ export const LandingPage: React.FC = () => {
               <div className="w-12 h-12 rounded-lg bg-primary text-white flex items-center justify-center mb-6">
                 <BarChart3 className="w-6 h-6" />
               </div>
-              <h3 className="font-display font-medium text-2xl mb-3 text-ink">Decade & Track Spread</h3>
+              <h3 className="font-display font-medium text-2xl mb-3 text-ink">Visual Collection Analytics</h3>
               <p className="text-slate-800 text-sm leading-relaxed mb-6">
-                Visualize release dates by decade and track count distributions (1-5, 6-10, 11-15, 16+ tracks).
+                Track your music history by release decade, song duration distribution, and genre breakdown in beautiful charts.
               </p>
             </div>
             <div className="p-3.5 rounded-lg bg-white/60 text-xs font-mono text-ink">
-              Aggregations: Recharts BarChart
+              Analytics: Interactive Charts
             </div>
           </div>
 
@@ -207,11 +204,11 @@ export const LandingPage: React.FC = () => {
               </div>
               <h3 className="font-display font-medium text-2xl mb-3 text-ink">1-5 Star Ratings & Notes</h3>
               <p className="text-slate-800 text-sm leading-relaxed mb-6">
-                Rate saved albums from 1 to 5 stars and add personal listening notes up to 1000 characters.
+                Rate every track in your collection from 1 to 5 stars and add custom listening notes and thoughts.
               </p>
             </div>
             <div className="p-3.5 rounded-lg bg-white/60 text-xs font-mono text-ink">
-              User Notes: max 1000 chars
+              Features: Ratings & Notes
             </div>
           </div>
 
@@ -221,13 +218,13 @@ export const LandingPage: React.FC = () => {
               <div className="w-12 h-12 rounded-lg bg-primary text-white flex items-center justify-center mb-6">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="font-display font-medium text-2xl mb-3 text-ink">Stateless JWT Security</h3>
+              <h3 className="font-display font-medium text-2xl mb-3 text-ink">Secure Account Protection</h3>
               <p className="text-body text-sm leading-relaxed mb-6">
-                Spring Security 6 stateless JWT tokens with BCrypt password hashing and CORS environment configuration.
+                Keep your music collection and personal profile safe with modern password encryption and privacy controls.
               </p>
             </div>
             <div className="p-3.5 rounded-lg bg-surface-strong text-xs font-mono text-ink border border-hairline">
-              Auth: Bearer JWT Token
+              Security: Encrypted Account
             </div>
           </div>
         </div>
@@ -238,7 +235,7 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
             <h2 className="font-display font-medium text-3xl sm:text-4xl text-ink">
-              Loved by music architects & data engineers
+              Loved by music lovers, curators & creators
             </h2>
           </div>
 
@@ -250,11 +247,11 @@ export const LandingPage: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm text-ink">Jane Doe</h4>
-                  <p className="text-xs text-muted">Head of Catalog Operations</p>
+                  <p className="text-xs text-muted">Music Director</p>
                 </div>
               </div>
               <p className="text-body text-sm italic">
-                "The Clay aesthetic makes data curation feel fun again. iTunes search proxy + Groq AI summaries saved us hundreds of manual research hours."
+                "Clay Catalog makes organizing music feel fun and effortless again. Finding tracks and generating AI insights is super fast."
               </p>
             </div>
 
@@ -265,11 +262,11 @@ export const LandingPage: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm text-ink">Alex Rivera</h4>
-                  <p className="text-xs text-muted">Senior Data Architect</p>
+                  <p className="text-xs text-muted">Playlist Curator</p>
                 </div>
               </div>
               <p className="text-body text-sm italic">
-                "Spring Boot 3 + PostgreSQL unique constraints give us complete isolation, while the Recharts dashboard displays decade trends instantly."
+                "The visual analytics show my collection spread across decades instantly, and saving tracks takes just one click."
               </p>
             </div>
 
@@ -280,11 +277,11 @@ export const LandingPage: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm text-ink">Marcus Chen</h4>
-                  <p className="text-xs text-muted">A&R Data Lead</p>
+                  <p className="text-xs text-muted">A&R Consultant</p>
                 </div>
               </div>
               <p className="text-body text-sm italic">
-                "ClayCatalog's 6-color palette and rounded typography is the most refreshing SaaS interface we've used in years."
+                "Clay Catalog's vibrant design and turntable audio player is the most refreshing music platform I've used in years."
               </p>
             </div>
           </div>
@@ -313,9 +310,9 @@ export const LandingPage: React.FC = () => {
                 <span className="text-xs text-muted"> / forever</span>
               </div>
               <ul className="space-y-3 text-xs text-body">
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Save up to 50 Albums</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Live iTunes API Proxy</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Basic Recharts Analytics</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Save up to 50 Songs</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Live Music Search</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Basic Collection Analytics</li>
               </ul>
             </div>
             <Link
@@ -333,15 +330,15 @@ export const LandingPage: React.FC = () => {
             </div>
             <div>
               <h3 className="font-display font-medium text-xl text-white">Pro Curator</h3>
-              <p className="text-xs text-teal-100 mt-1">For professional A&R & data teams</p>
+              <p className="text-xs text-teal-100 mt-1">For avid music collectors & curators</p>
               <div className="my-6">
                 <span className="font-display font-medium text-4xl text-white">$29</span>
                 <span className="text-xs text-teal-200"> / month</span>
               </div>
               <ul className="space-y-3 text-xs text-teal-50">
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-pink" /> Unlimited Saved Albums</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-pink" /> Groq LLM AI Trend Engine</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-pink" /> Full Analytics & Decade Spread</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-pink" /> Unlimited Saved Songs</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-pink" /> Smart AI Trend Insights</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-pink" /> Full Visual Analytics & Decade Charts</li>
                 <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-pink" /> 1-5 Star Ratings & Notes</li>
               </ul>
             </div>
@@ -364,8 +361,8 @@ export const LandingPage: React.FC = () => {
               </div>
               <ul className="space-y-3 text-xs text-body">
                 <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Everything in Pro Curator</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Dedicated Neon PostgreSQL DB</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Custom OpenAPI & SLA Support</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Dedicated Cloud Storage</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Custom Integrations & Dedicated Support</li>
               </ul>
             </div>
             <Link
@@ -385,10 +382,10 @@ export const LandingPage: React.FC = () => {
             <Zap className="w-8 h-8" />
           </div>
           <h2 className="font-display font-medium text-3xl sm:text-5xl text-ink max-w-2xl mx-auto leading-tight">
-            Turn your growth ideas into reality today.
+            Turn your music collection into reality today.
           </h2>
           <p className="text-body text-base max-w-xl mx-auto">
-            Join thousands of music architects building smart catalogs with Clay.
+            Join thousands of music lovers building smart catalogs with Clay.
           </p>
           <div className="pt-2">
             <Link
