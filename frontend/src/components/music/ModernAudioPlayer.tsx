@@ -17,15 +17,14 @@ export const ModernAudioPlayer: React.FC = () => {
     if (audioRef.current) {
       if (currentTrack?.downloadUrl) {
         audioRef.current.src = currentTrack.downloadUrl;
-      } else {
-        audioRef.current.src = songSrc;
-      }
-      audioRef.current.currentTime = 0;
-      if (currentTrack) {
+        audioRef.current.currentTime = 0;
         audioRef.current
           .play()
           .then(() => setIsPlaying(true))
           .catch((err) => console.error('Playback error:', err));
+      } else if (!currentTrack) {
+        audioRef.current.pause();
+        setIsPlaying(false);
       }
     }
   }, [currentTrack]);

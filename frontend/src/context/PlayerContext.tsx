@@ -15,6 +15,8 @@ interface PlayerContextType {
   playTrack: (track: ActiveTrack) => void;
   togglePlayPause: () => void;
   setPlayingState: (playing: boolean) => void;
+  pauseTrack: () => void;
+  resetPlayer: () => void;
 }
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -36,6 +38,15 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setIsPlaying(playing);
   };
 
+  const pauseTrack = () => {
+    setIsPlaying(false);
+  };
+
+  const resetPlayer = () => {
+    setCurrentTrack(null);
+    setIsPlaying(false);
+  };
+
   return (
     <PlayerContext.Provider
       value={{
@@ -44,6 +55,8 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         playTrack,
         togglePlayPause,
         setPlayingState,
+        pauseTrack,
+        resetPlayer,
       }}
     >
       {children}
