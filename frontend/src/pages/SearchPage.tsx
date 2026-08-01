@@ -5,6 +5,7 @@ import { ITunesAlbum, AlbumSearchResponse, JioSaavnSong, JioSaavnSearchResponse 
 import { AlbumSearchCard } from '../components/search/AlbumSearchCard';
 import { JioSaavnSongCard } from '../components/search/JioSaavnSongCard';
 import { JioSaavnPlaylistCard } from '../components/search/JioSaavnPlaylistCard';
+import { SearchInputWithAI } from '../components/search/SearchInputWithAI';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { Search, Music, Radio, Disc, ListMusic } from 'lucide-react';
 
@@ -50,10 +51,9 @@ export const SearchPage: React.FC = () => {
     }
   }, [activeQuery, activeTab]);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) {
-      setActiveQuery(query.trim());
+  const handleExecuteSearch = (searchQuery: string) => {
+    if (searchQuery.trim()) {
+      setActiveQuery(searchQuery.trim());
     }
   };
 
@@ -111,23 +111,12 @@ export const SearchPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Search Bar Input */}
-        <form onSubmit={handleSearchSubmit} className="relative w-full md:w-96">
-          <Search className="w-5 h-5 text-muted absolute left-4 top-3.5" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search songs, artists, playlists..."
-            className="w-full pl-12 pr-24 py-3 rounded-md bg-canvas border border-hairline text-ink text-sm focus:outline-none focus:border-primary transition-colors shadow-sm placeholder:text-muted"
-          />
-          <button
-            type="submit"
-            className="absolute right-2 top-2 bottom-2 px-4 rounded-md bg-primary hover:bg-body-strong text-white font-semibold text-xs transition-colors"
-          >
-            Search
-          </button>
-        </form>
+        {/* Search Bar Input with AI Recommendations */}
+        <SearchInputWithAI
+          query={query}
+          setQuery={setQuery}
+          onSearch={handleExecuteSearch}
+        />
       </div>
 
       {/* Tabs Selector */}

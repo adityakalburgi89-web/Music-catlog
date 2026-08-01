@@ -43,7 +43,7 @@ export const Sidebar: React.FC = () => {
       {/* Decorative Clay mini card footer artifact */}
       <div className="p-4 rounded-lg bg-surface-card border border-hairline text-xs space-y-2">
         <div className="font-display font-medium text-sm text-ink flex items-center gap-2">
-          <span>🎨 Clay Atmosphere</span>
+          <span>Clay Atmosphere</span>
         </div>
         <p className="text-muted leading-relaxed">
           Powered by cream canvas, saturated feature cards, and AI sonic analytics.
