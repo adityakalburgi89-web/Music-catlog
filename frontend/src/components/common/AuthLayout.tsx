@@ -8,7 +8,7 @@ import clayAudioIcon from '../../logo/ClayAudio/Clay-Audio-icon.png';
 export const AuthLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-canvas grid grid-cols-1 lg:grid-cols-12 overflow-hidden font-sans">
-      
+
       {/* LEFT SIDE: Persistent Vinyl Deck Showcase (lg:col-span-7) */}
       <div className="lg:col-span-7 border-b lg:border-b-0 lg:border-r border-hairline/80 relative flex flex-col justify-between p-6 lg:p-10 overflow-hidden shadow-inner">
         {/* Animated Rotating Pastel Pattern Background */}
@@ -60,7 +60,7 @@ export const AuthLayout: React.FC = () => {
         {/* Form Container with high z-index */}
         <div className="relative z-10 flex flex-col justify-between min-h-full">
           <Outlet />
-          
+
           {/* Footer */}
           <div className="pt-6 text-center text-xs text-muted border-t border-hairline/40 mt-6 font-medium">
             © 2026 Clay Audio Catalog Platform. All rights reserved.
