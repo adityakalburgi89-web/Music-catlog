@@ -1,13 +1,13 @@
 import React from 'react';
-import { Disc3 } from 'lucide-react';
+import clayAudioIcon from '../../logo/ClayAudio/Clay-Audio-icon.png';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-surface-soft border-t border-hairline py-12 px-6 mt-16">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-brand-pink flex items-center justify-center text-white">
-            <Disc3 className="w-5 h-5" />
+          <div className="w-8 h-8 rounded-lg bg-brand-pink flex items-center justify-center text-white overflow-hidden p-1">
+            <img src={clayAudioIcon} alt="Clay Audio Logo" className="w-full h-full object-contain" />
           </div>
           <span className="font-display font-medium text-lg text-ink">
             Clay<span className="text-brand-pink">Catalog</span>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { Disc3, LogOut, User as UserIcon } from 'lucide-react';
+import { LogOut, User as UserIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import clayAudioIcon from '../../logo/ClayAudio/Clay-Audio-icon.png';
 
 export const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -11,8 +12,8 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-brand-ochre flex items-center justify-center text-ink shadow-sm group-hover:rotate-6 transition-transform">
-              <Disc3 className="w-6 h-6 animate-spin-slow" />
+            <div className="w-10 h-10 rounded-xl bg-brand-ochre flex items-center justify-center shadow-sm group-hover:rotate-6 transition-transform overflow-hidden p-1">
+              <img src={clayAudioIcon} alt="Clay Audio Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <span className="font-display font-medium text-xl text-ink tracking-tight">

@@ -11,7 +11,7 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="w-64 bg-surface-soft border-r border-hairline min-h-[calc(100vh-4rem)] p-4 flex flex-col justify-between">
+    <aside className="hidden md:flex w-64 bg-surface-soft border-r border-hairline min-h-[calc(100vh-4rem)] p-4 flex-col justify-between">
       <div className="flex flex-col gap-1.5">
         <div className="text-xs font-semibold uppercase tracking-wider text-muted px-3 mb-2">
           Platform Workspace

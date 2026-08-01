@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { Disc } from 'lucide-react';
 import { VinylTurntablePlayer } from '../music/VinylTurntablePlayer';
 import { Pattern } from './Pattern';
 import lofiArtImg from '../../imgs/lofi-music-art.png';
+import clayAudioIcon from '../../logo/ClayAudio/Clay-Audio-icon.png';
 
 export const AuthLayout: React.FC = () => {
   return (
@@ -17,8 +17,8 @@ export const AuthLayout: React.FC = () => {
         {/* Top Header Branding */}
         <div className="relative z-10 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
-            <div className="p-2.5 bg-primary text-white rounded-xl shadow-md">
-              <Disc className="w-5 h-5 animate-spin-slow" />
+            <div className="w-10 h-10 p-1 bg-primary rounded-xl shadow-md flex items-center justify-center overflow-hidden">
+              <img src={clayAudioIcon} alt="Clay Audio Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <span className="font-display font-bold text-lg text-ink tracking-tight block">
